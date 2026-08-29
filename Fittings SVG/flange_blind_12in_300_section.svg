@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch Class 300 Blind flange, sectioned view</title>
+  <desc>Proportional section based on ASME B16.5-2025 Tables 10 and 11: O 521 mm, W 450.8 mm, bolt hole 31.75 mm, tf 49.3 mm, and a 1.5 mm raised face retained below the tf datum.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="355.35" y="24" text-anchor="middle" font-size="18" font-weight="bold">12" Class 300 Blind Flange — Sectioned View</text>
+
+  <!-- Sectioned blind body. Scale: 1 px = 1 mm. -->
+  <path d="M 100.85,189.22
+           Q 94.85,189.22 94.85,195.22
+           L 94.85,238.52
+           L 164.85,238.52
+           L 164.85,240.02
+           L 545.85,240.02
+           L 545.85,238.52
+           L 615.85,238.52
+           L 615.85,195.22
+           Q 615.85,189.22 609.85,189.22
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+
+  <!-- Two diametrically opposed bolt holes in the section plane. -->
+  <rect x="114.10" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="564.85" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <!-- Center line. -->
+  <line x1="355.35" y1="50" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- O: flange outside diameter. -->
+  <line x1="94.85" y1="195.22" x2="94.85" y2="112" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="195.22" x2="615.85" y2="112" stroke="black" stroke-width="0.75"/>
+  <line x1="94.85" y1="120" x2="615.85" y2="120" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="115" text-anchor="middle" font-size="15" font-weight="bold">O</text>
+
+  <!-- tf: minimum flange thickness; raised face is excluded. -->
+  <line x1="615.85" y1="238.52" x2="640" y2="238.52" stroke="black" stroke-width="0.75"/>
+  <line x1="609.85" y1="189.22" x2="640" y2="189.22" stroke="black" stroke-width="0.75"/>
+  <line x1="638" y1="238.52" x2="638" y2="189.22" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="647" y="218" text-anchor="start" font-size="15" font-weight="bold">tf</text>
+
+  <!-- W: bolt circle diameter. -->
+  <line x1="129.98" y1="238.52" x2="129.98" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="580.73" y1="238.52" x2="580.73" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="129.98" y1="270" x2="580.73" y2="270" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="265" text-anchor="middle" font-size="15" font-weight="bold">W</text>
+  <line x1="129.98" y1="202.60" x2="129.98" y2="224.60" stroke="#c0392b" stroke-width="0.75"/>
+  <line x1="580.73" y1="202.60" x2="580.73" y2="224.60" stroke="#c0392b" stroke-width="0.75"/>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="329">Geometría proporcional basada en ASME B16.5-2025.</text>
+    <text x="20" y="345">O=521; W=450.8; tf=49.3 mm; raised face de 1.5 mm; 16 agujeros Ø1-1/4".</text>
+  </g>
+</svg>

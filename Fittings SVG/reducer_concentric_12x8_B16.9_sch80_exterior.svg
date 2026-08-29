@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 by 8 inch ASME B16.9 Schedule 80 concentric reducer, exterior view</title>
+  <desc>Proportional 12x8 concentric reducer based on ASME B16.9-2024 Table 6.1-11: large OD D1=323.8 mm, small OD D2=219.1 mm, and length H=203 mm. Schedule 80 wall thicknesses are 17.48 mm at the 12-inch end and 12.70 mm at the 8-inch end.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="bodyFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.18" stop-color="#d9e1e9"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.82" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </linearGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="370" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; × 8&quot; Concentric Reducer &#8212; ASME B16.9</text>
+
+  <!-- One continuous exterior contour with integrated Schedule 80 bevels. -->
+  <path d="M 310.34,70.00
+           C 350.00,70.00 395.00,108.80 434.74,108.80
+           L 445.46,117.03
+           L 445.46,262.97
+           L 434.74,271.20
+           C 395.00,271.20 350.00,310.00 310.34,310.00
+           L 295.00,298.23
+           L 295.00,81.77
+           Z"
+        fill="url(#bodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Common centerline. -->
+  <line x1="265" y1="190" x2="475" y2="190" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- D1: large outside diameter. -->
+  <line x1="310.34" y1="70" x2="245" y2="70" stroke="black" stroke-width="0.75"/>
+  <line x1="310.34" y1="310" x2="245" y2="310" stroke="black" stroke-width="0.75"/>
+  <line x1="250" y1="70" x2="250" y2="310" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="238" y="195" text-anchor="end" font-size="15" font-weight="bold">D1</text>
+
+  <!-- D2: small outside diameter. -->
+  <line x1="434.74" y1="108.80" x2="495" y2="108.80" stroke="black" stroke-width="0.75"/>
+  <line x1="434.74" y1="271.20" x2="495" y2="271.20" stroke="black" stroke-width="0.75"/>
+  <line x1="490" y1="108.80" x2="490" y2="271.20" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="502" y="195" text-anchor="start" font-size="15" font-weight="bold">D2</text>
+
+  <!-- H: overall reducer length. -->
+  <line x1="295" y1="298.23" x2="295" y2="340" stroke="black" stroke-width="0.75"/>
+  <line x1="445.46" y1="262.97" x2="445.46" y2="340" stroke="black" stroke-width="0.75"/>
+  <line x1="295" y1="335" x2="445.46" y2="335" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="370.23" y="330" text-anchor="middle" font-size="15" font-weight="bold">H</text>
+</svg>

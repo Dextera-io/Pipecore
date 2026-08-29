@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch ASME B16.9 Schedule 80 butt-weld cap, exterior view</title>
+  <desc>Proportional NPS 12 cap based on ASME B16.9-2024 Table 6.1-10: outside diameter D=323.8 mm and length E1=178 mm because the Schedule 80 wall thickness exceeds the table limiting thickness of 12.7 mm. The open end uses an integrated Schedule 80 bevel. Wall-thickness dimensions are intentionally omitted.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="capFill" gradientUnits="userSpaceOnUse" x1="215" y1="0" x2="515" y2="0">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.22" stop-color="#d9e1e9"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </linearGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="365" y="20" text-anchor="middle" font-size="17" font-weight="bold">12&quot; Sch 80 Cap &#8212; ASME B16.9</text>
+
+  <!-- Continuous exterior contour with the Schedule 80 bevel integrated at the open end. -->
+  <path d="M 229.71,290
+           L 215,270.83
+           L 215,205
+           C 215,160 280,125.08 365,125.08
+           C 450,125.08 515,160 515,205
+           L 515,270.83
+           L 500.29,290
+           Z"
+        fill="url(#capFill)"
+        stroke="black"
+        stroke-width="1.75"
+        stroke-linejoin="round"/>
+
+  <!-- Vertical centerline, coincident with the lightest part of the cylindrical gradient. -->
+  <line x1="365" y1="85" x2="365" y2="315"
+        stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- D: outside diameter. -->
+  <line x1="215" y1="205" x2="215" y2="335" stroke="black" stroke-width="0.75"/>
+  <line x1="515" y1="205" x2="515" y2="335" stroke="black" stroke-width="0.75"/>
+  <line x1="215" y1="325" x2="515" y2="325" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="365" y="320" text-anchor="middle" font-size="15" font-weight="bold">D</text>
+
+  <!-- E1: center-to-end length for a wall thicker than the table limit. -->
+  <line x1="365" y1="125.08" x2="570" y2="125.08" stroke="black" stroke-width="0.75"/>
+  <line x1="500.29" y1="290" x2="570" y2="290" stroke="black" stroke-width="0.75"/>
+  <line x1="560" y1="125.08" x2="560" y2="290" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="572" y="212.5" text-anchor="start" font-size="15" font-weight="bold">E1</text>
+</svg>

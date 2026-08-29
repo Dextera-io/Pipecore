@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch ASME B16.9 long-radius 90-degree elbow</title>
+  <desc>Exterior view of a proportional NPS 12 elbow based on ASME B16.9-2024 Table 6.1-1: outside diameter 323.8 mm and center-to-end dimension A 457 mm. Schedule 80 wall thickness is 17.48 mm. The radial gradient is darkest at both curved edges and lightest along the red centerline.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <radialGradient id="bodyFill" gradientUnits="userSpaceOnUse" cx="190" cy="325" r="240">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.4768" stop-color="#aebbc9"/>
+      <stop offset="0.60" stop-color="#d9e1e9"/>
+      <stop offset="0.7384" stop-color="#ffffff"/>
+      <stop offset="0.87" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </radialGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="355.35" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; 90° Long Radius Elbow &#8212; ASME B16.9</text>
+
+  <!-- One continuous contour with integrated Schedule 80 bevels. -->
+  <path d="M 198.03,85.13
+           A 240.00,240.00 0 0 1 429.87,316.97
+           L 423.84,325.00
+           L 310.59,325.00
+           L 304.15,316.97
+           A 114.44,114.44 0 0 0 198.03,210.85
+           L 190.00,204.41
+           L 190.00,91.16
+           Z"
+        fill="url(#bodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Tangent construction centerlines. -->
+  <line x1="155" y1="147.78" x2="480" y2="147.78" stroke="black" stroke-width="0.75"/>
+  <line x1="367.22" y1="47" x2="367.22" y2="338" stroke="black" stroke-width="0.75"/>
+
+  <!-- Elbow centerline. -->
+  <path d="M 190.00,147.78
+           A 177.22,177.22 0 0 1 367.22,325.00"
+        fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- Horizontal center-to-end dimension A. -->
+  <line x1="190.00" y1="91.16" x2="190.00" y2="65" stroke="black" stroke-width="0.75"/>
+  <line x1="367.22" y1="147.78" x2="367.22" y2="65" stroke="black" stroke-width="0.75"/>
+  <line x1="190.00" y1="65" x2="367.22" y2="65" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="278.61" y="60" text-anchor="middle" font-size="15" font-weight="bold">A</text>
+
+  <!-- Vertical center-to-end dimension A. -->
+  <line x1="367.22" y1="147.78" x2="482" y2="147.78" stroke="black" stroke-width="0.75"/>
+  <line x1="423.84" y1="325.00" x2="482" y2="325.00" stroke="black" stroke-width="0.75"/>
+  <line x1="482" y1="147.78" x2="482" y2="325.00" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="494" y="241.39" text-anchor="start" font-size="15" font-weight="bold">A</text>
+</svg>

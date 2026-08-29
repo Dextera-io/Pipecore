@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="760" height="353" fill="white"/>
+
+<defs>
+  <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/>
+  </pattern>
+  <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+  </marker>
+  <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+  </marker>
+</defs>
+
+<text x="355" y="24" text-anchor="middle" font-size="18" font-weight="bold">12" Class 300 Welding Neck Flange &#8212; Sectioned View</text>
+<path d="M 507.75,240.05 L 545.85,240.05 L 545.85,238.52 L 615.70,238.52 L 615.70,189.25 L 542.67,189.25 L 517.27,110.00 L 507.75,110.00 L 507.75,240.05 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+<path d="M 202.95,240.05 L 164.85,240.05 L 164.85,238.52 L 95.00,238.52 L 95.00,189.25 L 168.02,189.25 L 193.42,110.00 L 202.95,110.00 L 202.95,240.05 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+<rect x="564.90" y="189.25" width="31.75" height="49.28" fill="white" stroke="black" stroke-width="1.5"/>
+<rect x="114.05" y="189.25" width="31.75" height="49.28" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="355.35" y1="55.00" x2="355.35" y2="305.05" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="193.42" y1="110.00" x2="517.27" y2="110.00" stroke="black" stroke-width="1.75"/>
+<line x1="164.85" y1="238.52" x2="545.85" y2="238.52" stroke="black" stroke-width="1.75"/>
+<line x1="95.00" y1="238.52" x2="95.00" y2="298.05" stroke="black" stroke-width="0.75"/>
+<line x1="615.70" y1="238.52" x2="615.70" y2="298.05" stroke="black" stroke-width="0.75"/>
+<line x1="95.00" y1="298.05" x2="615.70" y2="298.05" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="355.35" y="293.05" text-anchor="middle" font-size="15" font-weight="bold">O</text>
+<line x1="129.92" y1="238.52" x2="129.92" y2="270.05" stroke="black" stroke-width="0.75"/>
+<line x1="580.77" y1="238.52" x2="580.77" y2="270.05" stroke="black" stroke-width="0.75"/>
+<line x1="129.92" y1="270.05" x2="580.77" y2="270.05" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="355.35" y="265.05" text-anchor="middle" font-size="15" font-weight="bold">W</text>
+<line x1="580.77" y1="203.89" x2="580.77" y2="223.89" stroke="#c0392b" stroke-width="0.75"/>
+<line x1="129.92" y1="203.89" x2="129.92" y2="223.89" stroke="#c0392b" stroke-width="0.75"/>
+<line x1="193.42" y1="110.00" x2="193.42" y2="85.00" stroke="black" stroke-width="0.75"/>
+<line x1="517.27" y1="110.00" x2="517.27" y2="85.00" stroke="black" stroke-width="0.75"/>
+<line x1="193.42" y1="85.00" x2="517.27" y2="85.00" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="355.35" y="80.00" text-anchor="middle" font-size="15" font-weight="bold">Ah</text>
+<line x1="168.02" y1="189.25" x2="168.02" y2="60.00" stroke="black" stroke-width="0.75"/>
+<line x1="542.67" y1="189.25" x2="542.67" y2="60.00" stroke="black" stroke-width="0.75"/>
+<line x1="168.02" y1="60.00" x2="542.67" y2="60.00" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="355.35" y="55.00" text-anchor="middle" font-size="15" font-weight="bold">X</text>
+<line x1="202.95" y1="174.26" x2="202.95" y2="174.26" stroke="black" stroke-width="0.75"/>
+<line x1="507.75" y1="174.26" x2="507.75" y2="174.26" stroke="black" stroke-width="0.75"/>
+<line x1="202.95" y1="174.26" x2="507.75" y2="174.26" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="355.35" y="169.26" text-anchor="middle" font-size="15" font-weight="bold">B</text>
+<line x1="615.70" y1="238.52" x2="637.70" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="615.70" y1="189.25" x2="637.70" y2="189.25" stroke="black" stroke-width="0.75"/>
+<line x1="637.70" y1="238.52" x2="637.70" y2="189.25" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="651.70" y="218.89" text-anchor="start" font-size="15" font-weight="bold">tf</text>
+</svg>

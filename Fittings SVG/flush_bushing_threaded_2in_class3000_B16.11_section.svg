@@ -1,0 +1,76 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="500" viewBox="0 0 780 500" font-family="Arial, sans-serif">
+  <title>2 inch threaded flush bushing</title>
+  <desc>NPS 2 threaded flush bushing based on ASME B16.11-2021 Table 6.1-6. Sectioned view at 3 px/mm. Minimum male thread length A 22 mm. Reduced female opening is representative because its nominal size was not specified.</desc>
+
+  <rect width="780" height="500" fill="white"/>
+  <defs>
+    <pattern id="hatchFlushBushing" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStartFlushBushing" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEndFlushBushing" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Flush Bushing — ASME B16.11</text>
+
+  <!-- External male threaded body, A=22 mm. Taper: wide at top, narrow at bottom. -->
+  <path d="M299,203 L481,203 L477,269 L303,269 Z"
+        fill="url(#hatchFlushBushing)" stroke="black" stroke-width="1.75"/>
+  <path d="M299,203 L293,206 L299,209 L293,212 L300,215 L294,218 L300,221
+           L294,224 L300,227 L294,230 L301,233 L295,236 L301,239 L295,242
+           L302,245 L296,248 L302,251 L296,254 L302,257 L296,260 L303,263 L303,269"
+        fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M481,203 L487,206 L481,209 L487,212 L480,215 L486,218 L480,221
+           L486,224 L480,227 L486,230 L479,233 L485,236 L479,239 L485,242
+           L478,245 L484,248 L478,251 L484,254 L478,257 L484,260 L477,263 L477,269"
+        fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- Reduced female threaded passage. -->
+  <path d="M340,202 L440,202 L432,270 L348,270 Z" fill="white"/>
+  <g fill="none" stroke="black" stroke-width="1.05">
+    <line x1="341" y1="208" x2="439" y2="208"/>
+    <line x1="342" y1="214" x2="438" y2="214"/>
+    <line x1="342" y1="220" x2="438" y2="220"/>
+    <line x1="343" y1="226" x2="437" y2="226"/>
+    <line x1="344" y1="232" x2="436" y2="232"/>
+    <line x1="344" y1="238" x2="436" y2="238"/>
+    <line x1="345" y1="244" x2="435" y2="244"/>
+    <line x1="346" y1="250" x2="434" y2="250"/>
+    <line x1="346" y1="256" x2="434" y2="256"/>
+    <line x1="347" y1="262" x2="433" y2="262"/>
+  </g>
+  <path d="M340,203 L346,207 L341,211 L347,215 L342,219 L348,223 L343,227
+           L349,231 L344,235 L350,239 L345,243 L351,247 L346,251 L352,255
+           L347,259 L353,263 L348,267 L348,269"
+        fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M440,203 L434,207 L439,211 L433,215 L438,219 L432,223 L437,227
+           L431,231 L436,235 L430,239 L435,243 L429,247 L434,251 L428,255
+           L433,259 L427,263 L432,267 L432,269"
+        fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+  <line x1="299" y1="203" x2="340" y2="203" stroke="black" stroke-width="1.75"/>
+  <line x1="440" y1="203" x2="481" y2="203" stroke="black" stroke-width="1.75"/>
+  <line x1="303" y1="269" x2="348" y2="269" stroke="black" stroke-width="1.75"/>
+  <line x1="432" y1="269" x2="477" y2="269" stroke="black" stroke-width="1.75"/>
+
+  <line x1="390" y1="174" x2="390" y2="299"
+        stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- A dimension. -->
+  <g fill="none" stroke="black">
+    <line x1="299" y1="203" x2="206" y2="203" stroke-width="0.75"/>
+    <line x1="303" y1="269" x2="206" y2="269" stroke-width="0.75"/>
+    <line x1="213" y1="203" x2="213" y2="269" stroke-width="1"
+          marker-start="url(#arrowStartFlushBushing)" marker-end="url(#arrowEndFlushBushing)"/>
+  </g>
+  <text x="199" y="241" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">A</text>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="462">Sectioned view. ASME B16.11-2021, Table 6.1-6, NPS 2. Geometric scale: 3 px/mm.</text>
+    <text x="20" y="480">A=22 min. Male and female threads per ASME B1.20.1. Representative reduced inner diameter; dimensions in mm.</text>
+  </g>
+</svg>

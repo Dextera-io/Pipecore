@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>3 inch Class 3000 Threadolet, MSS SP-97</title>
+  <desc>Exterior elevation of an NPS 3 Class 3000 90-degree threaded branch outlet fitting based on MSS SP-97-2025 Table 3. Dimension A is 2.00 inches nominal. The NPT threaded bore and concave saddle surface are shown.</desc>
+
+  <rect width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="threadBodyFill" gradientUnits="userSpaceOnUse" x1="235" y1="0" x2="525" y2="0">
+      <stop offset="0" stop-color="#b5c0cc"/>
+      <stop offset="0.22" stop-color="#dce3ea"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#dce3ea"/>
+      <stop offset="1" stop-color="#b5c0cc"/>
+    </linearGradient>
+    <linearGradient id="threadSaddleFill" gradientUnits="userSpaceOnUse" x1="0" y1="245" x2="0" y2="275">
+      <stop offset="0" stop-color="#d9e0e7"/>
+      <stop offset="1" stop-color="#8f9aa6"/>
+    </linearGradient>
+    <linearGradient id="threadBoreFill" gradientUnits="userSpaceOnUse" x1="0" y1="90" x2="0" y2="170">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eef2f5"/>
+    </linearGradient>
+    <marker id="threadArrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="threadArrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+    <clipPath id="threadBoreClip">
+      <path d="M320,90 L440,90
+               L440,99 L432,106 L440,113 L432,120
+               L440,127 L432,134 L440,141 L432,148
+               L440,155 L432,162 L438,170
+               L322,170 L328,162 L320,155 L328,148
+               L320,141 L328,134 L320,127 L328,120
+               L320,113 L328,106 L320,99 Z"/>
+    </clipPath>
+  </defs>
+
+  <text x="380" y="22" text-anchor="middle" font-size="17" font-weight="bold">3&quot; Class 3000 Threadolet &#8212; MSS SP-97</text>
+
+  <g transform="translate(0 13)">
+    <path d="M285,90 L475,90 L525,245 Q380,232 235,245 Z"
+          fill="url(#threadBodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+    <path d="M235,245 Q380,232 525,245
+             L510,272 Q380,228 250,272 Z"
+          fill="url(#threadSaddleFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+    <!-- Visible section of the female NPT threaded bore. -->
+    <path d="M320,90 L440,90
+             L440,99 L432,106 L440,113 L432,120
+             L440,127 L432,134 L440,141 L432,148
+             L440,155 L432,162 L438,170
+             L322,170 L328,162 L320,155 L328,148
+             L320,141 L328,134 L320,127 L328,120
+             L320,113 L328,106 L320,99 Z"
+          fill="url(#threadBoreFill)" stroke="#666f78" stroke-width="1.2" stroke-linejoin="round"/>
+
+    <g clip-path="url(#threadBoreClip)" fill="none" stroke="#8a929a" stroke-width="1"
+       stroke-dasharray="5,4">
+      <line x1="312" y1="107" x2="448" y2="99"/>
+      <line x1="312" y1="121" x2="448" y2="113"/>
+      <line x1="312" y1="135" x2="448" y2="127"/>
+      <line x1="312" y1="149" x2="448" y2="141"/>
+      <line x1="312" y1="163" x2="448" y2="155"/>
+    </g>
+
+    <line x1="380" y1="47" x2="380" y2="313"
+          stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+    <!-- A nominal: top face to crotch on the fitting axis. -->
+    <line x1="440" y1="90" x2="595" y2="90" stroke="black" stroke-width="0.75"/>
+    <line x1="380" y1="250" x2="595" y2="250" stroke="black" stroke-width="0.75"/>
+    <line x1="585" y1="90" x2="585" y2="250" stroke="black" stroke-width="1"
+          marker-start="url(#threadArrowStart)" marker-end="url(#threadArrowEnd)"/>
+    <text x="597" y="175" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
+  </g>
+</svg>

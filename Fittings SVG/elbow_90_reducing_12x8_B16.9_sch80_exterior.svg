@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 by 8 inch ASME B16.9 Schedule 80 long-radius reducing elbow</title>
+  <desc>Exterior view of a proportional NPS 12 by 8 long-radius 90-degree reducing elbow based on ASME B16.9-2024 Table 6.1-2: large outside diameter 323.8 mm, small outside diameter 219.1 mm, and center-to-end dimension A=457 mm. Both ends use integrated Schedule 80 bevels. Wall-thickness dimensions are omitted.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <clipPath id="bodyClip">
+      <path d="M 198.03,85
+               C 325.00,85 409.70,190.00 409.70,319.39
+               L 405.40,325
+               L 329.04,325
+               L 324.74,319.39
+               C 324.74,250.50 267.00,210.56 198.03,210.56
+               L 190,204.53
+               L 190,91.03
+               Z"/>
+    </clipPath>
+    <filter id="softLight" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="355" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; &#215; 8&quot; 90&#176; LR Reducing Elbow &#8212; ASME B16.9</text>
+
+  <!-- One continuous tapered contour with integrated Sch 80 bevels at both ends. -->
+  <path d="M 198.03,85
+           C 325.00,85 409.70,190.00 409.70,319.39
+           L 405.40,325
+           L 329.04,325
+           L 324.74,319.39
+           C 324.74,250.50 267.00,210.56 198.03,210.56
+           L 190,204.53
+           L 190,91.03
+           Z"
+        fill="#aebbc9"
+        stroke="black"
+        stroke-width="1.75"
+        stroke-linejoin="round"/>
+
+  <!-- Soft cylindrical highlight follows the reducing centerline. -->
+  <g clip-path="url(#bodyClip)">
+    <path d="M 190,147.78 A 177.22,177.22 0 0 1 367.22,325"
+          fill="none" stroke="#d9e1e9" stroke-width="88" filter="url(#softLight)"/>
+    <path d="M 190,147.78 A 177.22,177.22 0 0 1 367.22,325"
+          fill="none" stroke="#ffffff" stroke-width="42" filter="url(#softLight)"/>
+  </g>
+  <path d="M 198.03,85
+           C 325.00,85 409.70,190.00 409.70,319.39
+           L 405.40,325
+           L 329.04,325
+           L 324.74,319.39
+           C 324.74,250.50 267.00,210.56 198.03,210.56
+           L 190,204.53
+           L 190,91.03
+           Z"
+        fill="none" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Tangent construction centerlines. -->
+  <line x1="155" y1="147.78" x2="480" y2="147.78" stroke="black" stroke-width="0.75"/>
+  <line x1="367.22" y1="47" x2="367.22" y2="338" stroke="black" stroke-width="0.75"/>
+
+  <!-- Red centerline passes through the lightest part of the fitting. -->
+  <path d="M 190,147.78 A 177.22,177.22 0 0 1 367.22,325"
+        fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- Horizontal center-to-end dimension A. -->
+  <line x1="190" y1="91.03" x2="190" y2="65" stroke="black" stroke-width="0.75"/>
+  <line x1="367.22" y1="147.78" x2="367.22" y2="65" stroke="black" stroke-width="0.75"/>
+  <line x1="190" y1="65" x2="367.22" y2="65" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="278.61" y="60" text-anchor="middle" font-size="15" font-weight="bold">A</text>
+
+  <!-- Vertical center-to-end dimension A. -->
+  <line x1="367.22" y1="147.78" x2="472" y2="147.78" stroke="black" stroke-width="0.75"/>
+  <line x1="405.40" y1="325" x2="472" y2="325" stroke="black" stroke-width="0.75"/>
+  <line x1="472" y1="147.78" x2="472" y2="325" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="484" y="241.39" text-anchor="start" font-size="15" font-weight="bold">A</text>
+</svg>

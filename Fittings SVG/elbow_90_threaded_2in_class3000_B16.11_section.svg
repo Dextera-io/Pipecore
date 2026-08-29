@@ -1,0 +1,153 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" font-family="Arial, sans-serif">
+  <title>2 inch Class 3000 threaded 90-degree elbow, sectioned view</title>
+  <desc>Symmetrical sectioned NPS 2 Class 3000 threaded 90-degree elbow based on ASME B16.11-2021 Table 6.1-3. Dimensions: A 64 mm minimum, H 84 mm minimum, G 7.14 mm minimum, B 19 mm minimum, and L2 19.2 mm minimum.</desc>
+
+  <rect width="760" height="520" fill="white"/>
+
+  <defs>
+    <pattern id="hatch90t" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <pattern id="hatch90tRight" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(-45)">
+      <rect width="7" height="7" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart90t" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd90t" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+
+    <!-- Female tapered thread, open face at y=0 and fitting interior toward +y. -->
+    <g id="femaleThread90t">
+      <path d="M-90.5,0 L90.5,0 L84,58 L-84,58 Z" fill="white"/>
+      <path d="M-90.5,0
+               L-90,4 L-84,8 L-89,12 L-83,16 L-88,20 L-82,24
+               L-87,28 L-81,32 L-86,36 L-80,40 L-85,44 L-79,48
+               L-84,52 L-84,58"
+            fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M90.5,0
+               L90,4 L84,8 L89,12 L83,16 L88,20 L82,24
+               L87,28 L81,32 L86,36 L80,40 L85,44 L79,48
+               L84,52 L84,58"
+            fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="-90.5" y1="0" x2="90.5" y2="0" stroke="black" stroke-width="1.5"/>
+      <line x1="-84" y1="58" x2="-69" y2="58" stroke="black" stroke-width="1.5"/>
+      <line x1="69" y1="58" x2="84" y2="58" stroke="black" stroke-width="1.5"/>
+    </g>
+
+    <!-- Wide threaded band that narrows toward the elbow body. -->
+    <g id="outerBand90t">
+      <path d="M-126,0 L126,0 L126,58
+               C126,70 116,80 105,80
+               L-105,80
+               C-116,80 -126,70 -126,58 Z"
+            fill="url(#hatch90t)"/>
+      <path d="M-105,80
+               C-116,80 -126,70 -126,58
+               L-126,0 L126,0 L126,58
+               C126,70 116,80 105,80"
+            fill="none" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+    </g>
+    <g id="outerBand90tRightOriginal">
+      <path d="M-126,0 L126,0 L126,80 L-126,80 Z"
+            fill="url(#hatch90tRight)"/>
+      <path d="M-126,80 L-126,0 L126,0 L126,80"
+            fill="none" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+      <line x1="105" y1="80" x2="126" y2="80" stroke="black" stroke-width="1.75"/>
+    </g>
+  </defs>
+
+  <text x="380" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded 90° Elbow — ASME B16.11</text>
+
+  <!-- Narrow central elbow body with full-diameter threaded bands at both ends. -->
+  <path d="M360,175 L360,297 L482,297"
+        fill="none" stroke="black" stroke-width="210" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="M360,175 L360,297 L482,297"
+        fill="none" stroke="url(#hatch90t)" stroke-width="206" stroke-linecap="butt" stroke-linejoin="round"/>
+  <use href="#outerBand90t" transform="translate(360 105)"/>
+  <use href="#outerBand90tRightOriginal" transform="translate(552 297) rotate(90)"/>
+  <!-- Remove the residual internal contour indicated by the red square. -->
+  <rect x="458" y="174" width="18" height="18" fill="url(#hatch90t)"/>
+  <!-- Rounded lower-left exterior corner of the right-hand threaded band. -->
+  <path d="M472,402
+           C472,414 481,423 493,423
+           L493,426 L470,426 L470,402 Z"
+        fill="white"/>
+  <path d="M472,402 C472,414 481,423 493,423"
+        fill="none" stroke="black" stroke-width="1.75" stroke-linecap="round"/>
+  <line x1="493" y1="423" x2="552" y2="423" stroke="black" stroke-width="1.75"/>
+
+  <!-- Continuous internal flow passage. -->
+  <path d="M360,163 L360,297 L494,297"
+        fill="none" stroke="black" stroke-width="142" stroke-linecap="butt" stroke-linejoin="round"/>
+  <path d="M360,163 L360,297 L494,297"
+        fill="none" stroke="white" stroke-width="138" stroke-linecap="butt" stroke-linejoin="round"/>
+
+  <!-- Female threaded ends. -->
+  <use href="#femaleThread90t" transform="translate(360 105)"/>
+  <use href="#femaleThread90t" transform="translate(552 297) rotate(90)"/>
+
+  <!-- Explicit exterior edges highlighted in the supplied correction image. -->
+  <g fill="none" stroke="black" stroke-width="1.75" stroke-linecap="square">
+    <line x1="450.5" y1="105" x2="486" y2="105"/>
+    <line x1="472" y1="171" x2="552" y2="171"/>
+    <line x1="552" y1="171" x2="552" y2="423"/>
+  </g>
+
+  <!-- Centerlines. -->
+  <path d="M360,82 L360,297 L578,297"
+        fill="none" stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- H across the upper band. -->
+  <g fill="none" stroke="black">
+    <line x1="234" y1="105" x2="234" y2="57" stroke-width="0.75"/>
+    <line x1="486" y1="105" x2="486" y2="57" stroke-width="0.75"/>
+    <line x1="234" y1="64" x2="486" y2="64" stroke-width="1"
+          marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
+  </g>
+  <text x="360" y="57" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">H</text>
+
+  <!-- Center-to-end A (broken line with gap for label). -->
+  <g fill="none" stroke="black">
+    <line x1="234" y1="105" x2="30" y2="105" stroke-width="0.75"/>
+    <line x1="360" y1="297" x2="30" y2="297" stroke-width="0.75"/>
+    <line x1="37" y1="105" x2="37" y2="182" stroke-width="1"
+          marker-start="url(#arrowStart90t)"/>
+    <line x1="37" y1="222" x2="37" y2="297" stroke-width="1"
+          marker-end="url(#arrowEnd90t)"/>
+  </g>
+  <text x="5" y="207" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
+
+  <!-- Thread engagement length L2 (label to the left of arrow). -->
+  <g fill="none" stroke="black">
+    <line x1="270" y1="105" x2="102" y2="105" stroke-width="0.75"/>
+    <line x1="276" y1="162.6" x2="102" y2="162.6" stroke-width="0.75"/>
+    <line x1="109" y1="105" x2="109" y2="162.6" stroke-width="1"
+          marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
+  </g>
+  <text x="115" y="138" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+
+  <!-- H across the right-hand band. -->
+  <g fill="none" stroke="black">
+    <line x1="552" y1="171" x2="617" y2="171" stroke-width="0.75"/>
+    <line x1="552" y1="423" x2="617" y2="423" stroke-width="0.75"/>
+    <line x1="610" y1="171" x2="610" y2="423" stroke-width="1"
+          marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
+  </g>
+  <text x="621" y="302" font-size="15" font-style="italic" font-weight="bold">H</text>
+
+  <!-- Minimum body wall G. -->
+  <g fill="none" stroke="black">
+    <line x1="210" y1="418" x2="295" y2="358" stroke-width="1"
+          marker-end="url(#arrowEnd90t)"/>
+  </g>
+  <text x="198" y="423" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">G</text>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="484">Schematic sectioned view. Female threads shown in section. ASME B16.11-2021, Table 6.1-3, NPS 2, Class 3000.</text>
+    <text x="20" y="502">A=64 min; H=84 min; G=7.14 min; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
+  </g>
+</svg>

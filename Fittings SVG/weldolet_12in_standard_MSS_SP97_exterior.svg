@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch Standard Weldolet, MSS SP-97</title>
+  <desc>Exterior elevation of a full-size NPS 12 Standard 90-degree buttwelding outlet fitting based on MSS SP-97-2025 Table 2. Dimension A, face of fitting to crotch, is 3.38 inches or 85.9 mm. The top bevel and concave saddle surface are shown.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="bodyFill" gradientUnits="userSpaceOnUse" x1="230" y1="0" x2="530" y2="0">
+      <stop offset="0" stop-color="#b5c0cc"/>
+      <stop offset="0.22" stop-color="#dce3ea"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#dce3ea"/>
+      <stop offset="1" stop-color="#b5c0cc"/>
+    </linearGradient>
+    <linearGradient id="bevelFill" gradientUnits="userSpaceOnUse" x1="0" y1="47" x2="0" y2="65">
+      <stop offset="0" stop-color="#aeb8c3"/>
+      <stop offset="1" stop-color="#d5dce3"/>
+    </linearGradient>
+    <linearGradient id="saddleFill" gradientUnits="userSpaceOnUse" x1="0" y1="235" x2="0" y2="272">
+      <stop offset="0" stop-color="#d9e0e7"/>
+      <stop offset="1" stop-color="#8f9aa6"/>
+    </linearGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="380" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; Standard Weldolet &#8212; MSS SP-97</text>
+
+  <g transform="translate(0 18)">
+  <!-- Main forged body, shaded from its outer edges toward the vertical axis. -->
+  <path d="M 300,65
+           L 460,65
+           L 530,245
+           Q 380,232 230,245
+           Z"
+        fill="url(#bodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Butt-weld bevel at the outlet end. -->
+  <path d="M 300,65 L 320,47 L 440,47 L 460,65 Z"
+        fill="url(#bevelFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Concave saddle surface that follows the run-pipe curvature. -->
+  <path d="M 230,245
+           Q 380,232 530,245
+           L 515,270
+           Q 380,225 245,270
+           Z"
+        fill="url(#saddleFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Vertical fitting axis. -->
+  <line x1="380" y1="30" x2="380" y2="310"
+        stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- A: face of fitting to crotch, 3.38 in. / 85.9 mm. -->
+  <line x1="440" y1="47" x2="595" y2="47" stroke="black" stroke-width="0.75"/>
+  <line x1="380" y1="248" x2="595" y2="248" stroke="black" stroke-width="0.75"/>
+  <line x1="585" y1="47" x2="585" y2="248" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="597" y="152" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
+  </g>
+</svg>

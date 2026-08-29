@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch ASME B16.9 Schedule 80 long-radius 180-degree return</title>
+  <desc>Exterior view of a proportional NPS 12 long-radius 180-degree return based on ASME B16.9-2024 Table 6.1-3: outside diameter 323.8 mm, center-to-center dimension O=914 mm, center-to-end A=457 mm on each side, and height K=619 mm. Both ends use integrated Schedule 80 bevels. Thickness dimensions are omitted.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <radialGradient id="bodyFill" gradientUnits="userSpaceOnUse"
+                    cx="365" cy="270" r="190" fx="365" fy="270">
+      <stop offset="0" stop-color="#93a3b4"/>
+      <stop offset="0.4767" stop-color="#93a3b4"/>
+      <stop offset="0.58" stop-color="#cbd5df"/>
+      <stop offset="0.68" stop-color="#eef2f6"/>
+      <stop offset="0.7383" stop-color="#ffffff"/>
+      <stop offset="0.80" stop-color="#eef2f6"/>
+      <stop offset="0.90" stop-color="#cbd5df"/>
+      <stop offset="1" stop-color="#93a3b4"/>
+    </radialGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="365" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; 180&#176; Long Radius Return &#8212; ASME B16.9</text>
+
+  <!-- Continuous exterior contour with integrated Schedule 80 bevels. -->
+  <path d="M 179.87,270
+           L 175,263.65
+           C 175,158.71 260.06,80 365,80
+           C 469.94,80 555,158.71 555,263.65
+           L 550.13,270
+           L 460.45,270
+           L 455.58,263.65
+           C 455.58,213.62 415.03,179.42 365,179.42
+           C 314.97,179.42 274.42,213.62 274.42,263.65
+           L 269.55,270
+           Z"
+        fill="url(#bodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Construction axes. -->
+  <line x1="145" y1="270" x2="585" y2="270" stroke="black" stroke-width="0.75"/>
+  <line x1="365" y1="55" x2="365" y2="290" stroke="black" stroke-width="0.75"/>
+
+  <!-- Centerline, coincident with the lightest part of the radial gradient. -->
+  <path d="M 224.72,270 A 140.28,140.28 0 0 1 505.28,270"
+        fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- K: overall height from the end plane to the outside crown. -->
+  <line x1="365" y1="80" x2="100" y2="80" stroke="black" stroke-width="0.75"/>
+  <line x1="175" y1="270" x2="100" y2="270" stroke="black" stroke-width="0.75"/>
+  <line x1="105" y1="80" x2="105" y2="270" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="93" y="180" text-anchor="end" font-size="15" font-weight="bold">K</text>
+
+  <!-- A: center-to-end dimensions on both sides. -->
+  <line x1="224.72" y1="270" x2="224.72" y2="338" stroke="black" stroke-width="0.75"/>
+  <line x1="365" y1="270" x2="365" y2="308" stroke="black" stroke-width="0.75"/>
+  <line x1="505.28" y1="270" x2="505.28" y2="338" stroke="black" stroke-width="0.75"/>
+  <line x1="224.72" y1="300" x2="365" y2="300" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <line x1="365" y1="300" x2="505.28" y2="300" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="294.86" y="295" text-anchor="middle" font-size="15" font-weight="bold">A</text>
+  <text x="435.14" y="295" text-anchor="middle" font-size="15" font-weight="bold">A</text>
+
+  <!-- O: center-to-center spacing between both ends. -->
+  <line x1="224.72" y1="333" x2="505.28" y2="333" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="365" y="328" text-anchor="middle" font-size="15" font-weight="bold">O</text>
+</svg>

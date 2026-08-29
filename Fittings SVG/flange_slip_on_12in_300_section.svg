@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch Class 300 Slip-On flange, sectioned view</title>
+  <desc>Proportional section based on ASME B16.5-2025 Tables 10 and 11: O 521 mm, W 450.8 mm, bolt hole 31.75 mm, tf 49.3 mm, X 375 mm, Y 72 mm, and slip-on bore B2 327.2 mm.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="355.35" y="24" text-anchor="middle" font-size="18" font-weight="bold">12" Class 300 Slip-On Flange — Sectioned View</text>
+
+  <!-- Sectioned body. Scale: 1 px = 1 mm. -->
+  <path d="M 518.95,240.05
+           L 545.85,240.05
+           L 545.85,238.52
+           L 615.85,238.52
+           L 615.85,189.22
+           L 542.85,189.22
+           L 540.06,166.52
+           L 518.95,166.52
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+  <path d="M 191.75,240.05
+           L 164.85,240.05
+           L 164.85,238.52
+           L 94.85,238.52
+           L 94.85,189.22
+           L 167.85,189.22
+           L 170.64,166.52
+           L 191.75,166.52
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+
+  <!-- Two diametrically opposed bolt holes in the section plane. -->
+  <rect x="114.10" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="564.85" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <!-- Center line and visible edges. -->
+  <line x1="355.35" y1="45" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="191.75" y1="166.52" x2="518.95" y2="166.52" stroke="black" stroke-width="1.75"/>
+  <line x1="164.85" y1="238.52" x2="545.85" y2="238.52" stroke="black" stroke-width="1.75"/>
+
+  <!-- O: flange outside diameter. -->
+  <line x1="94.85" y1="238.52" x2="94.85" y2="306" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="238.52" x2="615.85" y2="306" stroke="black" stroke-width="0.75"/>
+  <line x1="94.85" y1="298" x2="615.85" y2="298" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="293" text-anchor="middle" font-size="15" font-weight="bold">O</text>
+
+  <!-- W: bolt circle diameter. -->
+  <line x1="129.98" y1="238.52" x2="129.98" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="580.73" y1="238.52" x2="580.73" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="129.98" y1="270" x2="580.73" y2="270" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="265" text-anchor="middle" font-size="15" font-weight="bold">W</text>
+  <line x1="129.98" y1="203.9" x2="129.98" y2="223.9" stroke="#c0392b" stroke-width="0.75"/>
+  <line x1="580.73" y1="203.9" x2="580.73" y2="223.9" stroke="#c0392b" stroke-width="0.75"/>
+
+  <!-- B2: slip-on bore diameter. -->
+  <line x1="191.75" y1="166.52" x2="191.75" y2="141" stroke="black" stroke-width="0.75"/>
+  <line x1="518.95" y1="166.52" x2="518.95" y2="141" stroke="black" stroke-width="0.75"/>
+  <line x1="191.75" y1="146" x2="518.95" y2="146" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="141" text-anchor="middle" font-size="15" font-weight="bold">B2</text>
+
+  <!-- X: hub diameter at base. -->
+  <line x1="167.85" y1="189.22" x2="167.85" y2="113" stroke="black" stroke-width="0.75"/>
+  <line x1="542.85" y1="189.22" x2="542.85" y2="113" stroke="black" stroke-width="0.75"/>
+  <line x1="167.85" y1="120" x2="542.85" y2="120" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="115" text-anchor="middle" font-size="15" font-weight="bold">X</text>
+
+  <!-- tf: minimum flange thickness. -->
+  <line x1="615.85" y1="238.52" x2="640" y2="238.52" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="189.22" x2="640" y2="189.22" stroke="black" stroke-width="0.75"/>
+  <line x1="638" y1="238.52" x2="638" y2="189.22" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="647" y="218.9" text-anchor="start" font-size="15" font-weight="bold">tf</text>
+
+  <!-- Y: length through hub for Slip-On flange. -->
+  <line x1="540.06" y1="166.52" x2="687" y2="166.52" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="238.52" x2="687" y2="238.52" stroke="black" stroke-width="0.75"/>
+  <line x1="680" y1="166.52" x2="680" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="690" y="207" text-anchor="start" font-size="15" font-weight="bold">Y</text>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="329">Geometría proporcional basada en ASME B16.5-2025.</text>
+    <text x="20" y="345">O=521; W=450.8; X=375; B2=327.2; tf=49.3; Y=72 mm; 16 agujeros Ø1-1/4".</text>
+  </g>
+</svg>

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 by 12 by 8 inch ASME B16.9 Schedule 80 reducing cross</title>
+  <desc>Exterior view of a proportional NPS 12 by 12 by 8 reducing cross based on ASME B16.9-2024 Table 6.1-8: run outside diameter 323.8 mm, outlet outside diameter 219.1 mm, run center-to-end C=254 mm, and outlet center-to-end M=229 mm. All four ends use integrated Schedule 80 bevels. Thickness dimensions are omitted.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="runFill" gradientUnits="userSpaceOnUse" x1="0" y1="105.76" x2="0" y2="284.24">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.22" stop-color="#d9e1e9"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </linearGradient>
+    <linearGradient id="branchFill" gradientUnits="userSpaceOnUse" x1="304.61" y1="0" x2="425.39" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.22" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="0.50" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.78" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="bodyClip">
+      <path d="M 225,114.52 L 236.41,105.76 L 285,105.76
+               C 300,105.76 304.61,98 304.61,88
+               L 304.61,76.75 L 310.73,68.78 L 419.27,68.78 L 425.39,76.75 L 425.39,88
+               C 425.39,98 430,105.76 445,105.76
+               L 493.59,105.76 L 505,114.52 L 505,275.48 L 493.59,284.24 L 445,284.24
+               C 430,284.24 425.39,292 425.39,302
+               L 425.39,313.25 L 419.27,321.22 L 310.73,321.22 L 304.61,313.25 L 304.61,302
+               C 304.61,292 300,284.24 285,284.24
+               L 236.41,284.24 L 225,275.48 Z"/>
+    </clipPath>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="365" y="20" text-anchor="middle" font-size="17" font-weight="bold">12&quot; &#215; 12&quot; &#215; 8&quot; Reducing Cross &#8212; ASME B16.9</text>
+
+  <!-- One continuous contour with Sch 80 bevels sized for the 12-inch run and 8-inch outlets. -->
+  <path d="M 225,114.52 L 236.41,105.76 L 285,105.76
+           C 300,105.76 304.61,98 304.61,88
+           L 304.61,76.75 L 310.73,68.78 L 419.27,68.78 L 425.39,76.75 L 425.39,88
+           C 425.39,98 430,105.76 445,105.76
+           L 493.59,105.76 L 505,114.52 L 505,275.48 L 493.59,284.24 L 445,284.24
+           C 430,284.24 425.39,292 425.39,302
+           L 425.39,313.25 L 419.27,321.22 L 310.73,321.22 L 304.61,313.25 L 304.61,302
+           C 304.61,292 300,284.24 285,284.24
+           L 236.41,284.24 L 225,275.48 Z"
+        fill="url(#runFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Vertical cylindrical highlight at the intersection of both tubes. -->
+  <g clip-path="url(#bodyClip)">
+    <rect x="304.61" y="68.78" width="120.78" height="252.44" fill="url(#branchFill)"/>
+  </g>
+  <path d="M 225,114.52 L 236.41,105.76 L 285,105.76
+           C 300,105.76 304.61,98 304.61,88
+           L 304.61,76.75 L 310.73,68.78 L 419.27,68.78 L 425.39,76.75 L 425.39,88
+           C 425.39,98 430,105.76 445,105.76
+           L 493.59,105.76 L 505,114.52 L 505,275.48 L 493.59,284.24 L 445,284.24
+           C 430,284.24 425.39,292 425.39,302
+           L 425.39,313.25 L 419.27,321.22 L 310.73,321.22 L 304.61,313.25 L 304.61,302
+           C 304.61,292 300,284.24 285,284.24
+           L 236.41,284.24 L 225,275.48 Z"
+        fill="none" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Run and branch centerlines. -->
+  <line x1="190" y1="195" x2="540" y2="195" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="365" y1="45" x2="365" y2="345" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- C: left and right run center-to-end dimensions. -->
+  <line x1="225" y1="114.52" x2="225" y2="45" stroke="black" stroke-width="0.75"/>
+  <line x1="365" y1="68.78" x2="365" y2="45" stroke="black" stroke-width="0.75"/>
+  <line x1="505" y1="114.52" x2="505" y2="45" stroke="black" stroke-width="0.75"/>
+  <line x1="225" y1="45" x2="365" y2="45" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <line x1="365" y1="45" x2="505" y2="45" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="295" y="40" text-anchor="middle" font-size="15" font-weight="bold">C</text>
+  <text x="435" y="40" text-anchor="middle" font-size="15" font-weight="bold">C</text>
+
+  <!-- M: upper and lower reducing outlet center-to-end dimensions. -->
+  <line x1="419.27" y1="68.78" x2="555" y2="68.78" stroke="black" stroke-width="0.75"/>
+  <line x1="505" y1="195" x2="555" y2="195" stroke="black" stroke-width="0.75"/>
+  <line x1="419.27" y1="321.22" x2="555" y2="321.22" stroke="black" stroke-width="0.75"/>
+  <line x1="550" y1="68.78" x2="550" y2="195" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <line x1="550" y1="195" x2="550" y2="321.22" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="562" y="137" text-anchor="start" font-size="15" font-weight="bold">M</text>
+  <text x="562" y="263" text-anchor="start" font-size="15" font-weight="bold">M</text>
+</svg>

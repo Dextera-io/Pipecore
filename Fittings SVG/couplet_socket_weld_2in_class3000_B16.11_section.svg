@@ -1,0 +1,117 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" font-family="Arial, sans-serif">
+  <title>2 inch Class 3000 socket-welding couplet, sectioned view</title>
+  <desc>NPS 2 Class 3000 socket-welding couplet based on ASME B16.11-2021 Table 6.1-2. Uniform scale 3 px/mm. G 79.4 mm, B 61.2 to 61.7 mm, D 51.7 to 53.3 mm, C 6.93 mm average and 6.04 mm minimum, J 16 mm minimum, M 57.2 mm, N 61.9 mm, and Q 9.5 mm.</desc>
+
+  <rect width="760" height="500" fill="white"/>
+
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="380" y="23" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Socket Weld Couplet — ASME B16.11</text>
+
+  <!-- M overall length; G top OD; N lower weld-ring diameter. -->
+  <path d="M 265.90,150
+           L 494.10,150
+           L 499.10,155
+           L 499.10,213
+           L 472.85,239.25
+           L 472.85,316.60
+           L 467.85,321.60
+           L 292.15,321.60
+           L 287.15,316.60
+           L 287.15,239.25
+           L 260.90,213
+           L 260.90,155
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.75"/>
+
+  <!-- Socket B, fitting bore D, and full stop line. -->
+  <path d="M 287.83,150
+           L 472.18,150
+           L 472.18,198
+           L 458.75,198
+           L 458.75,321.60
+           L 301.25,321.60
+           L 301.25,198
+           L 287.83,198
+           Z"
+        fill="white" stroke="black" stroke-width="1.75"/>
+  <line x1="287.83" y1="198" x2="472.18" y2="198"
+        stroke="black" stroke-width="1.75"/>
+
+  <line x1="380" y1="125" x2="380" y2="347"
+        stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- Top G, B, D, and C dimensions. -->
+  <g fill="none" stroke="black">
+    <line x1="260.90" y1="155" x2="260.90" y2="45" stroke-width="0.75"/>
+    <line x1="499.10" y1="155" x2="499.10" y2="45" stroke-width="0.75"/>
+    <line x1="287.83" y1="150" x2="287.83" y2="75" stroke-width="0.75"/>
+    <line x1="472.18" y1="150" x2="472.18" y2="75" stroke-width="0.75"/>
+    <line x1="301.25" y1="198" x2="301.25" y2="105" stroke-width="0.75"/>
+    <line x1="458.75" y1="198" x2="458.75" y2="105" stroke-width="0.75"/>
+
+    <line x1="260.90" y1="52" x2="499.10" y2="52" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="287.83" y1="82" x2="472.18" y2="82" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="301.25" y1="112" x2="458.75" y2="112" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="472.18" y1="82" x2="499.10" y2="82" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <g font-size="15" font-style="italic" font-weight="bold">
+    <text x="380" y="46" text-anchor="middle">G</text>
+    <text x="380" y="76" text-anchor="middle">B</text>
+    <text x="380" y="106" text-anchor="middle">D</text>
+    <text x="505" y="76" text-anchor="start">C</text>
+  </g>
+
+  <!-- J, M, and Q at right. -->
+  <g fill="none" stroke="black">
+    <line x1="499.10" y1="150" x2="570" y2="150" stroke-width="0.75"/>
+    <line x1="499.10" y1="198" x2="570" y2="198" stroke-width="0.75"/>
+    <line x1="472.85" y1="293.10" x2="570" y2="293.10" stroke-width="0.75"/>
+    <line x1="472.85" y1="321.60" x2="570" y2="321.60" stroke-width="0.75"/>
+    <line x1="565" y1="150" x2="565" y2="198" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="600" y1="150" x2="600" y2="321.60" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="565" y1="293.10" x2="565" y2="321.60" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <g font-size="15" font-style="italic" font-weight="bold">
+    <text x="575" y="179">J</text>
+    <text x="614" y="241">M</text>
+    <text x="575" y="312">Q</text>
+  </g>
+
+  <!-- N across the lower body. -->
+  <g fill="none" stroke="black">
+    <line x1="287.15" y1="321.60" x2="287.15" y2="365" stroke-width="0.75"/>
+    <line x1="472.85" y1="321.60" x2="472.85" y2="365" stroke-width="0.75"/>
+    <line x1="287.15" y1="358" x2="472.85" y2="358" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <text x="380" y="352" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">N</text>
+
+  <!-- 45-degree transition callout. -->
+  <path d="M 225,235 L 275,239" fill="none" stroke="black" stroke-width="1"
+        marker-end="url(#arrowEnd)"/>
+  <text x="170" y="226" font-size="13" font-weight="bold">45° ± 2.5°</text>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="464">Sectioned view. ASME B16.11-2021, Table 6.1-2, NPS 2, Class 3000. Geometric scale: 3 px/mm.</text>
+    <text x="20" y="481">G=79.4; M=57.2; N=61.9; Q=9.5; B=61.2–61.7; D=51.7–53.3; J=16 min. Dimensions in mm.</text>
+  </g>
+</svg>

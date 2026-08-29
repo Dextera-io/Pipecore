@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch ASME B16.9 Schedule 80 straight tee, exterior view</title>
+  <desc>Proportional NPS 12 straight tee based on ASME B16.9-2024 Table 6.1-7: outside diameter D=323.8 mm, run center-to-end C=254 mm, and outlet center-to-end M=254 mm. All three ends use Schedule 80 bevels. Wall-thickness dimensions are intentionally omitted.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="runFill" gradientUnits="userSpaceOnUse" x1="0" y1="130.76" x2="0" y2="309.24">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.22" stop-color="#d9e1e9"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </linearGradient>
+    <linearGradient id="branchFill" gradientUnits="userSpaceOnUse" x1="275.76" y1="0" x2="454.24" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.22" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="0.50" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="0.78" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="teeClip">
+      <path d="M 236.41,130.76
+               L 255.00,130.76
+               C 270.00,130.76 275.76,120.00 275.76,105.00
+               L 275.76,91.41
+               L 284.52,80.00
+               L 445.48,80.00
+               L 454.24,91.41
+               L 454.24,105.00
+               C 454.24,120.00 460.00,130.76 475.00,130.76
+               L 493.59,130.76
+               L 505.00,139.52
+               L 505.00,300.48
+               L 493.59,309.24
+               L 236.41,309.24
+               L 225.00,300.48
+               L 225.00,139.52
+               Z"/>
+    </clipPath>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="365" y="20" text-anchor="middle" font-size="17" font-weight="bold">12&quot; Straight Tee &#8212; ASME B16.9</text>
+
+  <!-- One continuous exterior contour with integrated Schedule 80 bevels. -->
+  <path d="M 236.41,130.76
+           L 255.00,130.76
+           C 270.00,130.76 275.76,120.00 275.76,105.00
+           L 275.76,91.41
+           L 284.52,80.00
+           L 445.48,80.00
+           L 454.24,91.41
+           L 454.24,105.00
+           C 454.24,120.00 460.00,130.76 475.00,130.76
+           L 493.59,130.76
+           L 505.00,139.52
+           L 505.00,300.48
+           L 493.59,309.24
+           L 236.41,309.24
+           L 225.00,300.48
+           L 225.00,139.52
+           Z"
+        fill="url(#runFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Cylindrical branch shading: white on its axis and gray toward its edges. -->
+  <g clip-path="url(#teeClip)">
+    <rect x="275.76" y="80" width="178.48" height="140" fill="url(#branchFill)"/>
+  </g>
+  <path d="M 236.41,130.76
+           L 255.00,130.76
+           C 270.00,130.76 275.76,120.00 275.76,105.00
+           L 275.76,91.41
+           L 284.52,80.00
+           L 445.48,80.00
+           L 454.24,91.41
+           L 454.24,105.00
+           C 454.24,120.00 460.00,130.76 475.00,130.76
+           L 493.59,130.76
+           L 505.00,139.52
+           L 505.00,300.48
+           L 493.59,309.24
+           L 236.41,309.24
+           L 225.00,300.48
+           L 225.00,139.52
+           Z"
+        fill="none" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Run and outlet centerlines. -->
+  <line x1="190" y1="220" x2="540" y2="220" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="365" y1="55" x2="365" y2="330" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- C: left and right run center-to-end dimensions. -->
+  <line x1="225" y1="130.76" x2="225" y2="60" stroke="black" stroke-width="0.75"/>
+  <line x1="365" y1="80" x2="365" y2="60" stroke="black" stroke-width="0.75"/>
+  <line x1="505" y1="130.76" x2="505" y2="60" stroke="black" stroke-width="0.75"/>
+  <line x1="225" y1="60" x2="365" y2="60" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <line x1="365" y1="60" x2="505" y2="60" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="295" y="55" text-anchor="middle" font-size="15" font-weight="bold">C</text>
+  <text x="435" y="55" text-anchor="middle" font-size="15" font-weight="bold">C</text>
+
+  <!-- M: outlet center-to-end dimension. -->
+  <line x1="284.52" y1="80" x2="185" y2="80" stroke="black" stroke-width="0.75"/>
+  <line x1="225" y1="220" x2="185" y2="220" stroke="black" stroke-width="0.75"/>
+  <line x1="190" y1="80" x2="190" y2="220" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="178" y="155" text-anchor="end" font-size="15" font-weight="bold">M</text>
+
+  <!-- D: run outside diameter. -->
+  <line x1="475" y1="130.76" x2="550" y2="130.76" stroke="black" stroke-width="0.75"/>
+  <line x1="493.59" y1="309.24" x2="550" y2="309.24" stroke="black" stroke-width="0.75"/>
+  <line x1="545" y1="130.76" x2="545" y2="309.24" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="557" y="225" text-anchor="start" font-size="15" font-weight="bold">D</text>
+</svg>

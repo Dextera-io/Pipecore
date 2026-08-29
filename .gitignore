@@ -1,0 +1,22 @@
+# --- Ignora todo por defecto ---
+*
+
+# --- Permite recorrer carpetas (necesario para que las reglas de abajo funcionen) ---
+!*/
+
+# --- Archivos necesarios en la raíz ---
+!/index.html
+!/b1611_2021_data.js
+!/b1647_2025_data.js
+!/b1648_2025_data.js
+!/b165_2025_data.js
+!/b169_2024_data.js
+!/b3610_2022_data.js
+!/b3619_2022_data.js
+!/msssp58_2018_data.js
+!/weights_data.js
+!/flange_weights.js
+!/.gitignore
+
+# --- Carpeta de imagenes SVG que la app carga en tiempo real ---
+!/Fittings SVG/*.svg

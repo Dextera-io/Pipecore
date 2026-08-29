@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>3 inch Class 300 Threaded flange, sectioned view</title>
+  <desc>Normalized display scale 2.480952 px per mm. Real dimensions from ASME B16.5-2025 Tables 10 and 11: O 210 mm, W 168.1 mm, bolt hole 22.225 mm, tf 26.9 mm, X 117 mm, Y 41 mm, counterbore Q 92.2 mm, and thread length T 32 mm.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="355.35" y="24" text-anchor="middle" font-size="18" font-weight="bold">3" Class 300 Threaded Flange — Sectioned View</text>
+
+  <!--
+    Presentation is normalized so O occupies the same 521 px as the 12-inch family.
+    Uniform scale inside this flange: 521 / 210 = 2.480952 px per real millimeter.
+  -->
+  <path d="M 469.72,136.80
+           L 496.18,136.80
+           L 496.18,147.00
+           C 496.18,162.00 500.49,171.78 500.49,171.78
+           L 615.85,171.78
+           L 615.85,238.52
+           L 512.89,238.52
+           L 512.89,242.24
+           L 469.72,242.24
+           L 469.72,136.80
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+  <path d="M 240.98,136.80
+           L 214.52,136.80
+           L 214.52,147.00
+           C 214.52,162.00 210.21,171.78 210.21,171.78
+           L 94.85,171.78
+           L 94.85,238.52
+           L 197.81,238.52
+           L 197.81,242.24
+           L 240.98,242.24
+           L 240.98,136.80
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+
+  <!-- Two diametrically opposed bolt holes in the section plane. -->
+  <rect x="119.26" y="171.78" width="55.14" height="66.74" fill="white" stroke="black" stroke-width="1.5"/>
+  <rect x="536.30" y="171.78" width="55.14" height="66.74" fill="white" stroke="black" stroke-width="1.5"/>
+
+  <!-- Thread representation over the real T length. -->
+  <polyline points="
+    240.98,162.85 247.18,166.82 240.98,170.79 247.18,174.76
+    240.98,178.73 247.18,182.70 240.98,186.67 247.18,190.64
+    240.98,194.61 247.18,198.58 240.98,202.55 247.18,206.52
+    240.98,210.49 247.18,214.46 240.98,218.43 247.18,222.40
+    240.98,226.37 247.18,230.34 240.98,234.31 247.18,238.28
+    240.98,242.24"
+    fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="miter"/>
+  <polyline points="
+    469.72,162.85 463.52,166.82 469.72,170.79 463.52,174.76
+    469.72,178.73 463.52,182.70 469.72,186.67 463.52,190.64
+    469.72,194.61 463.52,198.58 469.72,202.55 463.52,206.52
+    469.72,210.49 463.52,214.46 469.72,218.43 463.52,222.40
+    469.72,226.37 463.52,230.34 469.72,234.31 463.52,238.28
+    469.72,242.24"
+    fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="miter"/>
+
+  <!-- Center line and visible bore edges. -->
+  <line x1="355.35" y1="42" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="240.98" y1="136.80" x2="469.72" y2="136.80" stroke="black" stroke-width="1.75"/>
+  <line x1="240.98" y1="162.85" x2="469.72" y2="162.85" stroke="black" stroke-width="1.25"/>
+  <line x1="240.98" y1="242.24" x2="469.72" y2="242.24" stroke="black" stroke-width="1.5"/>
+
+  <!-- X: hub diameter at base. -->
+  <line x1="210.21" y1="171.78" x2="210.21" y2="68" stroke="black" stroke-width="0.75"/>
+  <line x1="500.49" y1="171.78" x2="500.49" y2="68" stroke="black" stroke-width="0.75"/>
+  <line x1="210.21" y1="75" x2="500.49" y2="75" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="70" text-anchor="middle" font-size="15" font-weight="bold">X</text>
+
+  <!-- Q: threaded counterbore diameter. -->
+  <line x1="240.98" y1="136.80" x2="240.98" y2="103" stroke="black" stroke-width="0.75"/>
+  <line x1="469.72" y1="136.80" x2="469.72" y2="103" stroke="black" stroke-width="0.75"/>
+  <line x1="240.98" y1="108" x2="469.72" y2="108" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="103" text-anchor="middle" font-size="15" font-weight="bold">Q</text>
+
+  <!-- T: thread length. -->
+  <line x1="365" y1="162.85" x2="382" y2="162.85" stroke="black" stroke-width="0.75"/>
+  <line x1="365" y1="242.24" x2="382" y2="242.24" stroke="black" stroke-width="0.75"/>
+  <line x1="378" y1="162.85" x2="378" y2="242.24" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="389" y="208" text-anchor="start" font-size="15" font-weight="bold">T</text>
+
+  <!-- tf: minimum flange thickness. -->
+  <line x1="615.85" y1="238.52" x2="640" y2="238.52" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="171.78" x2="640" y2="171.78" stroke="black" stroke-width="0.75"/>
+  <line x1="638" y1="238.52" x2="638" y2="171.78" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="647" y="210" text-anchor="start" font-size="15" font-weight="bold">tf</text>
+
+  <!-- Y: length through hub; lower datum matches tf. -->
+  <line x1="496.18" y1="136.80" x2="687" y2="136.80" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="238.52" x2="687" y2="238.52" stroke="black" stroke-width="0.75"/>
+  <line x1="680" y1="136.80" x2="680" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="690" y="192" text-anchor="start" font-size="15" font-weight="bold">Y</text>
+
+  <!-- W: bolt circle diameter. -->
+  <line x1="146.83" y1="238.52" x2="146.83" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="563.87" y1="238.52" x2="563.87" y2="278" stroke="black" stroke-width="0.75"/>
+  <line x1="146.83" y1="270" x2="563.87" y2="270" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="265" text-anchor="middle" font-size="15" font-weight="bold">W</text>
+  <line x1="146.83" y1="191.80" x2="146.83" y2="218.50" stroke="#c0392b" stroke-width="0.75"/>
+  <line x1="563.87" y1="191.80" x2="563.87" y2="218.50" stroke="#c0392b" stroke-width="0.75"/>
+
+  <!-- O: flange outside diameter. -->
+  <line x1="94.85" y1="238.52" x2="94.85" y2="306" stroke="black" stroke-width="0.75"/>
+  <line x1="615.85" y1="238.52" x2="615.85" y2="306" stroke="black" stroke-width="0.75"/>
+  <line x1="94.85" y1="298" x2="615.85" y2="298" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="355.35" y="293" text-anchor="middle" font-size="15" font-weight="bold">O</text>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="329">Escala gráfica normalizada para igualar el tamaño visual de la familia.</text>
+    <text x="20" y="345">Valores reales: O=210; W=168.1; X=117; Q=92.2; T=32; tf=26.9; Y=41 mm; 8 agujeros Ø7/8".</text>
+  </g>
+</svg>

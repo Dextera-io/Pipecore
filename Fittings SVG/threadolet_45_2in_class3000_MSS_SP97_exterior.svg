@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>2 inch Class 3000 45-degree Threadolet, MSS SP-97</title>
+  <desc>Exterior elevation of an NPS 2 Class 3000 45-degree threaded branch outlet fitting based on MSS SP-97-2025 Table 6. Dimension A, top of fitting to run pipe, ranges from 3.00 inches minimum to 3.31 inches maximum. The inclined female NPT threaded bore and curved run-pipe saddle are shown.</desc>
+
+  <rect width="760" height="353" fill="white"/>
+
+  <defs>
+    <linearGradient id="thread45BodyFill" gradientUnits="userSpaceOnUse" x1="235" y1="0" x2="520" y2="0">
+      <stop offset="0" stop-color="#b4bfca"/>
+      <stop offset="0.25" stop-color="#dbe2e9"/>
+      <stop offset="0.52" stop-color="#ffffff"/>
+      <stop offset="0.80" stop-color="#d3dbe3"/>
+      <stop offset="1" stop-color="#a9b5c1"/>
+    </linearGradient>
+    <linearGradient id="thread45SaddleFill" gradientUnits="userSpaceOnUse" x1="0" y1="248" x2="0" y2="298">
+      <stop offset="0" stop-color="#dce3ea"/>
+      <stop offset="1" stop-color="#8f9aa6"/>
+    </linearGradient>
+    <linearGradient id="thread45BoreFill" gradientUnits="userSpaceOnUse" x1="430" y1="120" x2="390" y2="220">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e9eef2"/>
+    </linearGradient>
+    <marker id="thread45ArrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="thread45ArrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+    <clipPath id="thread45BoreClip">
+      <path d="M434,115 L490,171
+               L481,172 L483,181 L470,184 L472,193
+               L459,196 L461,205 L448,208 L448,213
+               L392,157
+               L393,152 L404,149 L402,140
+               L415,137 L413,128 L426,125 Z"/>
+    </clipPath>
+  </defs>
+
+  <text x="380" y="22" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 45&#176; Threadolet &#8212; MSS SP-97</text>
+
+  <g transform="translate(0 12)">
+    <!-- Forged 45-degree threaded outlet body. -->
+    <path d="M235,248
+             L320,155
+             L405,85
+             L520,200
+             C525,216 520,233 505,248
+             Q370,264 235,248 Z"
+          fill="url(#thread45BodyFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+    <!-- Lighter forward facet, matching the standard's schematic perspective. -->
+    <path d="M235,248
+             L320,155
+             L505,248
+             Q370,264 235,248 Z"
+          fill="#f7f9fb" fill-opacity="0.78" stroke="#747e88" stroke-width="0.85"
+          stroke-linejoin="round"/>
+
+    <!-- Inclined female NPT bore with visible thread roots. -->
+    <path d="M434,115 L490,171
+             L481,172 L483,181 L470,184 L472,193
+             L459,196 L461,205 L448,208 L448,213
+             L392,157
+             L393,152 L404,149 L402,140
+             L415,137 L413,128 L426,125 Z"
+          fill="url(#thread45BoreFill)" stroke="#69737d" stroke-width="1.15"
+          stroke-linejoin="round"/>
+    <g clip-path="url(#thread45BoreClip)" fill="none" stroke="#89929b"
+       stroke-width="1" stroke-dasharray="5,4">
+      <line x1="420" y1="129" x2="476" y2="185"/>
+      <line x1="406" y1="143" x2="462" y2="199"/>
+    </g>
+
+    <!-- Curved saddle that follows the run pipe. -->
+    <path d="M235,248
+             Q370,268 505,248
+             L488,270
+             Q370,301 252,270
+             Z"
+          fill="url(#thread45SaddleFill)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+    <!-- Inclined fitting axis. -->
+    <line x1="280" y1="325" x2="515" y2="90"
+          stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+    <!-- A: top of fitting to run pipe, parallel to the fitting axis. -->
+    <line x1="370" y1="50" x2="230" y2="190" stroke="black" stroke-width="1"
+          marker-start="url(#thread45ArrowStart)" marker-end="url(#thread45ArrowEnd)"/>
+    <line x1="370" y1="50" x2="457" y2="137" stroke="black" stroke-width="0.75"/>
+    <line x1="230" y1="190" x2="290" y2="250" stroke="black" stroke-width="0.75"/>
+    <text x="286" y="112" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">A</text>
+  </g>
+</svg>

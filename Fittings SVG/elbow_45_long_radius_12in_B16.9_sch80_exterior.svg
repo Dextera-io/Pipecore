@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="353" viewBox="0 0 760 353" font-family="Arial, sans-serif">
+  <title>12 inch ASME B16.9 Schedule 80 long-radius 45-degree elbow</title>
+  <desc>Exterior view of a proportional NPS 12 long-radius 45-degree elbow based on ASME B16.9-2024 Table 6.1-1: outside diameter 323.8 mm and center-to-end dimension B=190 mm. Both ends use integrated Schedule 80 bevels. The fitting is gray at both curved edges and lightest along the red centerline.</desc>
+
+  <rect x="0" y="0" width="760" height="353" fill="white"/>
+
+  <defs>
+    <radialGradient id="bodyFill" gradientUnits="userSpaceOnUse"
+                    cx="250" cy="315" r="240" fx="250" fy="315">
+      <!-- Inner curved edge: gray. -->
+      <stop offset="0" stop-color="#93a3b4"/>
+      <stop offset="0.4768" stop-color="#93a3b4"/>
+      <!-- Smooth transition toward the pipe centerline. -->
+      <stop offset="0.58" stop-color="#cbd5df"/>
+      <stop offset="0.675" stop-color="#eef2f6"/>
+      <!-- Centerline radius 177.22 / 240 = 0.7384: white. -->
+      <stop offset="0.7384" stop-color="#ffffff"/>
+      <stop offset="0.80" stop-color="#eef2f6"/>
+      <stop offset="0.90" stop-color="#cbd5df"/>
+      <!-- Outer curved edge: gray. -->
+      <stop offset="1" stop-color="#93a3b4"/>
+    </radialGradient>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="365" y="22" text-anchor="middle" font-size="17" font-weight="bold">12&quot; 45&#176; Long Radius Elbow &#8212; ASME B16.9</text>
+
+  <!-- Continuous exterior contour with integrated Schedule 80 bevels. -->
+  <path d="M 250,81.03
+           L 258.03,75
+           C 313.65,75 363.00,96.00 413.99,139.61
+           L 415.44,149.56
+           L 335.19,229.81
+           L 325.24,228.40
+           C 304.00,207.50 278.00,200.56 258.03,200.56
+           L 250,194.53
+           Z"
+        fill="url(#bodyFill)"
+        stroke="black"
+        stroke-width="1.75"
+        stroke-linejoin="round"/>
+
+  <!-- Tangent construction lines. -->
+  <line x1="220" y1="137.78" x2="355" y2="137.78" stroke="black" stroke-width="0.75"/>
+  <line x1="304" y1="118" x2="393" y2="207" stroke="black" stroke-width="0.75"/>
+
+  <!-- Elbow centerline, coincident with the lightest part of the gradient. -->
+  <path d="M 250,137.78
+           A 177.22,177.22 0 0 1 375.31,189.69"
+        fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- B: center-to-end dimension along the inlet tangent. -->
+  <line x1="250" y1="81.03" x2="250" y2="60" stroke="black" stroke-width="0.75"/>
+  <line x1="323.69" y1="137.78" x2="323.69" y2="60" stroke="black" stroke-width="0.75"/>
+  <line x1="250" y1="60" x2="323.69" y2="60" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="286.85" y="55" text-anchor="middle" font-size="15" font-weight="bold">B</text>
+
+  <!-- B: matching center-to-end dimension along the inclined outlet tangent. -->
+  <line x1="323.69" y1="137.78" x2="373.19" y2="88.28" stroke="black" stroke-width="0.75"/>
+  <line x1="375.31" y1="189.69" x2="424.81" y2="140.19" stroke="black" stroke-width="0.75"/>
+  <line x1="373.19" y1="88.28" x2="424.81" y2="140.19" stroke="black" stroke-width="1"
+        marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  <text x="407" y="103" text-anchor="middle" font-size="15" font-weight="bold"
+        transform="rotate(45 407 103)">B</text>
+</svg>

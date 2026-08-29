@@ -1,0 +1,100 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="500" viewBox="0 0 760 500" font-family="Arial, sans-serif">
+  <title>2 inch Class 3000 socket-welding half-coupling, sectioned view</title>
+  <desc>NPS 2 Class 3000 socket-welding half-coupling based on ASME B16.11-2021 Table 6.1-2. Uniform scale 3 px/mm. B 61.2 to 61.7 mm, D 51.7 to 53.3 mm, C 6.93 mm average and 6.04 mm minimum, outside diameter 79.4 mm, J 16 mm minimum, and F 41 mm minimum with 2 mm tolerance.</desc>
+
+  <rect width="760" height="500" fill="white"/>
+
+  <defs>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="white"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#555" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+
+  <text x="380" y="23" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Socket Weld Half-Coupling — ASME B16.11</text>
+
+  <!-- OD = 79.4 mm; overall displayed length = J + F = 57 mm. -->
+  <path d="M 265.90,180
+           L 494.10,180
+           L 499.10,185
+           L 499.10,346
+           L 494.10,351
+           L 265.90,351
+           L 260.90,346
+           L 260.90,185
+           Z"
+        fill="url(#hatch)" stroke="black" stroke-width="1.75"/>
+
+  <!-- One socket B, one stop, and the continuous fitting bore D. -->
+  <path d="M 287.83,180
+           L 472.18,180
+           L 472.18,228
+           L 458.75,228
+           L 458.75,351
+           L 301.25,351
+           L 301.25,228
+           L 287.83,228
+           Z"
+        fill="white" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+
+  <!-- Socket stop surfaces, B to D. -->
+  <g stroke="black" stroke-width="1.75">
+    <line x1="287.83" y1="228" x2="301.25" y2="228"/>
+    <line x1="458.75" y1="228" x2="472.18" y2="228"/>
+  </g>
+
+  <!-- Full socket-bottom reference edge, matching the coupling convention. -->
+  <line x1="287.83" y1="228" x2="472.18" y2="228"
+        stroke="black" stroke-width="1.75"/>
+
+  <!-- Centerline. -->
+  <line x1="380" y1="155" x2="380" y2="376"
+        stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+
+  <!-- B, D, and C at the top. -->
+  <g fill="none" stroke="black">
+    <line x1="287.83" y1="180" x2="287.83" y2="82" stroke-width="0.75"/>
+    <line x1="472.18" y1="180" x2="472.18" y2="82" stroke-width="0.75"/>
+    <line x1="301.25" y1="228" x2="301.25" y2="115" stroke-width="0.75"/>
+    <line x1="458.75" y1="228" x2="458.75" y2="115" stroke-width="0.75"/>
+    <line x1="499.10" y1="180" x2="499.10" y2="82" stroke-width="0.75"/>
+
+    <line x1="287.83" y1="89" x2="472.18" y2="89" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="301.25" y1="122" x2="458.75" y2="122" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="472.18" y1="89" x2="499.10" y2="89" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <g font-size="15" font-style="italic" font-weight="bold">
+    <text x="380" y="83" text-anchor="middle">B</text>
+    <text x="380" y="116" text-anchor="middle">D</text>
+    <text x="505" y="83" text-anchor="start">C</text>
+  </g>
+
+  <!-- J and F placed outside the fitting. -->
+  <g fill="none" stroke="black">
+    <line x1="499.10" y1="180" x2="566" y2="180" stroke-width="0.75"/>
+    <line x1="499.10" y1="228" x2="566" y2="228" stroke-width="0.75"/>
+    <line x1="499.10" y1="351" x2="566" y2="351" stroke-width="0.75"/>
+    <line x1="561" y1="180" x2="561" y2="228" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="561" y1="228" x2="561" y2="351" stroke-width="1"
+          marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <g font-size="15" font-style="italic" font-weight="bold">
+    <text x="575" y="209">J</text>
+    <text x="575" y="295">F</text>
+  </g>
+
+  <g font-size="11" fill="#555">
+    <text x="20" y="464">Symmetric sectioned view. ASME B16.11-2021, Table 6.1-2, NPS 2, Class 3000. Geometric scale: 3 px/mm.</text>
+    <text x="20" y="481">OD=79.4; B=61.2–61.7; C=6.93 avg./6.04 min; D=51.7–53.3; J=16 min; F=41 min (+2). Dimensions in mm.</text>
+  </g>
+</svg>
