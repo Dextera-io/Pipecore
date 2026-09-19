@@ -751,14 +751,11 @@
 
 <script src="b3610_2022_data.js?v=1"></script>
 <script src="b3619_2022_data.js?v=1"></script>
-<script src="b165_2025_data.js?v=1"></script>
-<script src="b169_2024_data.js?v=1"></script>
-<script src="b1648_2025_data.js?v=1"></script>
-<script src="msssp58_2018_data.js?v=1"></script>
-<script src="weights_data.js?v=2"></script>
-<script src="flange_weights.js?v=2"></script>
-<script src="b1611_2021_data.js?v=3"></script>
-<script src="b1647_2025_data.js?v=4"></script>
+<!-- b1648_2025_data.js served via /.netlify/functions/b1648 -->
+<!-- msssp58_2018_data.js served via /.netlify/functions/msssp58 -->
+<!-- weights_data.js served via /.netlify/functions/b169weights -->
+<!-- flange_weights.js served via /.netlify/functions/b165weights -->
+<!-- b1647_2025_data.js served via /.netlify/functions/b1647 -->
 <script>
 // ─── STATE ───────────────────────────────────────────────
 const state = {
@@ -829,6 +826,9 @@ const LANG = {
     'flange.WN': 'Welding Neck', 'flange.SO': 'Slip-On', 'flange.SW': 'Socket Weld',
     'flange.TH': 'Threaded', 'flange.LJ': 'Lap Joint', 'flange.BL': 'Blind',
     'flange.word': 'Flange',
+    'flange.WN.full': 'Welding Neck Flange', 'flange.SO.full': 'Slip-On Flange',
+    'flange.SW.full': 'Socket Weld Flange', 'flange.TH.full': 'Threaded Flange',
+    'flange.LJ.full': 'Lap Joint Flange', 'flange.BL.full': 'Blind Flange',
     // weight card
     'card.weight': 'APPROX. WEIGHT',
     'lbl.class': 'Class',
@@ -864,6 +864,7 @@ const LANG = {
     'notice.unavailable': 'Flange not available in code<br>based on features combinations.',
     'notice.availRange': 'Available range:',
     'prompt.selectNps': 'Select a size (NPS) to view dimensions.',
+    'prompt.complete': 'Complete all selections to view dimensions.',
   },
   ES: {
     'hdr.units': 'Unidades', 'hdr.lang': 'Idioma',
@@ -919,10 +920,14 @@ const LANG = {
     'flange.WN': 'Cuello Soldable', 'flange.SO': 'Deslizante', 'flange.SW': 'Soldadura por Enchufe',
     'flange.TH': 'Roscada', 'flange.LJ': 'Junta Solapada', 'flange.BL': 'Ciega',
     'flange.word': 'Brida',
+    'flange.WN.full': 'Brida de Cuello Soldable', 'flange.SO.full': 'Brida Deslizante',
+    'flange.SW.full': 'Brida de Soldadura por Enchufe', 'flange.TH.full': 'Brida Roscada',
+    'flange.LJ.full': 'Brida de Junta Solapada', 'flange.BL.full': 'Brida Ciega',
     'lbl.class': 'Clase',
     'notice.unavailable': 'Brida no disponible en norma<br>según la combinación de características.',
     'notice.availRange': 'Rango disponible:',
     'prompt.selectNps': 'Seleccione un tamaño (NPS) para ver las dimensiones.',
+    'prompt.complete': 'Complete todas las selecciones para ver las dimensiones.',
     // weight card
     'card.weight': 'PESO APROX.',
     'b48.female': 'Hembra RTJ', 'b48.male': 'Macho RTJ',
@@ -2889,7 +2894,7 @@ FITTING_SVG['Ecc_Reducers'] = FITTING_SVG['Reducers'];
 FITTING_SVG['Straight_Crosses'] = FITTING_SVG['Straight_Tees'];
 
 // ─── BUILD FITTING SVG PANEL ──────────────────────────────
-function buildFittingSvgPanel(type, r, unit, nps_key){
+function buildFittingSvgPanel(type, r, unit, nps_key, typeLabel){
   const u = unit==='SI' ? 'mm' : 'in';
   let svg = FITTING_SVG[type];
   if(!svg) return null;
@@ -2950,7 +2955,7 @@ function buildFittingSvgPanel(type, r, unit, nps_key){
 // ─── GET DRAWING FOR FITTING TYPE ────────────────────────
 function getFittingDrawing(type, row, unit, nps_key, typeLabel){
   try {
-    if(FITTING_SVG[type]) return buildFittingSvgPanel(type, row, unit, nps_key);
+    if(FITTING_SVG[type]) return buildFittingSvgPanel(type, row, unit, nps_key, typeLabel);
     if(type==='Stub_Ends') return drawStubEnd(row, unit, nps_key);
   } catch(e) { console.warn('Drawing error:', e); }
   return null;
@@ -3177,8 +3182,8 @@ function renderPipe(){
     return;
   }
 
-  // No NPS selected → prompt user
-  if(!state.pipeNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
+  // Require NPS + Schedule
+  if(!state.pipeNps || !state.pipeSch){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.complete')}</p></div>`; renderCtxBar(); return; }
 
   // Table view
   const schHdr=state.pipeStd==='b3619'?'Schedule':'Schedule / ID';
@@ -3205,6 +3210,8 @@ function renderPipe(){
 // FLANGES
 // ═══════════════════════════════════════════════════════
 
+const B165_NPS=['1/2','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','22','24'];
+
 function onFlangeClassChange(){
   state.flangeClass=document.getElementById('fl-class').value;
   state.flangeNps='';
@@ -3212,14 +3219,10 @@ function onFlangeClassChange(){
   npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
   npsEl.disabled=!state.flangeClass;
   if(state.flangeClass){
-    const sheet=B165[state.flangeClass]?.[state.flangeUnit];
-    if(sheet){
-      const sizes=[...new Set(sheet.data.map(r=>r.NPS))].sort(npsSort);
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
-      // Auto-apply globalNps if switching into flanges
-      if(state.globalNps && sizes.includes(state.globalNps)){
-        npsEl.value=state.globalNps; state.flangeNps=state.globalNps;
-      }
+    const sizes=B165_NPS;
+    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    if(state.globalNps && sizes.includes(state.globalNps)){
+      npsEl.value=state.globalNps; state.flangeNps=state.globalNps;
     }
     npsEl.disabled=false;
   }
@@ -3227,79 +3230,71 @@ function onFlangeClassChange(){
 }
 function setFlangeUnit(u){ state.flangeUnit=u; document.getElementById('fl-unit-us').classList.toggle('active',u==='US'); document.getElementById('fl-unit-si').classList.toggle('active',u==='SI'); onFlangeClassChange(); }
 
-function renderFlanges(){
+async function renderFlanges(){
   state.flangeNps=document.getElementById('fl-nps').value;
   const content=document.getElementById('content');
   if(!state.flangeClass){ content.innerHTML=`<div class="welcome"><div class="big-icon">⚙️</div><h2>Flanges — ASME B16.5</h2><p>${t('welcome.flanges')}</p></div>`; return; }
-  const sheet=B165[state.flangeClass]?.[state.flangeUnit];
-  if(!sheet){ content.innerHTML=`<div class="empty">No data.</div>`; return; }
-  let data=sheet.data;
-  if(state.flangeNps) data=data.filter(r=>r.NPS===state.flangeNps);
+  if(!state.flangeNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
 
-  if(data.length===1){
-    const r=data[0];
-    const u=state.flangeUnit==='SI'?'mm':'in';
-    const hdrs=sheet.headers;
+  content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>`;
 
-    // Get active flange type
-    const ftObj = FLANGE_TYPES.find(f=>f.key===state.flangeType) || FLANGE_TYPES[0];
-    // Find the relevant Y dimension keys for this flange type
-    const yKeys = ftObj.yKey || [];
+  let headers, data;
+  try {
+    const url=`/.netlify/functions/b165?cls=${encodeURIComponent(state.flangeClass)}&unit=${encodeURIComponent(state.flangeUnit)}&nps=${encodeURIComponent(state.flangeNps)}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error(res.status);
+    ({ headers, data }=await res.json());
+  } catch(e) {
+    content.innerHTML=`<div class="empty">Error loading data.</div>`; return;
+  }
 
-    const dimRowsHtml = hdrs.map(h => {
-      const isHighlight = yKeys.includes(h.key) || ['O','tf','B','B1'].includes(h.key);
-      return `<div class="dim-row">
-        <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.split('(')[0].trim().slice(0,28)}</span></span>
-        <span class="d-value${isHighlight?' accent':''}">${r[h.key]??'—'} <span style="color:var(--text2);font-size:10px">${u}</span></span>
-      </div>`;
-    }).join('');
-    const cards = dimCard(`${t('flange.'+state.flangeType)} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
+  if(!data || data.length===0){ content.innerHTML=`<div class="empty">No data.</div>`; return; }
 
-    // Flange type button bar
-    const typeBar = `<div class="fl-type-bar">
-      ${FLANGE_TYPES.map(f=>`<button class="fl-btn${f.key===state.flangeType?' active':''}" onclick="setFlangeType('${f.key}')">${t('flange.'+f.key)}</button>`).join('')}
+  const r=data[0];
+  const u=state.flangeUnit==='SI'?'mm':'in';
+  const hdrs=headers;
+
+  const ftObj = FLANGE_TYPES.find(f=>f.key===state.flangeType) || FLANGE_TYPES[0];
+  const yKeys = ftObj.yKey || [];
+
+  const dimRowsHtml = hdrs.map(h => {
+    const isHighlight = yKeys.includes(h.key) || ['O','tf','B','B1'].includes(h.key);
+    return `<div class="dim-row">
+      <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.split('(')[0].trim().slice(0,28)}</span></span>
+      <span class="d-value${isHighlight?' accent':''}">${r[h.key]??'—'} <span style="color:var(--text2);font-size:10px">${u}</span></span>
     </div>`;
+  }).join('');
+  const cards = dimCard(`${t('flange.'+state.flangeType+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
 
-    // Weight card
-    const wEntry = FLANGE_WEIGHTS?.[state.flangeClass]?.[r.NPS];
-    let weightCard = '';
-    if(wEntry){
-      const ftKey = state.flangeType;
-      const wVal = wEntry[ftKey];
+  const typeBar = `<div class="fl-type-bar">
+    ${FLANGE_TYPES.map(f=>`<button class="fl-btn${f.key===state.flangeType?' active':''}" onclick="setFlangeType('${f.key}')">${t('flange.'+f.key)}</button>`).join('')}
+  </div>`;
+
+  let weightCard = '';
+  try {
+    const wUrl = `/.netlify/functions/b165weights?cls=${encodeURIComponent(state.flangeClass)}&nps=${encodeURIComponent(r.NPS)}&type=${encodeURIComponent(state.flangeType)}`;
+    const wRes = await fetch(wUrl);
+    if(wRes.ok){
+      const wJson = await wRes.json();
+      const wVal = wJson.weight;
       if(wVal != null){
-        const typeLabel = t('flange.'+ftKey) || ftKey;
+        const typeLabel = t('flange.'+state.flangeType) || state.flangeType;
         const wtFmt = fmtWeight(wVal, state.flangeUnit);
         const row = `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`;
         weightCard = dimCard(t('card.weight'), row);
       }
     }
+  } catch(e) {}
 
-    const _ftTitle = `${t('flange.'+ftObj.key)} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`;
-    const _available = isFlangeAvailable(state.flangeType, state.flangeClass, r.NPS);
-    const leftPanel = !_available
-      ? buildUnavailablePanel(ftObj.svg || 'BL', typeBar, state.flangeType, state.flangeClass)
-      : ftObj.svg
-        ? buildFlangeSvgPanel(ftObj.svg, r, state.flangeUnit, state.flangeClass, _ftTitle, 'ASME B16.5-2025', typeBar)
-        : overlayPanel([ftObj.img], r, true, state.flangeUnit, _ftTitle, 'ASME B16.5-2025', typeBar);
-    updateMiniStrip(IMG_BASE + ftObj.img, _ftTitle);
-    content.innerHTML=`<div class="drawing-view">${leftPanel}<div class="dim-panel">${cards}${weightCard}</div></div>`;
-    renderCtxBar();
-    return;
-  }
-
-  // No NPS selected → prompt user
-  if(!state.flangeNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
-
-  const unitLabel=state.flangeUnit==='SI'?'mm':'in';
-  const hdrs=sheet.headers;
-  const rows=data.map(r=>{
-    const cells=hdrs.map(h=>`<td>${r[h.key]??'—'}</td>`).join('');
-    return `<tr><td class="hl">${r.NPS}"</td>${cells}</tr>`;
-  }).join('');
-  const thds=hdrs.map(h=>`<th title="${h.desc}">${h.key} (${unitLabel})</th>`).join('');
-  content.innerHTML=`
-    <div class="result-header"><div class="result-title">Flanges — ${t('lbl.class')} ${state.flangeClass} <span class="badge">${data.length} sizes</span></div><div class="result-subtitle">ASME B16.5-2025 · ${state.flangeUnit==='SI'?'SI (mm)':'US (in)'}</div></div>
-    <div class="table-wrap"><table><thead><tr><th>NPS</th>${thds}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  const _ftTitle = `${t('flange.'+ftObj.key+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`;
+  const _available = isFlangeAvailable(state.flangeType, state.flangeClass, r.NPS);
+  const leftPanel = !_available
+    ? buildUnavailablePanel(ftObj.svg || 'BL', typeBar, state.flangeType, state.flangeClass)
+    : ftObj.svg
+      ? buildFlangeSvgPanel(ftObj.svg, r, state.flangeUnit, state.flangeClass, _ftTitle, 'ASME B16.5-2025', typeBar)
+      : overlayPanel([ftObj.img], r, true, state.flangeUnit, _ftTitle, 'ASME B16.5-2025', typeBar);
+  updateMiniStrip(IMG_BASE + ftObj.img, _ftTitle);
+  content.innerHTML=`<div class="drawing-view">${leftPanel}<div class="dim-panel">${cards}${weightCard}</div></div>`;
   renderCtxBar();
 }
 
@@ -3388,6 +3383,15 @@ const B11_COL_LABELS = {
 };
 
 // Per-class column filter: show only columns relevant to selected class
+const B1611_META = {
+  sw_elbows_tees:  { classes:["3000","6000","9000"], nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4"] },
+  sw_couplings:    { classes:["3000","6000","9000"], nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4"] },
+  th_elbows_tees:  { classes:["2000","3000","6000"], nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4"] },
+  th_street_elbows:{ classes:["3000","6000"],        nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2"] },
+  th_couplings:    { classes:["3000","6000"],        nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4"] },
+  th_plugs:        { classes:["3000","6000"],        nps:["1/8","1/4","3/8","1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4"] }
+};
+
 const B11_CLASS_COLS = {
   '3000': k => k.includes('3k')||(!k.includes('2k')&&!k.includes('6k')&&!k.includes('9k')),
   '6000': k => k.includes('6k')||(!k.includes('2k')&&!k.includes('3k')&&!k.includes('9k')),
@@ -3417,15 +3421,14 @@ function onB11TypeChange(){
 
   if(state.b11type){
     const dataKey = B11_TYPES[state.b11type]?.data;
-    const classes = B1611[dataKey]?.classes||[];
+    const classes = B1611_META[dataKey]?.classes||[];
     classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
     classEl.disabled=false;
 
     if(prevClass && classes.includes(prevClass)){
       classEl.value = prevClass;
       state.b11class = prevClass;
-      const unit = state.b11unit==='SI'?'mm':'in';
-      const sizes = Object.keys(B1611[dataKey]?.[unit]||{});
+      const sizes = B1611_META[dataKey]?.nps||[];
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       npsEl.disabled=false;
       if(prevNps && sizes.includes(prevNps)){
@@ -3461,8 +3464,7 @@ function onB11ClassChange(){
   const prevNps = state.b11nps; // keep current NPS if possible
   if(state.b11class && state.b11type){
     const dataKey = B11_TYPES[state.b11type]?.data;
-    const unit = state.b11unit==='SI'?'mm':'in';
-    const rawSizes = Object.keys(B1611[dataKey]?.[unit]||{});
+    const rawSizes = B1611_META[dataKey]?.nps||[];
     const sizes = _NPS_ORD.filter(n=>rawSizes.includes(n));
     npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
     npsEl.disabled=false;
@@ -3507,7 +3509,7 @@ function setB11Unit(u){
   if(state.b11class && state.b11type){
     const dataKey = B11_TYPES[state.b11type]?.data;
     const unit = u==='SI'?'mm':'in';
-    const rawSizes2 = Object.keys(B1611[dataKey]?.[unit]||{});
+    const rawSizes2 = B1611_META[dataKey]?.nps||[];
     const sizes = _NPS_ORD.filter(n=>rawSizes2.includes(n));
     const npsEl = document.getElementById('b11-nps');
     npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
@@ -3643,10 +3645,11 @@ function _b11CaptionLine(typeKey, r, u, sfx){
   }
 }
 
-function renderB1611(){
+async function renderB1611(){
   state.b11nps = document.getElementById('b11-nps').value;
   const content = document.getElementById('content');
   const cat = state.b11cat;
+  const std = 'ASME B16.11-2021';
 
   if(!state.b11type){
     content.innerHTML = cat==='sw11'
@@ -3654,38 +3657,33 @@ function renderB1611(){
       : `<div class="welcome"><div class="big-icon">🪛</div><h2>${t('cat.th11')} — ASME B16.11</h2><p>${t('welcome.th11')}</p></div>`;
     return;
   }
+  if(!state.b11class || !state.b11nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.complete')}</p></div>`; return; }
+
+  content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>`;
 
   const typeInfo = B11_TYPES[state.b11type];
   const dataKey  = typeInfo?.data;
-  const tbl = B1611[dataKey];
-  if(!tbl){ content.innerHTML=`<div class="empty">No data.</div>`; return; }
+  const unit     = state.b11unit==='SI'?'mm':'in';
+  const uLabel   = unit;
 
-  const unit   = state.b11unit==='SI'?'mm':'in';
-  const uLabel = unit;
-  const raw    = tbl[unit]||{};
+  let r;
+  try {
+    const res = await fetch(`/.netlify/functions/b1611?type=${encodeURIComponent(dataKey)}&unit=${unit}&nps=${encodeURIComponent(state.b11nps)}`);
+    if(!res.ok) throw new Error(res.status);
+    ({ row: r } = await res.json());
+  } catch(e) {
+    content.innerHTML=`<div class="empty">Error loading data.</div>`; return;
+  }
 
-  // Filter columns by class
-  const classFilter = state.b11class ? B11_CLASS_COLS[state.b11class] : ()=>true;
-  let npsList = Object.keys(raw);
-  if(state.b11nps) npsList = npsList.filter(n=>n===state.b11nps);
-  const allKeys = npsList.length>0 ? Object.keys(raw[npsList[0]]) : [];
-  const visKeys = allKeys.filter(classFilter);
-
-  const classTag = state.b11class ? ` — ${t('lbl.class')} ${state.b11class}` : '';
-  const std = tbl.std;
-
-  // NPS selected but not in this type's data → fitting not available
-  if(state.b11nps && npsList.length===0){
+  if(!r){
     const _imgSrc11 = typeInfo.svgFile ? `Fittings SVG/${typeInfo.svgFile}` : (typeInfo.img ? `${IMG_BASE}${typeInfo.img}` : null);
     let leftPanel;
     if(_imgSrc11){
       leftPanel = `<div class="dwg-panel">
         <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
         <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1;position:relative">
-          <img src="${_imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2" alt="${t('b11.'+state.b11type)}">
-          <div style="position:absolute;text-align:center;color:#c0392b;font-weight:700;font-size:15px;background:rgba(255,255,255,0.92);padding:12px 24px;border-radius:8px;border:2px solid #c0392b">
-            Fitting not available under ${std}
-          </div>
+          <img src="${_imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2">
+          <div style="position:absolute;text-align:center;color:#c0392b;font-weight:700;font-size:15px;background:rgba(255,255,255,0.92);padding:12px 24px;border-radius:8px;border:2px solid #c0392b">Fitting not available under ${std}</div>
         </div>
       </div>`;
     } else {
@@ -3695,79 +3693,67 @@ function renderB1611(){
     return;
   }
 
-  // Single NPS selected → show image (if available) + dim cards
-  if(state.b11nps && npsList.length===1){
-    const r = raw[state.b11nps];
-    const dimRows = visKeys.map(k=>`<div class="dim-row"><span class="d-label">${B11_COL_LABELS[k]||k}</span><span class="d-value accent">${r[k]??'—'} <span style="font-size:10px;color:var(--text2)">${uLabel}</span></span></div>`).join('');
-    const card = dimCard(`${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"`, dimRows);
+  const classFilter = B11_CLASS_COLS[state.b11class] || (()=>true);
+  const visKeys = Object.keys(r).filter(classFilter);
+  const dimRows = visKeys.map(k=>`<div class="dim-row"><span class="d-label">${B11_COL_LABELS[k]||k}</span><span class="d-value accent">${r[k]??'—'} <span style="font-size:10px;color:var(--text2)">${uLabel}</span></span></div>`).join('');
+  const card = dimCard(`${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"`, dimRows);
 
-    let leftPanel;
-    if(typeInfo.svgFile){
-      const panelId = 'b11svg_' + Date.now();
-      leftPanel = `<div class="dwg-panel" id="${panelId}">
-        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
-        <div id="${panelId}_inner" style="background:#fff;overflow:auto"></div>
-      </div>`;
-      content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
-      // Async: fetch SVG, inject values, render inline
-      const svgFile = typeInfo.svgFile;
-      const _nps = state.b11nps, _cls = state.b11class, _unit = state.b11unit, _typeKey = state.b11type;
-      (async () => {
-        try {
-          if(!_b11SvgCache[svgFile]){
-            const resp = await fetch('Fittings SVG/' + svgFile);
-            _b11SvgCache[svgFile] = await resp.text();
-          }
-          const inner = document.getElementById(panelId + '_inner');
-          if(!inner) return; // user navigated away
-          const r2base = B1611[typeInfo.data][_unit === 'SI' ? 'mm' : 'in'][_nps];
-          const r2 = (r2base && r2base.L2 == null)
-            ? { ...r2base, L2: B1611['th_elbows_tees']?.[_unit === 'SI' ? 'mm' : 'in']?.[_nps]?.L2 }
-            : r2base;
-          let injected = _b11InjectValues(_b11SvgCache[svgFile], _typeKey, r2, _cls, _unit);
-          inner.innerHTML = injected;
-          updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${t('b11.'+_typeKey)}`);
-        } catch(e){ console.error('SVG load error', e); }
-      })();
-      return;
-    } else if(typeInfo.img){
-      const imgSrc11 = `${IMG_BASE}${typeInfo.img}`;
-      leftPanel = `<div class="dwg-panel">
-        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
-        <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1">
-          <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${t('b11.'+state.b11type)}">
-        </div>
-      </div>`;
-      updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${t('b11.'+state.b11type)}`);
-    } else {
-      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
-    }
+  let leftPanel;
+  if(typeInfo.svgFile){
+    const panelId = 'b11svg_' + Date.now();
+    leftPanel = `<div class="dwg-panel" id="${panelId}">
+      <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
+      <div id="${panelId}_inner" style="background:#fff;overflow:auto"></div>
+    </div>`;
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
+    const svgFile = typeInfo.svgFile;
+    const _nps = state.b11nps, _cls = state.b11class, _unit = state.b11unit, _typeKey = state.b11type;
+    (async () => {
+      try {
+        if(!_b11SvgCache[svgFile]){
+          const resp = await fetch('Fittings SVG/' + svgFile);
+          _b11SvgCache[svgFile] = await resp.text();
+        }
+        const inner = document.getElementById(panelId + '_inner');
+        if(!inner) return;
+        let r2 = r;
+        if(r2 && r2.L2 == null){
+          try {
+            const resp2 = await fetch(`/.netlify/functions/b1611?type=th_elbows_tees&unit=${_unit==='SI'?'mm':'in'}&nps=${encodeURIComponent(_nps)}`);
+            const { row: r3 } = await resp2.json();
+            r2 = { ...r2, L2: r3?.L2 };
+          } catch(e2){}
+        }
+        let injected = _b11InjectValues(_b11SvgCache[svgFile], _typeKey, r2, _cls, _unit);
+        inner.innerHTML = injected;
+        updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${t('b11.'+_typeKey)}`);
+      } catch(e){ console.error('SVG load error', e); }
+    })();
     return;
+  } else if(typeInfo.img){
+    const imgSrc11 = `${IMG_BASE}${typeInfo.img}`;
+    leftPanel = `<div class="dwg-panel">
+      <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
+      <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1">
+        <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${t('b11.'+state.b11type)}">
+      </div>
+    </div>`;
+    updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${t('b11.'+state.b11type)}`);
+  } else {
+    leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
   }
-
-  // No NPS selected → prompt user
-  if(!state.b11nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; return; }
-
-  // Table view (all sizes or no NPS filter)
-  const thds = `<th>NPS</th>` + visKeys.map(k=>`<th title="${B11_COL_LABELS[k]||k}">${B11_COL_LABELS[k]||k} (${uLabel})</th>`).join('');
-  const rows = npsList.map(nps=>{
-    const r = raw[nps];
-    const cells = visKeys.map(k=>`<td>${r[k]??'—'}</td>`).join('');
-    return `<tr><td class="hl">${nps}"</td>${cells}</tr>`;
-  }).join('');
-
-  content.innerHTML=`
-    <div class="result-header">
-      <div class="result-title">${t('b11.'+state.b11type)}${classTag} <span class="badge">${npsList.length} sizes</span></div>
-      <div class="result-subtitle">${std} · ${state.b11unit==='SI'?'SI (mm)':'US (in)'}</div>
-    </div>
-    <div class="table-wrap"><table><thead><tr>${thds}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
 }
 
 // ═══════════════════════════════════════════════════════
 // B16.47 LARGE BORE FLANGES
 // ═══════════════════════════════════════════════════════
+
+const B1647_META = {
+  A: { classes: ['150','300','400','600','900'] },
+  B: { classes: ['75','150','300','400','600','900'] }
+};
+const B1647_NPS = ['26','28','30','32','34','36','38','40','42','44','46','48','50','52','54','56','58','60'];
 
 function onB47SeriesChange(){
   state.b47series = document.getElementById('b47-series').value;
@@ -3775,8 +3761,8 @@ function onB47SeriesChange(){
   state.b47nps = '';
   const clsSel = document.getElementById('b47-class');
   const npsSel = document.getElementById('b47-nps');
-  if(state.b47series && B1647[state.b47series]){
-    const classes = B1647[state.b47series].classes || [];
+  if(state.b47series && B1647_META[state.b47series]){
+    const classes = B1647_META[state.b47series].classes;
     clsSel.innerHTML = `<option value="">${t('opt.selectClass')}</option>` + classes.map(c=>`<option value="${c}">${c}</option>`).join('');
     clsSel.disabled = false;
   } else {
@@ -3793,10 +3779,7 @@ function onB47ClassChange(){
   state.b47nps = '';
   const npsSel = document.getElementById('b47-nps');
   if(state.b47series && state.b47class){
-    const unit = state.b47unit === 'SI' ? 'si' : 'us';
-    const sizeData = B1647[state.b47series][state.b47class]?.[unit] || {};
-    const sizes = Object.keys(sizeData);
-    npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>` + sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>` + B1647_NPS.map(s=>`<option value="${s}">${s}"</option>`).join('');
     npsSel.disabled = false;
   } else {
     npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>`;
@@ -3809,17 +3792,6 @@ function setB47Unit(u){
   state.b47unit = u;
   document.getElementById('b47-unit-us').classList.toggle('active', u==='US');
   document.getElementById('b47-unit-si').classList.toggle('active', u==='SI');
-  // Rebuild NPS list since it comes from unit-keyed data
-  if(state.b47series && state.b47class){
-    const unit = u === 'SI' ? 'si' : 'us';
-    const sizeData = B1647[state.b47series][state.b47class]?.[unit] || {};
-    const sizes = Object.keys(sizeData);
-    const npsSel = document.getElementById('b47-nps');
-    const prevNps = state.b47nps;
-    npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>` + sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
-    if(prevNps && sizes.includes(prevNps)) npsSel.value = prevNps;
-    else state.b47nps = '';
-  }
   renderB1647();
 }
 
@@ -3877,7 +3849,7 @@ function _b47TypeBar(){
   </div>`;
 }
 
-function renderB1647(){
+async function renderB1647(){
   state.b47nps = document.getElementById('b47-nps').value;
   const content = document.getElementById('content');
 
@@ -3889,72 +3861,58 @@ function renderB1647(){
     content.innerHTML = `<div class="welcome"><div class="big-icon">🔵</div><h2>${t('cat.b1647')} — Series ${state.b47series}</h2><p>${t('welcome.b1647')}</p></div>`;
     return;
   }
+  if(!state.b47nps){
+    content.innerHTML = `<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`;
+    return;
+  }
 
   const unit = state.b47unit === 'SI' ? 'si' : 'us';
   const uLabel = state.b47unit === 'SI' ? 'mm' : 'in';
-  const sizeData = B1647[state.b47series][state.b47class]?.[unit] || {};
-  const sizes = state.b47nps ? [state.b47nps] : Object.keys(sizeData);
   const typeLabel = t('flange.' + state.b47type);
   const imgFile = state.b47type === 'WN' ? 'FL Welding Neck.png' : 'FL Flange.png';
   const imgSrc = `${IMG_BASE}${imgFile}`;
   const seriesLabel = state.b47series === 'A' ? 'Series A (MSS SP-44)' : 'Series B (API 605)';
-  const title = `${typeLabel} Flange — ${t('lbl.class')} ${state.b47class} · ${seriesLabel}`;
-
-    const NOTE_LABEL = `<sup style="color:#6abf69;font-size:10px">1</sup>`;
+  const NOTE_LABEL = `<sup style="color:#6abf69;font-size:10px">1</sup>`;
   const NOTE_BANNER = `<div style="margin:10px 14px 0;padding:8px 12px;background:#1e2a1a;border-left:3px solid #6abf69;border-radius:4px;font-size:11px;color:#a8d5a2;line-height:1.5">${NOTE_LABEL} ${NOTE_H}</div>`;
 
-  // Single NPS selected → show image + dim card
-  if(state.b47nps && sizes.length === 1){
-    const {row: r, fromSeriesA} = _b47Row(state.b47series, state.b47class, unit, state.b47nps);
-    if(!r){
-      content.innerHTML = `<div class="empty">No data for NPS ${state.b47nps}".</div>`;
-      return;
-    }
-    const wt = getB47Weight(state.b47series, state.b47class, state.b47nps, state.b47type);
-    const dimRows = Object.entries(B47_FIELDS).map(([k,lbl])=>{
-      if(k === (state.b47type==='WN' ? 'tf_bl' : 'tf_wn')) return '';
-      const val = r[k] ?? '—';
-      return `<div class="dim-row"><span class="d-label">${lbl}</span><span class="d-value accent">${val} <span style="font-size:10px;color:var(--text2)">${typeof val==='number'&&k!=='holes'?uLabel:''}</span></span></div>`;
-    }).join('');
-    const card = dimCard(`${typeLabel} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
-    const wtFmt = fmtWeight(wt, state.b47unit);
-    const weightCard = wtFmt ? dimCard(t('card.weight'), `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`) : '';
-    const _b47Title = `${typeLabel} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`;
-    const leftPanel = buildB47SvgPanel(state.b47type, r, state.b47unit, _b47Title, _b47TypeBar());
-    const noteHtml = fromSeriesA ? NOTE_BANNER : '';
-    content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}${weightCard}${noteHtml}</div></div>`;
-    updateMiniStrip(imgSrc, `NPS ${state.b47nps}" ${typeLabel}`);
+  content.innerHTML = `<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>`;
+
+  let apiData;
+  try {
+    const params = new URLSearchParams({ series: state.b47series, cls: state.b47class, unit, nps: state.b47nps });
+    const res = await fetch(`/.netlify/functions/b1647?${params}`);
+    apiData = await res.json();
+  } catch(e) {
+    content.innerHTML = '<div class="welcome"><p>Error loading data.</p></div>';
     return;
   }
 
-  // No NPS selected → prompt user
-  if(!state.b47nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; return; }
+  const { row: r, fromSeriesA } = apiData;
+  if(!r){
+    content.innerHTML = `<div class="empty">No data for NPS ${state.b47nps}".</div>`;
+    return;
+  }
 
-  // Table view — check if note 1 applies to any row in this view
-  const visFields = Object.entries(B47_FIELDS).filter(([k])=> k !== (state.b47type==='WN' ? 'tf_bl' : 'tf_wn'));
-  const thds = `<th>NPS</th>` + visFields.map(([k,lbl])=>`<th>${lbl} (${k==='holes'?'qty':uLabel})</th>`).join('');
-  let anyFromSeriesA = false;
-  const rows = sizes.map(nps=>{
-    const {row: r, fromSeriesA} = _b47Row(state.b47series, state.b47class, unit, nps);
-    if(!r) return '';
-    if(fromSeriesA) anyFromSeriesA = true;
-    const marker = fromSeriesA ? `<sup style="color:#6abf69;font-size:10px;cursor:help" title="${NOTE_H}">1</sup>` : '';
-    const cells = visFields.map(([k])=>`<td>${r[k]??'—'}</td>`).join('');
-    return `<tr><td class="hl">${nps}"${marker}</td>${cells}</tr>`;
+  let wt = null;
+  try {
+    const wType = state.b47type === 'WN' ? 'wn' : 'bl';
+    const wUrl = `/.netlify/functions/b1647weights?series=${encodeURIComponent(state.b47series)}&cls=${encodeURIComponent(state.b47class)}&nps=${encodeURIComponent(state.b47nps)}&type=${encodeURIComponent(wType)}`;
+    const wRes = await fetch(wUrl);
+    if(wRes.ok){ const wJson = await wRes.json(); wt = wJson.weight; }
+  } catch(e) {}
+  const dimRows = Object.entries(B47_FIELDS).map(([k,lbl])=>{
+    if(k === (state.b47type==='WN' ? 'tf_bl' : 'tf_wn')) return '';
+    const val = r[k] ?? '—';
+    return `<div class="dim-row"><span class="d-label">${lbl}</span><span class="d-value accent">${val} <span style="font-size:10px;color:var(--text2)">${typeof val==='number'&&k!=='holes'?uLabel:''}</span></span></div>`;
   }).join('');
-
-  const noteSection = anyFromSeriesA
-    ? `<div style="margin-top:12px;padding:8px 12px;background:#1e2a1a;border-left:3px solid #6abf69;border-radius:4px;font-size:11px;color:#a8d5a2;line-height:1.5"><sup style="color:#6abf69">1</sup> ${NOTE_H}</div>`
-    : '';
-
-  content.innerHTML = `
-    <div class="result-header">
-      <div class="result-title">${title} <span class="badge">${sizes.length} sizes</span></div>
-      <div class="result-subtitle">ASME B16.47 · ${state.b47unit==='SI'?'SI (mm)':'US (in)'}</div>
-    </div>
-    ${_b47TypeBar()}
-    <div class="table-wrap"><table><thead><tr>${thds}</tr></thead><tbody>${rows}</tbody></table></div>
-    ${noteSection}`;
+  const card = dimCard(`${t('flange.'+state.b47type+'.full')} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
+  const wtFmt = fmtWeight(wt, state.b47unit);
+  const weightCard = wtFmt ? dimCard(t('card.weight'), `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`) : '';
+  const _b47Title = `${t('flange.'+state.b47type+'.full')} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`;
+  const leftPanel = buildB47SvgPanel(state.b47type, r, state.b47unit, _b47Title, _b47TypeBar());
+  const noteHtml = fromSeriesA ? NOTE_BANNER : '';
+  content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}${weightCard}${noteHtml}</div></div>`;
+  updateMiniStrip(imgSrc, `NPS ${state.b47nps}" ${typeLabel}`);
 }
 
 // Fitting type → PIPEDATA key
@@ -3993,6 +3951,8 @@ const FIT_WEIGHT_LABELS = {
   'Caps':'Cap', 'Reduccion':'Reducer',
 };
 
+const WEIGHTS_SCHEDS = {"90LR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"26":["STD","XS","XXS"],"28":["STD","XS","XXS","SCH10"],"30":["STD","XS","XXS","SCH10"],"32":["STD","XS","XXS","SCH10","SCH20"],"34":["STD","XS","XXS","SCH10","SCH20"],"36":["STD","XS","XXS","SCH10","SCH20"],"38":["STD","XS"],"40":["STD","XS"],"42":["STD","XS"],"44":["STD","XS"],"46":["STD","XS"],"48":["STD","XS"],"1/2":["STD","XS","XXS"],"3/4":["STD","XS","XXS"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"45LR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"26":["STD","XS","XXS"],"28":["STD","XS","XXS","SCH10"],"30":["STD","XS","XXS","SCH10"],"32":["STD","XS","XXS","SCH10","SCH20"],"34":["STD","XS","XXS","SCH10","SCH20"],"36":["STD","XS","XXS","SCH10","SCH20"],"38":["STD","XS"],"40":["STD","XS"],"42":["STD","XS"],"44":["STD","XS"],"46":["STD","XS"],"48":["STD","XS"],"1/2":["STD","XS","XXS"],"3/4":["STD","XS","XXS"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"180LR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"1/2":["STD","XS","XXS"],"3/4":["STD","XS","XXS"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"90SR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"180SR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"TeeIgual":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","XXS","SCH10"],"3":["STD","XS","XXS","SCH10"],"4":["STD","XS","XXS","SCH10","SCH20"],"5":["STD","XS","XXS","SCH10","SCH20"],"6":["STD","XS","XXS","SCH10","SCH20"],"8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22":["STD","XS","XXS","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"26":["STD","XS","XXS"],"28":["STD","XS","XXS","SCH10"],"30":["STD","XS","XXS","SCH10"],"32":["STD","XS","XXS","SCH10","SCH20"],"34":["STD","XS","XXS","SCH10","SCH20"],"36":["STD","XS","XXS","SCH10","SCH20"],"38":["STD","XS"],"40":["STD","XS"],"42":["STD","XS"],"44":["STD","XS"],"46":["STD","XS"],"48":["STD","XS"],"1/2":["STD","XS","XXS"],"3/4":["STD","XS","XXS","SCH10"],"1 1/4":["STD","XS","XXS","SCH10"],"1 1/2":["STD","XS","XXS","SCH10"],"2 1/2":["STD","XS","XXS","SCH10"],"3 1/2":["STD","XS"]},"TeeReducida":{"1/2 x 3/8":["STD","XS"],"1/2 x 1/4":["STD","XS"],"3/4 x 1/2":["STD","XS","XXS","SCH10"],"3/4 x 3/8":["STD","XS"],"1 x 1/2":["STD","XS","XXS","SCH10"],"1 1/4 x 1":["STD","XS","XXS","SCH10"],"1 1/4 x 3/4":["STD","XS","XXS","SCH10"],"1 1/4 x 1/2":["STD","XS","XXS","SCH10"],"1 1/2 x 1 1/4":["STD","XS","XXS","SCH10"],"1 1/2 x 1":["STD","XS","XXS","SCH10"],"1 1/2 x 3/4":["STD","XS","XXS","SCH10"],"1 1/2 x 1/2":["STD","XS","XXS","SCH10"],"2 x 1 1/2":["STD","XS","XXS","SCH10"],"2 x 1 1/4":["STD","XS","XXS","SCH10"],"2 x 1":["STD","XS","XXS","SCH10"],"2 x 3/4":["STD","XS","XXS","SCH10"],"2 1/2 x 2":["STD","XS","XXS","SCH10"],"2 1/2 x 1 1/2":["STD","XS","XXS","SCH10"],"2 1/2 x 1 1/4":["STD","XS","XXS","SCH10"],"2 1/2 x 1":["STD","XS","XXS","SCH10"],"3 x 2 1/2":["STD","XS","XXS","SCH10"],"3 x 2":["STD","XS","XXS","SCH10"],"3 x 1 1/2":["STD","XS","XXS","SCH10"],"3 x 1 1/4":["STD","XS","XXS","SCH10"],"3 1/2 x 3":["STD","XS"],"3 1/2 x 2 1/2":["STD","XS"],"3 1/2 x 2":["STD","XS"],"3 1/2 x 1 1/2":["STD","XS"],"4 x 3 1/2":["STD","XS"],"4 x 3":["STD","XS","XXS","SCH10"],"4 x 2 1/2":["STD","XS","XXS","SCH10"],"4 x 2":["STD","XS","XXS","SCH10"],"4 x 1 1/2":["STD","XS","XXS","SCH10"],"5 x 4":["STD","XS","XXS","SCH10","SCH20"],"5 x 3 1/2":["STD","XS"],"5 x 3":["STD","XS","XXS","SCH10"],"5 x 2 1/2":["STD","XS","XXS","SCH10"],"5 x 2":["STD","XS","XXS","SCH10"],"6 x 5":["STD","XS","XXS","SCH10","SCH20"],"6 x 4":["STD","XS","XXS","SCH10","SCH20"],"6 x 3 1/2":["STD","XS","XXS"],"6 x 3":["STD","XS","XXS","SCH10"],"6 x 2 1/2":["STD","XS","XXS","SCH10"],"8 x 6":["STD","XS","XXS","SCH10","SCH20"],"8 x 5":["STD","XS","XXS","SCH10","SCH20"],"8 x 4":["STD","XS","XXS","SCH10","SCH20"],"8 x 3 1/2":["STD","XS"],"10 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"10 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30"],"10 x 5":["STD","XS","XXS","SCH10","SCH20","SCH30"],"10 x 4":["STD","XS","XXS","SCH10","SCH20","SCH30"],"12 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"12 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"12 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"12 x 5":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"14 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30"],"16 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"16 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30"],"18 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"18 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"18 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"20 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"20 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"20 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"22 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24 x 22":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"24 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"24 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"24 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"24 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"26 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80"],"26 x 22":["STD","XS","XXS","SCH10"],"26 x 20":["STD","XS","XXS","SCH10","SCH20"],"26 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"26 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80"],"26 x 14":["STD","XS","XXS","SCH10"],"30 x 24":["STD","XS","XXS","SCH10"],"26 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80"],"28 x 26":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"28 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"28 x 22":["STD","XS","XXS","SCH10","SCH20"],"28 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"28 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"30 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"30 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"32 x 30":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"32 x 28":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80"],"32 x 26":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80"],"32 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"32 x 22":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"32 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"32 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"32 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100"],"32 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"36 x 30":["STD","XS","XXS","SCH10","SCH20"],"36 x 28":["STD","XS","XXS","SCH10","SCH20"],"36 x 26":["STD","XS","XXS","SCH10"],"36 x 24":["STD","XS","XXS","SCH10","SCH20"],"36 x 22":["STD","XS","XXS","SCH10","SCH20"],"36 x 20":["STD","XS","XXS","SCH10","SCH20"],"36 x 18":["STD","XS","XXS","SCH10","SCH20"],"36 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"38 x 36":["STD","XS"],"38 x 34":["STD","XS"],"38 x 32":["STD","XS"],"40 x 30":["STD","XS","XXS","SCH10"],"40 x 28":["STD","XS","XXS","SCH10"],"40 x 26":["STD","XS","XXS","SCH10"],"40 x 24":["STD","XS","XXS","SCH10"],"40 x 22":["STD","XS","XXS","SCH10"],"40 x 20":["STD","XS","XXS","SCH10"],"40 x 18":["STD","XS","XXS","SCH10"],"42 x 40":["STD","XS"],"42 x 38":["STD","XS"],"42 x 36":["STD","XS"],"42 x 34":["STD","XS"],"44 x 38":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 36":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 34":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 32":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 30":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 28":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 26":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30"],"44 x 22":["STD","XS","XXS","SCH10","SCH20","SCH30"],"46 x 24":["STD","XS"],"46 x 22":["STD","XS"],"48 x 46":["STD","XS","XXS","SCH10"],"48 x 44":["STD","XS","XXS","SCH10"],"48 x 42":["STD","XS","XXS","SCH10"],"48 x 40":["STD","XS"],"48 x 38":["STD","XS"],"48 x 36":["STD","XS"],"48 x 34":["STD","XS"],"48 x 32":["STD","XS"]},"Caps":{"1":["XS","XXS","SCH10","SCH20"],"2":["XS","XXS","SCH10","SCH20"],"3":["XS","XXS","SCH10","SCH20"],"4":["XS","XXS","SCH10","SCH20","SCH30"],"5":["XS","XXS","SCH10","SCH20","SCH30"],"6":["XS","XXS","SCH10","SCH20","SCH30"],"8":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"10":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"12":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"14":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"16":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20":["XS","XXS","SCH10","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"22":["XS","XXS","SCH10","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24":["XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"26":["XS","XXS","SCH10"],"28":["XS","XXS","SCH10","SCH20"],"30":["XS","XXS","SCH10","SCH20"],"32":["XS","XXS","SCH10","SCH20","SCH30"],"34":["XS","XXS","SCH10","SCH20","SCH30"],"36":["XS","XXS","SCH10","SCH20","SCH30"],"38":["XS","XXS"],"40":["XS","XXS"],"42":["XS","XXS"],"44":["XS","XXS"],"46":["XS","XXS"],"48":["XS","XXS"],"1/2":["XS","XXS"],"3/4":["XS","XXS"],"1 1/4":["XS","XXS","SCH10","SCH20"],"1 1/2":["XS","XXS","SCH10","SCH20"],"2 1/2":["XS","XXS","SCH10","SCH20"],"3 1/2":["XS","XXS"]},"Reduccion":{"3/4 x 1/2":["STD","XS","XXS","SCH10"],"3/4 x 3/8":["STD","XS"],"1 x 3/4":["STD","XS","XXS","SCH10"],"1 x 1/2":["STD","XS","XXS","SCH10"],"1 1/4 x 3/4":["STD","XS","XXS","SCH10"],"1 1/4 x 1/2":["STD","XS","XXS","SCH10"],"1 1/2 x 1 1/4":["STD","XS","XXS","SCH10"],"1 1/2 x 1":["STD","XS","XXS","SCH10"],"1 1/2 x 3/4":["STD","XS","XXS","SCH10"],"1 1/2 x 1/2":["STD","XS","XXS","SCH10"],"2 x 1 1/2":["STD","XS","XXS","SCH10"],"2 x 1 1/4":["STD","XS","XXS","SCH10"],"2 x 1":["STD","XS","XXS","SCH10"],"2 x 3/4":["STD","XS","XXS","SCH10"],"2 1/2 x 1 1/2":["STD","XS","XXS","SCH10"],"2 1/2 x 1 1/4":["STD","XS","XXS","SCH10"],"2 1/2 x 1":["STD","XS","XXS","SCH10"],"3 x 2 1/2":["STD","XS","XXS","SCH10"],"3 x 2":["STD","XS","XXS","SCH10"],"3 x 1 1/2":["STD","XS","XXS","SCH10"],"3 x 1 1/4":["STD","XS","XXS","SCH10"],"3 1/2 x 3":["STD","XS"],"3 1/2 x 2 1/2":["STD","XS"],"3 1/2 x 2":["STD","XS"],"3 1/2 x 1 1/4":["STD","XS"],"4 x 3 1/2":["STD","XS"],"4 x 3":["STD","XS","XXS","SCH10"],"4 x 2 1/2":["STD","XS","XXS","SCH10"],"4 x 2":["STD","XS","XXS","SCH10"],"4 x 1 1/2":["STD","XS","XXS","SCH10"],"5 x 4":["STD","XS","XXS","SCH10","SCH20"],"5 x 3 1/2":["STD","XS"],"5 x 3":["STD","XS","XXS","SCH10"],"5 x 2 1/2":["STD","XS","XXS","SCH10"],"5 x 2":["STD","XS","XXS","SCH10"],"6 x 5":["STD","XS","XXS","SCH10","SCH20"],"6 x 4":["STD","XS","XXS","SCH10","SCH20"],"6 x 3 1/2":["STD","XS"],"6 x 3":["STD","XS","XXS","SCH10"],"6 x 2 1/2":["STD","XS","XXS","SCH10"],"8 x 6":["STD","XS","XXS","SCH10","SCH20"],"8 x 5":["STD","XS","XXS","SCH10","SCH20"],"8 x 4":["STD","XS","XXS","SCH10","SCH20"],"8 x 3 1/2":["STD","XS"],"10 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"10 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30"],"10 x 5":["STD","XS","XXS","SCH10","SCH20","SCH30"],"10 x 4":["STD","XS","XXS","SCH10","SCH20","SCH30"],"12 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"12 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"12 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"12 x 5":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"14 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"14 x 6":["STD","XS","XXS","SCH10","SCH20","SCH30"],"16 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"16 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"16 x 8":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"18 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"18 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"18 x 10":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"20 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"20 x 12":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"22 x 14":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24 x 22":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24 x 20":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120"],"24 x 18":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"24 x 16":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40","SCH60","SCH80","SCH100","SCH120","SCH140"],"26 x 24":["STD","XS","XXS","SCH10"],"26 x 22":["STD","XS","XXS","SCH10"],"26 x 20":["STD","XS","XXS","SCH10"],"26 x 18":["STD","XS","XXS","SCH10"],"28 x 26":["STD","XS","XXS","SCH10"],"28 x 24":["STD","XS","XXS","SCH10","SCH20"],"28 x 20":["STD","XS","XXS","SCH10","SCH20"],"28 x 18":["STD","XS","XXS","SCH10","SCH20"],"30 x 28":["STD","XS","XXS","SCH10","SCH20"],"30 x 26":["STD","XS","XXS","SCH10"],"30 x 24":["STD","XS","XXS","SCH10","SCH20"],"30 x 20":["STD","XS","XXS","SCH10","SCH20"],"32 x 30":["STD","XS","XXS","SCH10","SCH20"],"32 x 28":["STD","XS","XXS","SCH10","SCH20"],"32 x 26":["STD","XS","XXS","SCH10"],"32 x 24":["STD","XS","XXS","SCH10","SCH20"],"34 x 32":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"34 x 30":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"34 x 28":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"34 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"36 x 34":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"36 x 32":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"36 x 30":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"36 x 26":["STD","XS","XXS","SCH10","SCH20","SCH30"],"36 x 24":["STD","XS","XXS","SCH10","SCH20","SCH30","SCH40"],"38 x 36":["STD","XS","XXS","SCH10"],"38 x 34":["STD","XS","XXS","SCH10"],"42 x 36":["STD","XS","XXS","SCH10"],"42 x 34":["STD","XS","XXS","SCH10"],"42 x 32":["STD","XS","XXS","SCH10"],"42 x 30":["STD","XS","XXS","SCH10"],"44 x 42":["STD","XS","XXS","SCH10"],"44 x 40":["STD","XS","XXS","SCH10"],"44 x 38":["STD","XS"],"44 x 36":["STD","XS"],"46 x 44":["STD","XS"],"46 x 42":["STD","XS"]}};
+
 function _rebuildFitSch(nps, prevSch){
   const schEl=document.getElementById('fit-sch');
   const schGroup=document.getElementById('fit-sch-group');
@@ -4004,8 +3964,8 @@ function _rebuildFitSch(nps, prevSch){
     const SCH_ORDER=['STD','XS','XXS','SCH10','SCH20','SCH30','SCH40','SCH60','SCH80','SCH100','SCH120','SCH140'];
     const npsW=normNps(nps);
     for(const wk of wkeys){
-      const entry=WEIGHTS[wk]?.[npsW];
-      if(entry) Object.keys(entry).forEach(s=>schedSet.add(s));
+      const scheds=WEIGHTS_SCHEDS[wk]?.[npsW]||[];
+      scheds.forEach(s=>schedSet.add(s));
     }
     if(schedSet.size>0){
       const sorted=SCH_ORDER.filter(s=>schedSet.has(s));
@@ -4016,19 +3976,30 @@ function _rebuildFitSch(nps, prevSch){
   }
 }
 
+const B169_NPS={
+  LR_90_45:["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48"],
+  LR_Reducing:["2x1-1/2","2x1-1/4","2x1","2-1/2x2","2-1/2x1-1/2","2-1/2x1-1/4","3x2-1/2","3x2","3x1-1/2","3-1/2x3","3-1/2x2-1/2","3-1/2x2","4x3-1/2","4x3","4x2-1/2","4x2","5x4","5x3-1/2","5x3","5x2-1/2","6x5","6x4","6x3-1/2","6x3","8x6","8x5","8x4","10x8","10x6","10x5","12x10","12x8","12x6","14x12","14x10","14x8","16x14","16x12","16x10","18x16","18x14","18x12","18x10","20x18","20x16","20x14","20x12","20x10","24x22","24x20","24x18","24x16","24x14","24x12"],
+  LR_Returns:["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24"],
+  SR_90:["1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24"],
+  SR_Returns:["1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24"],
+  "3D_Elbows":["3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48"],
+  Straight_Tees:["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48"],
+  Reducing_Tees:["1/2x1/2x3/8","1/2x1/2x1/4","3/4x3/4x1/2","3/4x3/4x3/8","1x1x3/4","1x1x1/2","1-1/4x1-1/4x1","1-1/4x1-1/4x3/4","1-1/4x1-1/4x1/2","1-1/2x1-1/2x1-1/4","1-1/2x1-1/2x1","1-1/2x1-1/2x3/4","1-1/2x1-1/2x1/2","2x2x1-1/2","2x2x1-1/4","2x2x1","2x2x3/4","2-1/2x2-1/2x2","2-1/2x2-1/2x1-1/2","2-1/2x2-1/2x1-1/4","2-1/2x2-1/2x1","3x3x2-1/2","3x3x2","3x3x1-1/2","3x3x1-1/4","3-1/2x3-1/2x3","3-1/2x3-1/2x2-1/2","3-1/2x3-1/2x2","3-1/2x3-1/2x1-1/2","4x4x3-1/2","4x4x3","4x4x2-1/2","4x4x2","4x4x1-1/2","5x5x4","5x5x3-1/2","5x5x3","5x5x2-1/2","5x5x2","6x6x5","6x6x4","6x6x3-1/2","6x6x3","6x6x2-1/2","8x8x6","8x8x5","8x8x4","8x8x3-1/2","10x10x8","10x10x6","10x10x5","10x10x4","12x12x10","12x12x8","12x12x6","12x12x5","14x14x12","14x14x10","14x14x8","14x14x6","16x16x14","16x16x12","16x16x10","16x16x8","16x16x6","18x18x16","18x18x14","18x18x12","18x18x10","18x18x8","20x20x18","20x20x16","20x20x14","20x20x12","20x20x10","20x20x8","22x22x20","22x22x18","22x22x16","22x22x14","22x22x12","22x22x10","24x24x22","24x24x20","24x24x18","24x24x16","24x24x14","24x24x12","24x24x10","26x26x24","26x26x22","26x26x20","26x26x18","26x26x16","26x26x14","26x26x12","28x28x26","28x28x24","28x28x22","28x28x20","28x28x18","28x28x16","28x28x14","28x28x12","30x30x28","30x30x26","30x30x24","30x30x22","30x30x20","30x30x18","30x30x16","30x30x14","30x30x12","30x30x10","32x32x30","32x32x28","32x32x26","32x32x24","32x32x22","32x32x20","32x32x18","32x32x16","32x32x14","34x34x32","34x34x30","34x34x28","34x34x26","34x34x24","34x34x22","34x34x20","34x34x18","34x34x16","36x36x34","36x36x32","36x36x30","36x36x28","36x36x26","36x36x24","36x36x22","36x36x20","36x36x18","36x36x16","38x38x36","38x38x34","38x38x32","38x38x30","38x38x28","38x38x26","38x38x24","38x38x22","38x38x20","38x38x18","40x40x38","40x40x36","40x40x34","40x40x32","40x40x30","40x40x28","40x40x26","40x40x24","40x40x22","40x40x20","40x40x18","42x42x40","42x42x38","42x42x36","42x42x34","42x42x32","42x42x30","42x42x28","42x42x26","42x42x24","42x42x22","42x42x20","42x42x18","42x42x16","44x44x42","44x44x40","44x44x38","44x44x36","44x44x34","44x44x32","44x44x30","44x44x28","44x44x26","44x44x24","44x44x22","44x44x20","46x46x44","46x46x42","46x46x40","46x46x38","46x46x36","46x46x34","46x46x32","46x46x30","46x46x28","46x46x26","46x46x24","46x46x22","48x48x46","48x48x44","48x48x42","48x48x40","48x48x38","48x48x36","48x48x34","48x48x32","48x48x30","48x48x28","48x48x26","48x48x24","48x48x22"],
+  Stub_Ends:["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24"],
+  Caps:["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48"],
+  Reducers:["3/4x1/2","3/4x3/8","1x3/4","1x1/2","1-1/4x1","1-1/4x3/4","1-1/4x1/2","1-1/2x1-1/4","1-1/2x1","1-1/2x3/4","1-1/2x1/2","2x1-1/2","2x1-1/4","2x1","2x3/4","2-1/2x2","2-1/2x1-1/2","2-1/2x1-1/4","2-1/2x1","3x2-1/2","3x2","3x1-1/2","3x1-1/4","3-1/2x3","3-1/2x2-1/2","3-1/2x2","3-1/2x1-1/2","3-1/2x1-1/4","4x3-1/2","4x3","4x2-1/2","4x2","4x1-1/2","5x4","5x3-1/2","5x3","5x2-1/2","5x2","6x5","6x4","6x3-1/2","6x3","6x2-1/2","8x6","8x5","8x4","8x3-1/2","10x8","10x6","10x5","10x4","12x10","12x8","12x6","12x5","14x12","14x10","14x8","14x6","16x14","16x12","16x10","16x8","18x16","18x14","18x12","18x10","20x18","20x16","20x14","20x12","22x20","22x18","22x16","22x14","24x22","24x20","24x18","24x16","26x24","26x22","26x20","26x18","28x26","28x24","28x22","28x20","28x18","30x28","30x26","30x24","30x20","32x30","32x28","32x26","32x24","34x32","34x30","34x26","34x24","36x34","36x32","36x30","36x26","36x24","38x36","38x34","38x32","38x30","38x28","38x26","40x38","40x36","40x34","40x32","40x30","42x40","42x38","42x36","42x34","42x32","42x30","44x42","44x40","44x38","44x36","46x44","46x42","46x40","46x38","48x46","48x44","48x42","48x40"]
+};
+
 function onFitTypeChange(){
   const prevNps=state.fitNps, prevSch=state.fitSch;
   state.fitType=document.getElementById('fit-type').value;
   const npsEl=document.getElementById('fit-nps');
   if(state.fitType){
     const dataKey=FIT_DATA_KEY[state.fitType]||state.fitType;
-    const data=B169[dataKey]?.data||[];
-    if(data.length){
-      const firstKey=Object.keys(data[0])[0];
-      const sizes=[...new Set(data.map(r=>r[firstKey]))];
+    const sizes=B169_NPS[dataKey]||[];
+    if(sizes.length){
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       npsEl.disabled=false;
-      // Prefer prevNps, fall back to globalNps when switching modules
       const targetNps = prevNps || state.globalNps;
       if(targetNps && sizes.includes(targetNps)){
         npsEl.value=targetNps; state.fitNps=targetNps;
@@ -4074,13 +4045,12 @@ const FIT_LABELS = new Proxy(FIT_LABELS_KEYS, { get(o,k){ return o[k] ? t(o[k]) 
 
 function normNps(nps){ return nps.replace(/-/g,' '); }
 
-function buildWeightCard(fitType, nps, sch){
+function buildWeightCard(fitType, nps, sch, prefetchedWeights){
   const wkeys=FIT_WEIGHT_KEYS[fitType]||[];
   if(!wkeys.length||!nps||!sch) return '';
-  const npsW=normNps(nps);
   let rows='';
   for(const wk of wkeys){
-    const val=WEIGHTS[wk]?.[npsW]?.[sch];
+    const val=prefetchedWeights?.[wk]??null;
     const label=FIT_WEIGHT_LABELS[wk]||wk;
     rows+=`<div class="dim-row"><span class="d-label">${label}</span><span class="d-value accent">${val!=null?val+' kg':'—'}</span></div>`;
   }
@@ -4088,19 +4058,28 @@ function buildWeightCard(fitType, nps, sch){
   return dimCard(`${t('fit.weight')} — ${sch}`, rows);
 }
 
-function renderFittings(){
+async function renderFittings(){
   state.fitNps=document.getElementById('fit-nps').value;
   state.fitSch=document.getElementById('fit-sch').value;
   const content=document.getElementById('content');
   if(!state.fitType){ content.innerHTML=`<div class="welcome"><div class="big-icon">🔧</div><h2>${t('cat.fittings')} — ASME B16.9</h2><p>${t('welcome.fittings')}</p></div>`; return; }
+  if(!state.fitNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
+
+  content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>`;
 
   const dataKey = FIT_DATA_KEY[state.fitType] || state.fitType;
-  const fit=B169[dataKey];
-  if(!fit){ content.innerHTML=`<div class="empty">No data.</div>`; return; }
+  let fit;
+  try {
+    const url=`/.netlify/functions/b169?type=${encodeURIComponent(dataKey)}&nps=${encodeURIComponent(state.fitNps)}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error(res.status);
+    fit=await res.json();
+  } catch(e) {
+    content.innerHTML=`<div class="empty">Error loading data.</div>`; return;
+  }
 
   let data=fit.data;
   const firstKey=fit.headers[0];
-  if(state.fitNps) data=data.filter(r=>r[firstKey]===state.fitNps);
 
   // NPS selected but not found in this type's data → not available
   if(state.fitNps && data.length===0){
@@ -4140,11 +4119,22 @@ function renderFittings(){
       const isVal = (isSI && String(h).includes('mm')) || (!isSI && String(h).includes('in.')) || String(h).toLowerCase().includes('nps');
       return `<div class="dim-row"><span class="d-label">${h}</span><span class="d-value${isVal?' accent':''}">${v??'—'}</span></div>`;
     }).join('');
-    const weightCard = buildWeightCard(state.fitType, state.fitNps, state.fitSch);
+    const typeLabel = FIT_LABELS[state.fitType]||state.fitType;
+    let prefetchedWeights = null;
+    if(state.fitSch){
+      const wkeys=FIT_WEIGHT_KEYS[state.fitType]||[];
+      if(wkeys.length){
+        try{
+          const wUrl=`/.netlify/functions/b169weights?wkeys=${encodeURIComponent(wkeys.join(','))}&nps=${encodeURIComponent(normNps(state.fitNps))}&sch=${encodeURIComponent(state.fitSch)}`;
+          const wRes=await fetch(wUrl);
+          if(wRes.ok) prefetchedWeights=await wRes.json();
+        }catch(e){}
+      }
+    }
+    const weightCard = buildWeightCard(state.fitType, state.fitNps, state.fitSch, prefetchedWeights);
     const cards = dimCard(`${typeLabel} · NPS ${nps_key}"`, dimRows) + weightCard;
 
     const imgs = FITTING_IMGS[state.fitType];
-    const typeLabel = FIT_LABELS[state.fitType]||state.fitType;
     const std = 'ASME B16.9-2024';
     let leftPanel;
     if(imgs && !FITTING_SVG[state.fitType]) {
@@ -4162,19 +4152,6 @@ function renderFittings(){
     return;
   }
 
-  // No NPS selected → prompt user
-  if(!state.fitNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
-
-  // Table view
-  const rows=data.map(r=>{
-    const cells=fit.headers.map((h,i)=>`<td class="${i===0?'hl':''}">${r[h]??'—'}</td>`).join('');
-    return `<tr>${cells}</tr>`;
-  }).join('');
-  const thds=fit.headers.map(h=>`<th>${h}</th>`).join('');
-  content.innerHTML=`
-    <div class="result-header"><div class="result-title">${FIT_LABELS[state.fitType]||state.fitType} <span class="badge">${data.length} sizes</span></div><div class="result-subtitle">ASME B16.9-2024</div></div>
-    <div class="table-wrap"><table><thead><tr>${thds}</tr></thead><tbody>${rows}</tbody></table></div>`;
-  renderCtxBar();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -4583,13 +4560,21 @@ const B48_SVG_MRJ = `<svg xmlns="http://www.w3.org/2000/svg" width="840" height=
 const B48_SVG = { RF: B48_SVG_RF, FRJ: B48_SVG_FRJ, MRJ: B48_SVG_MRJ };
 
 
+const B1648_META = {
+  "150":  { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","24"] },
+  "300":  { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","24"] },
+  "600":  { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","24"] },
+  "900":  { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4","5","6","8","10","12","14","16","18","20","24"] },
+  "1500": { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4","5","6","8","10","12","14","16","18","20","24"] },
+  "2500": { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","4","5","6","8","10","12"] }
+};
+
 function onB48ClassChange(){
   state.b48class = document.getElementById('b48-class').value;
   const sel = document.getElementById('b48-nps');
   sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
   if(state.b48class){
-    const rows = (B16_48['RF'] || {})[state.b48class] || [];
-    const npsList = B16_48_NPS_ORDER.filter(n => rows.some(r => r.nps === n));
+    const npsList = (B1648_META[state.b48class] || {}).nps || [];
     npsList.forEach(n => {
       const opt = document.createElement('option');
       opt.value = n; opt.textContent = 'NPS ' + n + '"';
@@ -4606,10 +4591,8 @@ function onB48ClassChange(){
 
 function setB48Face(face){
   state.b48face = face;
-  // Rebuild NPS list for new face (dimensions always from RF data — only face geometry differs)
-  const rows = (B16_48['RF'] || {})[state.b48class] || [];
   const sel = document.getElementById('b48-nps');
-  const npsList = B16_48_NPS_ORDER.filter(n => rows.some(r => r.nps === n));
+  const npsList = state.b48class ? ((B1648_META[state.b48class] || {}).nps || []) : [];
   sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
   npsList.forEach(n => {
     const opt = document.createElement('option');
@@ -4736,7 +4719,7 @@ function _b48FaceBar(face){
     '</div>';
 }
 
-function renderB1648(){
+async function renderB1648(){
   state.b48class = document.getElementById('b48-class').value;
   state.b48nps   = document.getElementById('b48-nps').value;
   const face  = state.b48face  || 'RF';
@@ -4754,8 +4737,19 @@ function renderB1648(){
     return;
   }
 
-  let rows = (B16_48['RF'][cls] || []);
-  if(nps) rows = rows.filter(r => r.nps === nps);
+  if(!nps){ content.innerHTML = `<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; return; }
+
+  content.innerHTML = '<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>';
+
+  let rows;
+  try {
+    const res = await fetch(`/.netlify/functions/b1648?cls=${encodeURIComponent(cls)}&nps=${encodeURIComponent(nps)}`);
+    const json = await res.json();
+    rows = json.data || [];
+  } catch(e) {
+    content.innerHTML = '<div class="welcome"><p>Error loading data.</p></div>';
+    return;
+  }
 
   if(rows.length === 0){
     content.innerHTML = '<div class="welcome"><div class="big-icon">🚫</div>' +
@@ -4764,49 +4758,27 @@ function renderB1648(){
     return;
   }
 
-  if(rows.length === 1){
-    const r = rows[0];
-    const svgPanel = buildB48SvgPanel(r, face, cls, unit, _b48FaceBar(face));
-    const B = isUS ? r.B_in : r.B_mm;
-    const O = isUS ? r.O_in : r.O_mm;
-    const A = isUS ? r.A_in : r.A_mm;
-    const th = isUS ? r.t_in : r.t_mm;
-    const W = isUS ? r.W_in : r.W_mm;
-    const hasO = face !== 'MRJ';
-
-    const faceLabel = face === 'RF' ? t('b48.raisedFaceShort') : face === 'FRJ' ? t('b48.female') : t('b48.male');
-    const dimRows =
-      '<div class="dim-row"><span class="d-label">Inside Diam. B</span><span class="d-value">' + B + ' ' + u + '</span></div>' +
-      (hasO ? '<div class="dim-row"><span class="d-label">Outside Diam. O</span><span class="d-value">' + O + ' ' + u + '</span></div>' : '') +
-      '<div class="dim-row"><span class="d-label">Centerline Dim. A</span><span class="d-value">' + A + ' ' + u + '</span></div>' +
-      '<div class="dim-row"><span class="d-label">Thickness t</span><span class="d-value">' + th + ' ' + u + '</span></div>' +
-      '<div class="dim-row"><span class="d-label">Web Width W</span><span class="d-value">' + W + ' ' + u + '</span></div>';
-    const cards = '<div class="dim-card">' +
-      '<div class="dim-card-title">' + t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + nps + '" · ' + faceLabel + '</div>' +
-      dimRows + '</div>';
-
-    content.innerHTML = '<div class="drawing-view">' + svgPanel + '<div class="dim-panel">' + cards + '</div></div>';
-    renderCtxBar();
-    return;
-  }
-
-  // No NPS selected → prompt user
-  if(!nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
-
-  // Table view
+  const r = rows[0];
+  const svgPanel = buildB48SvgPanel(r, face, cls, unit, _b48FaceBar(face));
+  const B = isUS ? r.B_in : r.B_mm;
+  const O = isUS ? r.O_in : r.O_mm;
+  const A = isUS ? r.A_in : r.A_mm;
+  const th = isUS ? r.t_in : r.t_mm;
+  const W = isUS ? r.W_in : r.W_mm;
   const hasO = face !== 'MRJ';
-  const thds = '<th>NPS</th><th>B (' + u + ')</th>' + (hasO ? '<th>O (' + u + ')</th>' : '') + '<th>A (' + u + ')</th><th>t (' + u + ')</th><th>W (' + u + ')</th>';
-  const tableRows = rows.map(r => {
-    const B = isUS ? r.B_in : r.B_mm;
-    const O = isUS ? r.O_in : r.O_mm;
-    const A = isUS ? r.A_in : r.A_mm;
-    const t = isUS ? r.t_in : r.t_mm;
-    const W = isUS ? r.W_in : r.W_mm;
-    return '<tr onclick="selectB48Row(\'' + r.nps + '\')">' +
-      '<td>' + r.nps + '"</td><td>' + B + '</td>' + (hasO ? '<td>' + O + '</td>' : '') +
-      '<td>' + A + '</td><td>' + t + '</td><td>' + W + '</td></tr>';
-  }).join('');
-  content.innerHTML = _b48FaceBar(face) + '<div class="table-wrap"><table><thead><tr>' + thds + '</tr></thead><tbody>' + tableRows + '</tbody></table></div>';
+
+  const faceLabel = face === 'RF' ? t('b48.raisedFaceShort') : face === 'FRJ' ? t('b48.female') : t('b48.male');
+  const dimRows =
+    '<div class="dim-row"><span class="d-label">Inside Diam. B</span><span class="d-value">' + B + ' ' + u + '</span></div>' +
+    (hasO ? '<div class="dim-row"><span class="d-label">Outside Diam. O</span><span class="d-value">' + O + ' ' + u + '</span></div>' : '') +
+    '<div class="dim-row"><span class="d-label">Centerline Dim. A</span><span class="d-value">' + A + ' ' + u + '</span></div>' +
+    '<div class="dim-row"><span class="d-label">Thickness t</span><span class="d-value">' + th + ' ' + u + '</span></div>' +
+    '<div class="dim-row"><span class="d-label">Web Width W</span><span class="d-value">' + W + ' ' + u + '</span></div>';
+  const cards = '<div class="dim-card">' +
+    '<div class="dim-card-title">' + t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + nps + '" · ' + faceLabel + '</div>' +
+    dimRows + '</div>';
+
+  content.innerHTML = '<div class="drawing-view">' + svgPanel + '<div class="dim-panel">' + cards + '</div></div>';
   renderCtxBar();
 }
 
@@ -5014,10 +4986,8 @@ function _renderConvInputs(){
 // PIPE SPAN CALCULATOR  (MSS SP-58 / ASME B31.3)
 // ═══════════════════════════════════════════════════════
 
-// MSS SP-58 Table 4 reference spans [ft]  key = NPS string
-// MSS_SP58 → msssp58_2018_data.js
-
-// SPAN_NPS_LIST → msssp58_2018_data.js
+// MSS SP-58 Table 4 reference spans served via /.netlify/functions/msssp58
+const SPAN_NPS_LIST = ['3/8','1/2','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','24','30','36','42'];
 
 const spanState = { unit: 'SI' };
 

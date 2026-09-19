@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[dev]
+  command = "python serve.py"
+  targetPort = 5501
+  publish = "."
+  functions = "netlify/functions"
