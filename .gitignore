@@ -6,6 +6,7 @@
 
 # --- Archivos necesarios en la raíz ---
 !/index.html
+!/Android Free Version/index.html
 !/b3610_2022_data.js
 !/b3619_2022_data.js
 !/.gitignore
