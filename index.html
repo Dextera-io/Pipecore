@@ -398,8 +398,8 @@
     <div style="display:flex;align-items:center;gap:7px">
       <span id="hdr-lang-label" style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Language</span>
       <div class="toggle header-toggle">
-        <button id="lang-en" class="active" onclick="setLang('EN')" title="English">E</button>
-        <button id="lang-es" onclick="setLang('ES')" title="Español">Ñ</button>
+        <button id="lang-en" class="active" onclick="setLang('EN')" title="English" style="font-size:15px;font-weight:700;font-family:'Segoe UI',system-ui,sans-serif;letter-spacing:-0.3px;padding:4px 11px">e</button>
+        <button id="lang-es" onclick="setLang('ES')" title="Español" style="font-size:15px;font-weight:700;font-family:'Segoe UI',system-ui,sans-serif;letter-spacing:-0.3px;padding:4px 11px">ñ</button>
       </div>
     </div>
   </div>
@@ -444,7 +444,7 @@
           <div class="std">B16.47</div>
         </div>
         <div class="cat-tile" data-cat="b1648" onclick="selectCat('b1648')">
-          <div class="icon">🔲</div>
+          <div class="icon"><svg width="36" height="20" viewBox="0 0 36 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="4" fill="currentColor" opacity="0.25"/><circle cx="27" cy="10" r="8" fill="currentColor" opacity="0.85"/><circle cx="27" cy="10" r="4" fill="none" stroke="white" stroke-width="1.5"/></svg></div>
           <div class="name" data-i18n="cat.b1648">Line Blanks</div>
           <div class="std">B16.48</div>
         </div>
@@ -832,24 +832,56 @@ const LANG = {
     // weight card
     'card.weight': 'APPROX. WEIGHT',
     'lbl.class': 'Class',
+    'b48.female': 'Female RTJ', 'b48.male': 'Male RTJ',
+    'b48.sectionView': 'SECTION VIEW (lateral)', 'b48.topView': 'TOP VIEW',
+    'b48.notAvail': 'Not Available',
+    'b48.faces': 'Available faces: Raised Face (RF), Female RTJ, and Male RTJ.',
+    'b48.raisedFace': 'Raised Face (RF)', 'b48.raisedFaceShort': 'Raised Face',
+    'b48.figure8': 'Figure-8 Blank',
+    'fit.weight': 'Weight',
+    'fit.LR_90_lbl':'90° LR Elbow', 'fit.LR_45_lbl':'45° LR Elbow',
+    'fit.SR_90_lbl':'90° SR Elbow',
+    'fit.3D_90_lbl':'90° 3D Elbow', 'fit.3D_45_lbl':'45° 3D Elbow',
+    'fit.LR_Reducing_lbl':'90° LR Reducing Elbow',
+    'fit.LR_Returns_lbl':'180° LR Return', 'fit.SR_Returns_lbl':'180° SR Return',
+    'fit.Straight_Tees_lbl':'Straight Tees', 'fit.Straight_Crosses_lbl':'Straight Crosses',
+    'fit.Reducing_Tees_lbl':'Reducing Tees',
+    'fit.Conc_Reducers_lbl':'Concentric Reducers', 'fit.Ecc_Reducers_lbl':'Eccentric Reducers',
+    'fit.Stub_Ends_lbl':'Lap Joint Stub Ends', 'fit.Caps_lbl':'Caps',
+    // SW/TH fitting types
+    'b11.sw_90_elbow':'90° Elbow SW', 'b11.sw_45_elbow':'45° Elbow SW',
+    'b11.sw_tee':'Tee SW', 'b11.sw_cross':'Cross SW',
+    'b11.sw_coupling':'Coupling SW', 'b11.sw_half_coupling':'Half Coupling SW',
+    'b11.sw_cap':'Cap SW', 'b11.sw_boss':'Boss SW', 'b11.sw_couplet':'Couplet SW',
+    'b11.th_90_elbow':'90° Elbow TH', 'b11.th_45_elbow':'45° Elbow TH',
+    'b11.th_tee':'Tee TH', 'b11.th_cross':'Cross TH',
+    'b11.th_street_elbow':'Street Elbow TH',
+    'b11.th_coupling':'Coupling TH', 'b11.th_half_coupling':'Half Coupling TH',
+    'b11.th_cap':'Cap TH', 'b11.th_boss':'Boss TH', 'b11.th_couplet':'Couplet TH',
+    'b11.th_hex_plug':'Hex Head Plug TH', 'b11.th_round_plug':'Round Head Plug TH',
+    'b11.th_square_plug':'Square Head Plug TH',
+    'b11.th_hex_bushing':'Hex Head Bushing TH', 'b11.th_flush_bushing':'Flush Bushing TH',
+    'notice.unavailable': 'Flange not available in code<br>based on features combinations.',
+    'notice.availRange': 'Available range:',
+    'prompt.selectNps': 'Select a size (NPS) to view dimensions.',
   },
   ES: {
     'hdr.units': 'Unidades', 'hdr.lang': 'Idioma',
     'cat.label': 'Categoría',
     'cat.facilities': 'Tubería Plantas', 'cat.pipelines': 'Tubería Oleoductos',
     'cat.flanges': 'Bridas', 'cat.b1647': 'Bridas Grandes',
-    'cat.b1648': 'Ocho Ciegos', 'cat.fittings': 'Accesorios BW',
+    'cat.b1648': 'Elementos de Cegado', 'cat.fittings': 'Accesorios BW',
     'cat.sw11': 'Accesorios SW', 'cat.th11': 'Accesorios Roscados',
     'cat.converter': 'Conversor de Unidades', 'cat.spanCalc': 'Calculadora de Vanos',
     // filter labels
-    'lbl.standard': 'Estándar', 'lbl.nps': 'NPS', 'lbl.schedule': 'Cédula',
+    'lbl.standard': 'Estándar', 'lbl.nps': 'NPS', 'lbl.schedule': 'Schedule',
     'lbl.pressureClass': 'Clase de Presión', 'lbl.series': 'Serie',
     'lbl.fittingType': 'Tipo de Accesorio', 'lbl.classRating': 'Clase',
     'lbl.wallThickness': 'Espesor de Pared',
     // select placeholders
     'opt.allSizes': '— Todos los Tamaños —', 'opt.selectClass': '— Seleccione Clase —', 'opt.selectSeries': '— Seleccione Serie —',
-    'opt.selectType': '— Seleccione Tipo —', 'opt.allSchedules': '— Todas las Cédulas —',
-    'opt.selectSchedule': '— Seleccione Cédula —', 'opt.selectNps': '— Seleccione NPS —',
+    'opt.selectType': '— Seleccione Tipo —', 'opt.allSchedules': '— Todos los Schedules —',
+    'opt.selectSchedule': '— Seleccione Schedule —', 'opt.selectNps': '— Seleccione NPS —',
     'opt.branchNps': '— NPS Ramal —', 'opt.branchSch': '— Cédula Ramal —',
     // pipe std
     'std.b3610': 'B36.10 – Acero al Carbono', 'std.b3619': 'B36.19 – Acero Inoxidable',
@@ -888,8 +920,41 @@ const LANG = {
     'flange.TH': 'Roscada', 'flange.LJ': 'Junta Solapada', 'flange.BL': 'Ciega',
     'flange.word': 'Brida',
     'lbl.class': 'Clase',
+    'notice.unavailable': 'Brida no disponible en norma<br>según la combinación de características.',
+    'notice.availRange': 'Rango disponible:',
+    'prompt.selectNps': 'Seleccione un tamaño (NPS) para ver las dimensiones.',
     // weight card
     'card.weight': 'PESO APROX.',
+    'b48.female': 'Hembra RTJ', 'b48.male': 'Macho RTJ',
+    'b48.sectionView': 'SECCIÓN (lateral)', 'b48.topView': 'VISTA SUPERIOR',
+    'b48.notAvail': 'No Disponible',
+    'b48.faces': 'Caras disponibles: Cara Levantada (RF), Hembra RTJ y Macho RTJ.',
+    'b48.raisedFace': 'Cara Levantada (RF)', 'b48.raisedFaceShort': 'Cara Levantada',
+    'b48.figure8': 'Figura en 8',
+    'fit.weight': 'Peso',
+    'fit.LR_90_lbl':'Codo 90° LR', 'fit.LR_45_lbl':'Codo 45° LR',
+    'fit.SR_90_lbl':'Codo 90° SR',
+    'fit.3D_90_lbl':'Codo 90° 3D', 'fit.3D_45_lbl':'Codo 45° 3D',
+    'fit.LR_Reducing_lbl':'Codo 90° LR Reductor',
+    'fit.LR_Returns_lbl':'Retorno 180° LR', 'fit.SR_Returns_lbl':'Retorno 180° SR',
+    'fit.Straight_Tees_lbl':'Tees Rectas', 'fit.Straight_Crosses_lbl':'Cruces Rectas',
+    'fit.Reducing_Tees_lbl':'Tees Reductoras',
+    'fit.Conc_Reducers_lbl':'Reductores Concéntricos', 'fit.Ecc_Reducers_lbl':'Reductores Excéntricos',
+    'fit.Stub_Ends_lbl':'Stub Ends Junta Solapada', 'fit.Caps_lbl':'Tapas',
+    // SW/TH fitting types
+    'b11.sw_90_elbow':'Codo 90° SW', 'b11.sw_45_elbow':'Codo 45° SW',
+    'b11.sw_tee':'Tee SW', 'b11.sw_cross':'Cruz SW',
+    'b11.sw_coupling':'Unión SW', 'b11.sw_half_coupling':'Media Unión SW',
+    'b11.sw_cap':'Tapa SW', 'b11.sw_boss':'Boss SW', 'b11.sw_couplet':'Couplet SW',
+    'b11.th_90_elbow':'Codo 90° TH', 'b11.th_45_elbow':'Codo 45° TH',
+    'b11.th_tee':'Tee TH', 'b11.th_cross':'Cruz TH',
+    'b11.th_street_elbow':'Codo de Calle TH',
+    'b11.th_coupling':'Unión TH', 'b11.th_half_coupling':'Media Unión TH',
+    'b11.th_cap':'Tapa TH', 'b11.th_boss':'Boss TH', 'b11.th_couplet':'Couplet TH',
+    'b11.th_hex_plug':'Tapón Hexagonal TH', 'b11.th_round_plug':'Tapón Redondo TH',
+    'b11.th_square_plug':'Tapón Cuadrado TH',
+    'b11.th_hex_bushing':'Buje Hexagonal TH', 'b11.th_flush_bushing':'Buje Ras TH',
+    'welcome.b1648': 'Seleccione una clase de presión para ver dimensiones de elementos de cegado.',
   }
 };
 
@@ -936,18 +1001,40 @@ function applyLang(){
   const _ph = (id, key) => { const el = document.getElementById(id); if(el) el.textContent = t(key); };
   _ph('fl-class-ph', 'opt.selectClass');
   _ph('b47-series-ph', 'opt.selectSeries');
-  // Also update current first options of dynamic selects if they show placeholder
-  ['fl-nps','b47-class','b47-nps'].forEach(id => {
+  // Update first placeholder option of all dynamic selects
+  ['fl-nps','b47-class','b47-nps','fit-nps','pipe-nps','b11-nps','b48-nps'].forEach(id => {
     const sel = document.getElementById(id);
     if(sel && sel.options[0] && sel.options[0].value === '')
       sel.options[0].textContent = t('opt.allSizes');
   });
+  // Schedule / class placeholder first options
+  ['fit-sch','pipe-sch'].forEach(id => {
+    const sel = document.getElementById(id);
+    if(sel && sel.options[0] && sel.options[0].value === '')
+      sel.options[0].textContent = t('opt.allSchedules');
+  });
+  // B11 type dropdown: retranslate all options
+  const b11typeEl = document.getElementById('b11-type');
+  if(b11typeEl){
+    b11typeEl.querySelectorAll('option').forEach(o => {
+      if(!o.value) o.textContent = t('opt.selectType');
+      else { const k = t('b11.'+o.value); if(k !== 'b11.'+o.value) o.textContent = k; }
+    });
+  }
+  const b11clsEl = document.getElementById('b11-class');
+  if(b11clsEl && b11clsEl.options[0] && b11clsEl.options[0].value === '')
+    b11clsEl.options[0].textContent = t('opt.selectClass');
   const b47cls = document.getElementById('b47-class');
   if(b47cls && b47cls.options[0] && b47cls.options[0].value === '')
     b47cls.options[0].textContent = t('opt.selectClass');
   // Translate "Class X" options in B16.5 pressure class selector
   document.querySelectorAll('#fl-class option[value]').forEach(o => {
     if(o.value) o.textContent = `${t('lbl.class')} ${o.value}`;
+  });
+  // Translate "Class X" options in B16.48 pressure class selector
+  document.querySelectorAll('#b48-class option').forEach(o => {
+    if(o.value) o.textContent = `${t('lbl.class')} ${o.value}`;
+    else o.textContent = t('opt.selectClass');
   });
   // Home welcome screen (only if visible)
   const hwh = document.getElementById('home-welcome-h2');
@@ -1148,18 +1235,18 @@ FLANGE_SVG['WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353
 <text id="svgDimX_WN" x="355.35" y="55.00" text-anchor="middle" font-size="15" font-weight="bold">X</text>
 <line x1="202.95" y1="174.26" x2="507.75" y2="174.26" stroke="black" stroke-width="1" marker-start="url(#svgArrSWN)" marker-end="url(#svgArrEWN)"/>
 <text id="svgDimB_WN" x="355.35" y="169.26" text-anchor="middle" font-size="15" font-weight="bold">B</text>
-<line x1="95.00" y1="238.52" x2="55" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="95.00" y1="189.25" x2="55" y2="189.25" stroke="black" stroke-width="0.75"/>
-<line x1="57" y1="238.52" x2="57" y2="189.25" stroke="black" stroke-width="1" marker-start="url(#svgArrSWN)" marker-end="url(#svgArrEWN)"/>
-<text id="svgDimTf_WN" x="88" y="218.89" text-anchor="end" font-size="15" font-weight="bold">tf</text>
+<line x1="95.00" y1="238.52" x2="82" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="95.00" y1="189.25" x2="82" y2="189.25" stroke="black" stroke-width="0.75"/>
+<line x1="80" y1="238.52" x2="80" y2="189.25" stroke="black" stroke-width="1" marker-start="url(#svgArrSWN)" marker-end="url(#svgArrEWN)"/>
+<text id="svgDimTf_WN" x="75" y="218.89" text-anchor="end" font-size="15" font-weight="bold">tf</text>
 <line x1="517.27" y1="110.00" x2="637" y2="110.00" stroke="black" stroke-width="0.75"/>
 <line x1="615.70" y1="238.52" x2="637" y2="238.52" stroke="black" stroke-width="0.75"/>
 <line x1="635" y1="110.00" x2="635" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#svgArrSWN)" marker-end="url(#svgArrEWN)"/>
 <text id="svgDimY_WN" x="645" y="178" text-anchor="start" font-size="15" font-weight="bold">Y</text>
 </svg>`;
 
-FLANGE_SVG['LJ'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
-<rect x="0" y="0" width="870" height="353" fill="white"/>
+FLANGE_SVG['LJ'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="735" height="353" fill="white"/>
 <defs>
   <pattern id="svgHatchLJ" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
     <line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/>
@@ -1213,8 +1300,8 @@ FLANGE_SVG['LJ'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353
 const B165_W = {"150":{"1/2":{"SI":60.5,"US":2.38},"3/4":{"SI":69.8,"US":2.75},"1":{"SI":79.2,"US":3.12},"1-1/4":{"SI":88.9,"US":3.5},"1-1/2":{"SI":98.6,"US":3.88},"2":{"SI":120.6,"US":4.75},"2-1/2":{"SI":139.7,"US":5.5},"3":{"SI":152.4,"US":6.0},"3-1/2":{"SI":177.8,"US":7.0},"4":{"SI":190.5,"US":7.5},"5":{"SI":215.9,"US":8.5},"6":{"SI":241.3,"US":9.5},"8":{"SI":298.4,"US":11.75},"10":{"SI":362.0,"US":14.25},"12":{"SI":431.8,"US":17.0},"14":{"SI":476.2,"US":18.75},"16":{"SI":539.8,"US":21.25},"18":{"SI":577.8,"US":22.75},"20":{"SI":635.0,"US":25.0},"22":{"SI":692.2,"US":27.25},"24":{"SI":749.3,"US":29.5}},"300":{"1/2":{"SI":66.5,"US":2.62},"3/4":{"SI":82.6,"US":3.25},"1":{"SI":88.9,"US":3.5},"1-1/4":{"SI":98.6,"US":3.88},"1-1/2":{"SI":114.3,"US":4.5},"2":{"SI":127.0,"US":5.0},"2-1/2":{"SI":149.4,"US":5.88},"3":{"SI":168.1,"US":6.62},"3-1/2":{"SI":184.2,"US":7.25},"4":{"SI":200.2,"US":7.88},"5":{"SI":235.0,"US":9.25},"6":{"SI":269.7,"US":10.62},"8":{"SI":330.2,"US":13.0},"10":{"SI":387.4,"US":15.25},"12":{"SI":450.8,"US":17.75},"14":{"SI":514.4,"US":20.25},"16":{"SI":571.5,"US":22.5},"18":{"SI":628.6,"US":24.75},"20":{"SI":685.8,"US":27.0},"22":{"SI":743.0,"US":29.25},"24":{"SI":812.8,"US":32.0}},"400":{"1/2":{"SI":66.5,"US":2.62},"3/4":{"SI":82.6,"US":3.25},"1":{"SI":88.9,"US":3.5},"1-1/4":{"SI":98.6,"US":3.88},"1-1/2":{"SI":114.3,"US":4.5},"2":{"SI":127.0,"US":5.0},"2-1/2":{"SI":149.4,"US":5.88},"3":{"SI":168.1,"US":6.62},"3-1/2":{"SI":184.2,"US":7.25},"4":{"SI":200.2,"US":7.88},"5":{"SI":235.0,"US":9.25},"6":{"SI":269.7,"US":10.62},"8":{"SI":330.2,"US":13.0},"10":{"SI":387.4,"US":15.25},"12":{"SI":450.8,"US":17.75},"14":{"SI":514.4,"US":20.25},"16":{"SI":571.5,"US":22.5},"18":{"SI":628.6,"US":24.75},"20":{"SI":685.8,"US":27.0},"22":{"SI":743.0,"US":29.25},"24":{"SI":812.8,"US":32.0}},"600":{"1/2":{"SI":66.5,"US":2.62},"3/4":{"SI":82.6,"US":3.25},"1":{"SI":88.9,"US":3.5},"1-1/4":{"SI":98.6,"US":3.88},"1-1/2":{"SI":114.3,"US":4.5},"2":{"SI":127.0,"US":5.0},"2-1/2":{"SI":149.4,"US":5.88},"3":{"SI":168.1,"US":6.62},"3-1/2":{"SI":184.2,"US":7.25},"4":{"SI":215.9,"US":8.5},"5":{"SI":266.7,"US":10.5},"6":{"SI":292.1,"US":11.5},"8":{"SI":349.2,"US":13.75},"10":{"SI":431.8,"US":17.0},"12":{"SI":489.0,"US":19.25},"14":{"SI":527.0,"US":20.75},"16":{"SI":603.2,"US":23.75},"18":{"SI":654.0,"US":25.75},"20":{"SI":723.9,"US":28.5},"22":{"SI":777.7,"US":30.62},"24":{"SI":838.2,"US":33.0}},"900":{"1/2":{"SI":82.6,"US":3.25},"3/4":{"SI":88.9,"US":3.5},"1":{"SI":101.6,"US":4.0},"1-1/4":{"SI":111.1,"US":4.38},"1-1/2":{"SI":124.0,"US":4.88},"2":{"SI":165.1,"US":6.5},"2-1/2":{"SI":190.5,"US":7.5},"3":{"SI":190.5,"US":7.5},"4":{"SI":235.0,"US":9.25},"5":{"SI":279.4,"US":11.0},"6":{"SI":317.5,"US":12.5},"8":{"SI":393.7,"US":15.5},"10":{"SI":469.9,"US":18.5},"12":{"SI":533.4,"US":21.0},"14":{"SI":558.8,"US":22.0},"16":{"SI":616.0,"US":24.25},"18":{"SI":685.8,"US":27.0},"20":{"SI":749.3,"US":29.5},"24":{"SI":901.7,"US":35.5}},"1500":{"1/2":{"SI":82.6,"US":3.25},"3/4":{"SI":88.9,"US":3.5},"1":{"SI":101.6,"US":4.0},"1-1/4":{"SI":111.1,"US":4.38},"1-1/2":{"SI":124.0,"US":4.88},"2":{"SI":165.1,"US":6.5},"2-1/2":{"SI":190.5,"US":7.5},"3":{"SI":203.2,"US":8.0},"4":{"SI":241.3,"US":9.5},"5":{"SI":292.1,"US":11.5},"6":{"SI":317.5,"US":12.5},"8":{"SI":393.7,"US":15.5},"10":{"SI":482.6,"US":19.0},"12":{"SI":571.5,"US":22.5},"14":{"SI":635.0,"US":25.0},"16":{"SI":704.8,"US":27.75},"18":{"SI":774.7,"US":30.5},"20":{"SI":831.8,"US":32.75},"24":{"SI":990.6,"US":39.0}},"2500":{"1/2":{"SI":88.9,"US":3.5},"3/4":{"SI":95.2,"US":3.75},"1":{"SI":108.0,"US":4.25},"1-1/4":{"SI":130.0,"US":5.12},"1-1/2":{"SI":146.0,"US":5.75},"2":{"SI":171.4,"US":6.75},"2-1/2":{"SI":196.8,"US":7.75},"3":{"SI":228.6,"US":9.0},"4":{"SI":273.0,"US":10.75},"5":{"SI":323.8,"US":12.75},"6":{"SI":368.3,"US":14.5},"8":{"SI":438.2,"US":17.25},"10":{"SI":539.8,"US":21.25},"12":{"SI":619.3,"US":24.38}}};
 
 // ── B16.47 SVG templates (Series A proportional geometry) ───────────────
-FLANGE_SVG['B47WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
-<rect x="0" y="0" width="900" height="353" fill="white"/>
+FLANGE_SVG['B47WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="750" height="353" fill="white"/>
 <defs>
   <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/></pattern>
   <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="black"/></marker>
@@ -1244,14 +1331,14 @@ FLANGE_SVG['B47WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 
 <line x1="615.85" y1="238.52" x2="615.85" y2="298" stroke="black" stroke-width="0.75"/>
 <line x1="94.85" y1="298" x2="615.85" y2="298" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
 <text x="355.35" y="293" text-anchor="middle" font-size="15" font-weight="bold">O</text>
-<line x1="94.85" y1="195.25" x2="55" y2="195.25" stroke="black" stroke-width="0.75"/>
-<line x1="94.85" y1="238.52" x2="55" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="57" y1="195.25" x2="57" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="88" y="221.9" text-anchor="end" font-size="15" font-weight="bold">tf</text>
-<line x1="537.13" y1="139.28" x2="790" y2="139.28" stroke="black" stroke-width="0.75"/>
-<line x1="615.85" y1="238.52" x2="790" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="784" y1="139.28" x2="784" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="796" y="193.9" text-anchor="start" font-size="15" font-weight="bold">Y</text>
+<line x1="94.85" y1="195.25" x2="82" y2="195.25" stroke="black" stroke-width="0.75"/>
+<line x1="94.85" y1="238.52" x2="82" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="80" y1="195.25" x2="80" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="75" y="221.9" text-anchor="end" font-size="15" font-weight="bold">tf</text>
+<line x1="537.13" y1="139.28" x2="650" y2="139.28" stroke="black" stroke-width="0.75"/>
+<line x1="615.85" y1="238.52" x2="650" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="648" y1="139.28" x2="648" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="655" y="193.9" text-anchor="start" font-size="15" font-weight="bold">Y</text>
 </svg>`;
 
 FLANGE_SVG['B47BL'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
@@ -1350,7 +1437,7 @@ function buildUnavailablePanel(type, typeBar='', flangeType='', flangeClass=''){
   const svg = FLANGE_SVG[type] || FLANGE_SVG['BL'];
   const range = flangeType && flangeClass ? _flangeAvailableRange(flangeType, flangeClass) : null;
   const rangeHtml = range
-    ? `<div style="margin-top:10px;font-size:12px;color:#bbb;line-height:1.5">Available range:<br><span style="color:#7ecfff;font-weight:700">${range}</span></div>`
+    ? `<div style="margin-top:10px;font-size:12px;color:#bbb;line-height:1.5">${t('notice.availRange')}<br><span style="color:#7ecfff;font-weight:700">${range}</span></div>`
     : '';
   return `<div class="dwg-panel">
     ${typeBar}
@@ -1359,7 +1446,7 @@ function buildUnavailablePanel(type, typeBar='', flangeType='', flangeClass=''){
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px">
         <div style="background:rgba(20,20,30,0.82);border:1.5px solid var(--accent);border-radius:10px;padding:22px 28px;text-align:center;max-width:360px;box-shadow:0 4px 24px rgba(0,0,0,0.5)">
           <div style="font-size:32px;margin-bottom:10px">🚫</div>
-          <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em;line-height:1.6">Flange not available in code<br>based on features combinations.</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em;line-height:1.6">${t('notice.unavailable')}</div>
           ${rangeHtml}
         </div>
       </div>
@@ -1437,8 +1524,8 @@ function buildFlangeSvgPanel(type, r, unit, cls, title, subtitle, typeBar=''){
 }
 
 // Additional SVG templates
-FLANGE_SVG['SO'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
-<rect x="0" y="0" width="870" height="353" fill="white"/>
+FLANGE_SVG['SO'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="735" height="353" fill="white"/>
 <defs>
   <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/></pattern>
   <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="black"/></marker>
@@ -1470,18 +1557,18 @@ FLANGE_SVG['SO'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353
 <line x1="542.85" y1="189.22" x2="542.85" y2="113" stroke="black" stroke-width="0.75"/>
 <line x1="167.85" y1="120" x2="542.85" y2="120" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
 <text x="355.35" y="115" text-anchor="middle" font-size="15" font-weight="bold">X</text>
-<line x1="94.85" y1="238.52" x2="55" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="94.85" y1="189.22" x2="55" y2="189.22" stroke="black" stroke-width="0.75"/>
-<line x1="57" y1="238.52" x2="57" y2="189.22" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="88" y="218.9" text-anchor="end" font-size="15" font-weight="bold">tf</text>
-<line x1="540.06" y1="166.52" x2="768" y2="166.52" stroke="black" stroke-width="0.75"/>
-<line x1="615.85" y1="238.52" x2="768" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="768" y1="166.52" x2="768" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="780" y="207" text-anchor="start" font-size="15" font-weight="bold">Y</text>
+<line x1="94.85" y1="238.52" x2="82" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="94.85" y1="189.22" x2="82" y2="189.22" stroke="black" stroke-width="0.75"/>
+<line x1="80" y1="238.52" x2="80" y2="189.22" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="75" y="218.9" text-anchor="end" font-size="15" font-weight="bold">tf</text>
+<line x1="540.06" y1="166.52" x2="640" y2="166.52" stroke="black" stroke-width="0.75"/>
+<line x1="615.85" y1="238.52" x2="640" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="638" y1="166.52" x2="638" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="645" y="207" text-anchor="start" font-size="15" font-weight="bold">Y</text>
 </svg>`;
 
-FLANGE_SVG['SW'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
-<rect x="0" y="0" width="870" height="353" fill="white"/>
+FLANGE_SVG['SW'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="735" height="353" fill="white"/>
 <defs>
   <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/></pattern>
   <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="black"/></marker>
@@ -1511,14 +1598,14 @@ FLANGE_SVG['SW'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353
 <line x1="452.11" y1="188.90" x2="452.11" y2="226" stroke="black" stroke-width="0.75"/>
 <line x1="258.59" y1="220" x2="452.11" y2="220" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
 <text x="355.35" y="215" text-anchor="middle" font-size="15" font-weight="bold">B</text>
-<line x1="94.85" y1="238.52" x2="55" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="94.85" y1="171.78" x2="55" y2="171.78" stroke="black" stroke-width="0.75"/>
-<line x1="57" y1="238.52" x2="57" y2="171.78" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="88" y="205" text-anchor="end" font-size="15" font-weight="bold">tf</text>
-<line x1="496.18" y1="136.80" x2="768" y2="136.80" stroke="black" stroke-width="0.75"/>
-<line x1="615.85" y1="238.52" x2="768" y2="238.52" stroke="black" stroke-width="0.75"/>
-<line x1="762" y1="136.80" x2="762" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-<text x="780" y="192" text-anchor="start" font-size="15" font-weight="bold">Y</text>
+<line x1="94.85" y1="238.52" x2="82" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="94.85" y1="171.78" x2="82" y2="171.78" stroke="black" stroke-width="0.75"/>
+<line x1="80" y1="238.52" x2="80" y2="171.78" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="75" y="205" text-anchor="end" font-size="15" font-weight="bold">tf</text>
+<line x1="496.18" y1="136.80" x2="650" y2="136.80" stroke="black" stroke-width="0.75"/>
+<line x1="615.85" y1="238.52" x2="650" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="648" y1="136.80" x2="648" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<text x="655" y="192" text-anchor="start" font-size="15" font-weight="bold">Y</text>
 <line x1="146.83" y1="238.52" x2="146.83" y2="278" stroke="black" stroke-width="0.75"/>
 <line x1="563.87" y1="238.52" x2="563.87" y2="278" stroke="black" stroke-width="0.75"/>
 <line x1="146.83" y1="270" x2="563.87" y2="270" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
@@ -1531,8 +1618,8 @@ FLANGE_SVG['SW'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353
 <text x="355.35" y="293" text-anchor="middle" font-size="15" font-weight="bold">O</text>
 </svg>`;
 
-FLANGE_SVG['TH'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 870 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
-<rect x="0" y="0" width="870" height="353" fill="white"/>
+FLANGE_SVG['TH'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="735" height="353" fill="white"/>
 <defs>
   <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/></pattern>
   <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="black"/></marker>
@@ -2854,12 +2941,14 @@ function buildFittingSvgPanel(type, r, unit, nps_key){
     inj('D',  unit==='SI' ? r['OD mm'] : r['OD in.']);
     inj('E1', unit==='SI' ? r['E Long mm'] : r['E Long in.']);
   }
-  return `<div class="dwg-header"><div class="dwg-title">NPS ${nps_key}"</div><div class="dwg-sub">ASME B16.9-2024</div></div>
+  const _lbl = typeLabel || `NPS ${nps_key}"`;
+  const _ttl = typeLabel ? `${typeLabel} · NPS ${nps_key}"` : `NPS ${nps_key}"`;
+  return `<div class="dwg-header"><div class="dwg-title">${_ttl}</div><div class="dwg-sub">ASME B16.9-2024</div></div>
     <div style="padding:0">${svg}</div>`;
 }
 
 // ─── GET DRAWING FOR FITTING TYPE ────────────────────────
-function getFittingDrawing(type, row, unit, nps_key){
+function getFittingDrawing(type, row, unit, nps_key, typeLabel){
   try {
     if(FITTING_SVG[type]) return buildFittingSvgPanel(type, row, unit, nps_key);
     if(type==='Stub_Ends') return drawStubEnd(row, unit, nps_key);
@@ -3004,7 +3093,7 @@ function buildPipeNpsOptions(){
   const data=getPipeData();
   const sizes=[...new Set(data.map(r=>r.nps))].sort(npsSort);
   const sel=document.getElementById('pipe-nps');
-  sel.innerHTML=`<option value="">${state.lang==='ES'?'— Todos los Tamaños —':'— All Sizes —'}</option>`+sizes.map(s=>`<option value="${s}"${s===state.pipeNps?' selected':''}>${s}"</option>`).join('');
+  sel.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}"${s===state.pipeNps?' selected':''}>${s}"</option>`).join('');
   buildPipeSchOptions();
 }
 
@@ -3030,9 +3119,9 @@ function buildPipeSchOptions(){
     }).join('');
   } else {
     // Facilities: group by schedule designation
-    if(lbl) lbl.textContent=state.lang==='ES'?'Cédula':'Schedule';
+    if(lbl) lbl.textContent='Schedule';
     const schSet=[...new Set(data.map(r=>r.sch||r.id||'—'))];
-    sel.innerHTML=`<option value="">${state.lang==='ES'?'— Todos los Schedules —':'— All Schedules —'}</option>`+schSet.map(s=>{
+    sel.innerHTML=`<option value="">${t('opt.allSchedules')}</option>`+schSet.map(s=>{
       const row=data.find(r=>(r.sch||r.id||'—')===s);
       const idStr=(row&&row.id&&row.sch)?` · ${row.id}`:'';
       return `<option value="${s}"${s===state.pipeSch?' selected':''}>${s}${idStr}</option>`;
@@ -3087,6 +3176,9 @@ function renderPipe(){
     renderCtxBar();
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!state.pipeNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
 
   // Table view
   const schHdr=state.pipeStd==='b3619'?'Schedule':'Schedule / ID';
@@ -3161,7 +3253,7 @@ function renderFlanges(){
         <span class="d-value${isHighlight?' accent':''}">${r[h.key]??'—'} <span style="color:var(--text2);font-size:10px">${u}</span></span>
       </div>`;
     }).join('');
-    const cards = dimCard(`${t('lbl.class')} ${state.flangeClass} — NPS ${r.NPS}"`, dimRowsHtml);
+    const cards = dimCard(`${t('flange.'+state.flangeType)} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
 
     // Flange type button bar
     const typeBar = `<div class="fl-type-bar">
@@ -3182,18 +3274,21 @@ function renderFlanges(){
       }
     }
 
-    const _ftTitle = `${t('flange.word')}  NPS ${r.NPS}"  ${t('lbl.class')} ${state.flangeClass}  ${t('flange.'+ftObj.key)}`;
+    const _ftTitle = `${t('flange.'+ftObj.key)} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`;
     const _available = isFlangeAvailable(state.flangeType, state.flangeClass, r.NPS);
     const leftPanel = !_available
       ? buildUnavailablePanel(ftObj.svg || 'BL', typeBar, state.flangeType, state.flangeClass)
       : ftObj.svg
         ? buildFlangeSvgPanel(ftObj.svg, r, state.flangeUnit, state.flangeClass, _ftTitle, 'ASME B16.5-2025', typeBar)
         : overlayPanel([ftObj.img], r, true, state.flangeUnit, _ftTitle, 'ASME B16.5-2025', typeBar);
-    updateMiniStrip(IMG_BASE + ftObj.img, `NPS ${r.NPS}" ${t('flange.'+ftObj.key)} ${t('flange.word')}`);
+    updateMiniStrip(IMG_BASE + ftObj.img, _ftTitle);
     content.innerHTML=`<div class="drawing-view">${leftPanel}<div class="dim-panel">${cards}${weightCard}</div></div>`;
     renderCtxBar();
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!state.flangeNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
 
   const unitLabel=state.flangeUnit==='SI'?'mm':'in';
   const hdrs=sheet.headers;
@@ -3304,13 +3399,12 @@ function buildB11TypeOptions(){
   const typeEl = document.getElementById('b11-type');
   const cat = state.b11cat;
   const entries = Object.entries(B11_TYPES).filter(([,v])=>v.cat===cat);
-  const fmtTitle = t => { const m = t.match(/^(SW|TH)\s+(.+)$/); return m ? `${m[2]} ${m[1]}` : t; };
-  typeEl.innerHTML = '<option value="">— Select Type —</option>' +
-    entries.map(([k,v])=>`<option value="${k}">${fmtTitle(v.title)}</option>`).join('');
+  typeEl.innerHTML = `<option value="">${t('opt.selectType')}</option>` +
+    entries.map(([k])=>`<option value="${k}">${t('b11.'+k)}</option>`).join('');
   state.b11type=''; state.b11class=''; state.b11nps='';
-  document.getElementById('b11-class').innerHTML='<option value="">— Select Class —</option>';
+  document.getElementById('b11-class').innerHTML=`<option value="">${t('opt.selectClass')}</option>`;
   document.getElementById('b11-class').disabled=true;
-  document.getElementById('b11-nps').innerHTML='<option value="">— All Sizes —</option>';
+  document.getElementById('b11-nps').innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
   document.getElementById('b11-nps').disabled=true;
 }
 
@@ -3324,7 +3418,7 @@ function onB11TypeChange(){
   if(state.b11type){
     const dataKey = B11_TYPES[state.b11type]?.data;
     const classes = B1611[dataKey]?.classes||[];
-    classEl.innerHTML='<option value="">— Select Class —</option>'+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
+    classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
     classEl.disabled=false;
 
     if(prevClass && classes.includes(prevClass)){
@@ -3352,7 +3446,7 @@ function onB11TypeChange(){
       npsEl.disabled=true;
     }
   } else {
-    classEl.innerHTML='<option value="">— Select Class —</option>';
+    classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`;
     classEl.disabled=true;
     npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
     npsEl.disabled=true;
@@ -3370,7 +3464,7 @@ function onB11ClassChange(){
     const unit = state.b11unit==='SI'?'mm':'in';
     const rawSizes = Object.keys(B1611[dataKey]?.[unit]||{});
     const sizes = _NPS_ORD.filter(n=>rawSizes.includes(n));
-    npsEl.innerHTML='<option value="">— All Sizes —</option>'+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
     npsEl.disabled=false;
     // Restore NPS if still valid
     if(prevNps && sizes.includes(prevNps)){
@@ -3416,7 +3510,7 @@ function setB11Unit(u){
     const rawSizes2 = Object.keys(B1611[dataKey]?.[unit]||{});
     const sizes = _NPS_ORD.filter(n=>rawSizes2.includes(n));
     const npsEl = document.getElementById('b11-nps');
-    npsEl.innerHTML='<option value="">— All Sizes —</option>'+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
     if(state.b11nps && sizes.includes(state.b11nps)) npsEl.value=state.b11nps;
   }
   renderB1611();
@@ -3489,19 +3583,14 @@ function _b11InjectValues(svgText, typeKey, r, cls, unit){
 
   // Update SVG title
   const nps = state.b11nps;
-  const titleText = `NPS ${nps}" ${t('lbl.class')} ${cls} ${B11_TYPES[typeKey].title} — ASME B16.11`;
+  const titleText = `${t('b11.'+typeKey)} · ${t('lbl.class')} ${cls} · NPS ${nps}" — ASME B16.11`;
   svgText = svgText.replace(
     /(font-size="17" font-weight="bold">)[^<]*(<\/text>)/,
     `$1${titleText}$2`
   );
 
-  // Update caption lines (y=464 and y=481)
-  const capLine1 = `${B11_TYPES[typeKey].title} · NPS ${nps}" · ${t('lbl.class')} ${cls} · ${B1611[B11_TYPES[typeKey].data].std}`;
-  const capLine2 = _b11CaptionLine(typeKey, r, u, sfx);
-  let capIdx = 0;
-  svgText = svgText.replace(/(<text x="20" y="4[68][14]">)[^<]*(<\/text>)/g, (m, p1, p2) => {
-    return capIdx++ === 0 ? `${p1}${capLine1}${p2}` : `${p1}${capLine2}${p2}`;
-  });
+  // Remove caption lines (y=464 and y=481)
+  svgText = svgText.replace(/(<text x="20" y="4[68][14]">)[^<]*(<\/text>)/g, '$1$2');
 
   return svgText;
 }
@@ -3591,16 +3680,16 @@ function renderB1611(){
     let leftPanel;
     if(_imgSrc11){
       leftPanel = `<div class="dwg-panel">
-        <div class="dwg-header"><div class="dwg-title">NPS ${state.b11nps}"  ${typeInfo.title}</div><div class="dwg-sub">${std}</div></div>
+        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
         <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1;position:relative">
-          <img src="${_imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2" alt="${typeInfo.title}">
+          <img src="${_imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2" alt="${t('b11.'+state.b11type)}">
           <div style="position:absolute;text-align:center;color:#c0392b;font-weight:700;font-size:15px;background:rgba(255,255,255,0.92);padding:12px 24px;border-radius:8px;border:2px solid #c0392b">
             Fitting not available under ${std}
           </div>
         </div>
       </div>`;
     } else {
-      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">NPS ${state.b11nps}"  ${typeInfo.title}</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
+      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
     }
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel"></div></div>`;
     return;
@@ -3610,13 +3699,13 @@ function renderB1611(){
   if(state.b11nps && npsList.length===1){
     const r = raw[state.b11nps];
     const dimRows = visKeys.map(k=>`<div class="dim-row"><span class="d-label">${B11_COL_LABELS[k]||k}</span><span class="d-value accent">${r[k]??'—'} <span style="font-size:10px;color:var(--text2)">${uLabel}</span></span></div>`).join('');
-    const card = dimCard(`${typeInfo.title}${classTag} — NPS ${state.b11nps}"`, dimRows);
+    const card = dimCard(`${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"`, dimRows);
 
     let leftPanel;
     if(typeInfo.svgFile){
       const panelId = 'b11svg_' + Date.now();
       leftPanel = `<div class="dwg-panel" id="${panelId}">
-        <div class="dwg-header"><div class="dwg-title">NPS ${state.b11nps}"  ${typeInfo.title}</div><div class="dwg-sub">${std}</div></div>
+        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
         <div id="${panelId}_inner" style="background:#fff;overflow:auto"></div>
       </div>`;
       content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
@@ -3637,25 +3726,28 @@ function renderB1611(){
             : r2base;
           let injected = _b11InjectValues(_b11SvgCache[svgFile], _typeKey, r2, _cls, _unit);
           inner.innerHTML = injected;
-          updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${B11_TYPES[_typeKey].title}`);
+          updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${t('b11.'+_typeKey)}`);
         } catch(e){ console.error('SVG load error', e); }
       })();
       return;
     } else if(typeInfo.img){
       const imgSrc11 = `${IMG_BASE}${typeInfo.img}`;
       leftPanel = `<div class="dwg-panel">
-        <div class="dwg-header"><div class="dwg-title">NPS ${state.b11nps}"  ${typeInfo.title}</div><div class="dwg-sub">${std}</div></div>
+        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
         <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1">
-          <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${typeInfo.title}">
+          <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${t('b11.'+state.b11type)}">
         </div>
       </div>`;
-      updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${typeInfo.title}`);
+      updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${t('b11.'+state.b11type)}`);
     } else {
-      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">NPS ${state.b11nps}"  ${typeInfo.title}</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
+      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
     }
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!state.b11nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; return; }
 
   // Table view (all sizes or no NPS filter)
   const thds = `<th>NPS</th>` + visKeys.map(k=>`<th title="${B11_COL_LABELS[k]||k}">${B11_COL_LABELS[k]||k} (${uLabel})</th>`).join('');
@@ -3667,7 +3759,7 @@ function renderB1611(){
 
   content.innerHTML=`
     <div class="result-header">
-      <div class="result-title">${typeInfo.title}${classTag} <span class="badge">${npsList.length} sizes</span></div>
+      <div class="result-title">${t('b11.'+state.b11type)}${classTag} <span class="badge">${npsList.length} sizes</span></div>
       <div class="result-subtitle">${std} · ${state.b11unit==='SI'?'SI (mm)':'US (in)'}</div>
     </div>
     <div class="table-wrap"><table><thead><tr>${thds}</tr></thead><tbody>${rows}</tbody></table></div>`;
@@ -3824,16 +3916,19 @@ function renderB1647(){
       const val = r[k] ?? '—';
       return `<div class="dim-row"><span class="d-label">${lbl}</span><span class="d-value accent">${val} <span style="font-size:10px;color:var(--text2)">${typeof val==='number'&&k!=='holes'?uLabel:''}</span></span></div>`;
     }).join('');
-    const card = dimCard(`${typeLabel} — ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
+    const card = dimCard(`${typeLabel} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
     const wtFmt = fmtWeight(wt, state.b47unit);
     const weightCard = wtFmt ? dimCard(t('card.weight'), `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`) : '';
-    const _b47Title = `${t('flange.word')}  NPS ${state.b47nps}"  ${t('lbl.class')} ${state.b47class}  ${typeLabel}`;
+    const _b47Title = `${typeLabel} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`;
     const leftPanel = buildB47SvgPanel(state.b47type, r, state.b47unit, _b47Title, _b47TypeBar());
     const noteHtml = fromSeriesA ? NOTE_BANNER : '';
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}${weightCard}${noteHtml}</div></div>`;
     updateMiniStrip(imgSrc, `NPS ${state.b47nps}" ${typeLabel}`);
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!state.b47nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; return; }
 
   // Table view — check if note 1 applies to any row in this view
   const visFields = Object.entries(B47_FIELDS).filter(([k])=> k !== (state.b47type==='WN' ? 'tf_bl' : 'tf_wn'));
@@ -3901,7 +3996,7 @@ const FIT_WEIGHT_LABELS = {
 function _rebuildFitSch(nps, prevSch){
   const schEl=document.getElementById('fit-sch');
   const schGroup=document.getElementById('fit-sch-group');
-  schEl.innerHTML='<option value="">— Select Schedule —</option>';
+  schEl.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`;
   schEl.disabled=true; schGroup.style.display='none'; state.fitSch='';
   if(nps && state.fitType){
     const wkeys=FIT_WEIGHT_KEYS[state.fitType]||[];
@@ -3914,7 +4009,7 @@ function _rebuildFitSch(nps, prevSch){
     }
     if(schedSet.size>0){
       const sorted=SCH_ORDER.filter(s=>schedSet.has(s));
-      schEl.innerHTML='<option value="">— Select Schedule —</option>'+sorted.map(s=>`<option value="${s}">${s}</option>`).join('');
+      schEl.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`+sorted.map(s=>`<option value="${s}">${s}</option>`).join('');
       schEl.disabled=false; schGroup.style.display='';
       if(prevSch && sorted.includes(prevSch)){ schEl.value=prevSch; state.fitSch=prevSch; }
     }
@@ -3964,17 +4059,18 @@ function onFitNpsChange(){
   renderFittings();
 }
 
-const FIT_LABELS={
-  LR_90:'90° LR Elbow', LR_45:'45° LR Elbow',
-  SR_90:'90° SR Elbow',
-  '3D_90':'90° 3D Elbow', '3D_45':'45° 3D Elbow',
-  LR_Reducing:'90° LR Reducing Elbow',
-  LR_Returns:'180° LR Return', SR_Returns:'180° SR Return',
-  Straight_Tees:'Straight Tees', Straight_Crosses:'Straight Crosses',
-  Reducing_Tees:'Reducing Tees',
-  Conc_Reducers:'Concentric Reducers', Ecc_Reducers:'Eccentric Reducers',
-  Stub_Ends:'Lap Joint Stub Ends', Caps:'Caps',
+const FIT_LABELS_KEYS={
+  LR_90:'fit.LR_90_lbl', LR_45:'fit.LR_45_lbl',
+  SR_90:'fit.SR_90_lbl',
+  '3D_90':'fit.3D_90_lbl', '3D_45':'fit.3D_45_lbl',
+  LR_Reducing:'fit.LR_Reducing_lbl',
+  LR_Returns:'fit.LR_Returns_lbl', SR_Returns:'fit.SR_Returns_lbl',
+  Straight_Tees:'fit.Straight_Tees_lbl', Straight_Crosses:'fit.Straight_Crosses_lbl',
+  Reducing_Tees:'fit.Reducing_Tees_lbl',
+  Conc_Reducers:'fit.Conc_Reducers_lbl', Ecc_Reducers:'fit.Ecc_Reducers_lbl',
+  Stub_Ends:'fit.Stub_Ends_lbl', Caps:'fit.Caps_lbl',
 };
+const FIT_LABELS = new Proxy(FIT_LABELS_KEYS, { get(o,k){ return o[k] ? t(o[k]) : undefined; } });
 
 function normNps(nps){ return nps.replace(/-/g,' '); }
 
@@ -3989,7 +4085,7 @@ function buildWeightCard(fitType, nps, sch){
     rows+=`<div class="dim-row"><span class="d-label">${label}</span><span class="d-value accent">${val!=null?val+' kg':'—'}</span></div>`;
   }
   if(!rows) return '';
-  return dimCard(`Weight — ${sch}`, rows);
+  return dimCard(`${t('fit.weight')} — ${sch}`, rows);
 }
 
 function renderFittings(){
@@ -4015,7 +4111,7 @@ function renderFittings(){
     if(imgs){
       const imgSrc=IMG_BASE+imgs[0];
       leftPanel=`<div class="dwg-panel">
-        <div class="dwg-header"><div class="dwg-title">NPS ${state.fitNps}"  ${typeLabel}</div><div class="dwg-sub">${std}</div></div>
+        <div class="dwg-header"><div class="dwg-title">${typeLabel} · NPS ${state.fitNps}"</div><div class="dwg-sub">${std}</div></div>
         <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#e8edf2;flex:1;position:relative">
           <img src="${imgSrc}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2" alt="${typeLabel}">
           <div style="position:absolute;text-align:center;color:#c0392b;font-weight:700;font-size:15px;background:rgba(255,255,255,0.92);padding:12px 24px;border-radius:8px;border:2px solid #c0392b">
@@ -4024,7 +4120,7 @@ function renderFittings(){
         </div>
       </div>`;
     } else {
-      leftPanel=`<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">NPS ${state.fitNps}" ${typeLabel}</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
+      leftPanel=`<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${typeLabel} · NPS ${state.fitNps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
     }
     content.innerHTML=`<div class="drawing-view">${leftPanel}<div class="dim-panel"></div></div>`;
     renderCtxBar();
@@ -4045,26 +4141,29 @@ function renderFittings(){
       return `<div class="dim-row"><span class="d-label">${h}</span><span class="d-value${isVal?' accent':''}">${v??'—'}</span></div>`;
     }).join('');
     const weightCard = buildWeightCard(state.fitType, state.fitNps, state.fitSch);
-    const cards = dimCard(`${FIT_LABELS[state.fitType]||state.fitType}`, dimRows) + weightCard;
+    const cards = dimCard(`${typeLabel} · NPS ${nps_key}"`, dimRows) + weightCard;
 
     const imgs = FITTING_IMGS[state.fitType];
     const typeLabel = FIT_LABELS[state.fitType]||state.fitType;
     const std = 'ASME B16.9-2024';
     let leftPanel;
     if(imgs && !FITTING_SVG[state.fitType]) {
-      leftPanel = overlayPanel(imgs, r, false, state.fitUnit, `${nps_key}"  ${typeLabel}`, std);
+      leftPanel = overlayPanel(imgs, r, false, state.fitUnit, `${typeLabel} · NPS ${nps_key}"`, std);
       updateMiniStrip(IMG_BASE + imgs[0], `${nps_key}" ${typeLabel}`);
     } else {
-      const svg = getFittingDrawing(state.fitType, r, state.fitUnit, nps_key);
+      const svg = getFittingDrawing(state.fitType, r, state.fitUnit, nps_key, typeLabel);
       leftPanel = svg
         ? `<div class="dwg-panel">${svg}</div>`
-        : `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${nps_key}" ${typeLabel}</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
+        : `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${typeLabel} · NPS ${nps_key}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
       updateMiniStrip(null, `${nps_key}" ${typeLabel}`);
     }
     content.innerHTML=`<div class="drawing-view">${leftPanel}<div class="dim-panel">${cards}</div></div>`;
     renderCtxBar();
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!state.fitNps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
 
   // Table view
   const rows=data.map(r=>{
@@ -4487,7 +4586,7 @@ const B48_SVG = { RF: B48_SVG_RF, FRJ: B48_SVG_FRJ, MRJ: B48_SVG_MRJ };
 function onB48ClassChange(){
   state.b48class = document.getElementById('b48-class').value;
   const sel = document.getElementById('b48-nps');
-  sel.innerHTML = '<option value="">— All Sizes —</option>';
+  sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
   if(state.b48class){
     const rows = (B16_48['RF'] || {})[state.b48class] || [];
     const npsList = B16_48_NPS_ORDER.filter(n => rows.some(r => r.nps === n));
@@ -4511,7 +4610,7 @@ function setB48Face(face){
   const rows = (B16_48['RF'] || {})[state.b48class] || [];
   const sel = document.getElementById('b48-nps');
   const npsList = B16_48_NPS_ORDER.filter(n => rows.some(r => r.nps === n));
-  sel.innerHTML = '<option value="">— All Sizes —</option>';
+  sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
   npsList.forEach(n => {
     const opt = document.createElement('option');
     opt.value = n; opt.textContent = 'NPS ' + n + '"';
@@ -4535,23 +4634,24 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   const B = isUS ? r.B_in : r.B_mm;
   const O = isUS ? r.O_in : r.O_mm;
   const A = isUS ? r.A_in : r.A_mm;
-  const t = isUS ? r.t_in : r.t_mm;
+  const th = isUS ? r.t_in : r.t_mm;
   const W = isUS ? r.W_in : r.W_mm;
 
-  const faceLabel = face === 'RF' ? 'Raised Face (RF)' : face === 'FRJ' ? 'Female RTJ' : 'Male RTJ';
+  const faceLabel = face === 'RF' ? t('b48.raisedFace') : face === 'FRJ' ? t('b48.female') : t('b48.male');
   const tableRef  = face === 'RF'
-    ? 'Table 4.3.1 — Class ' + cls + ' RF'
+    ? 'Table 4.3.1 — ' + t('lbl.class') + ' ' + cls + ' RF'
     : face === 'FRJ'
-    ? 'Table 5.1 — Class ' + cls + ' Female RTJ'
-    : 'Table 5.1 — Class ' + cls + ' Male RTJ';
+    ? 'Table 5.1 — ' + t('lbl.class') + ' ' + cls + ' ' + t('b48.female')
+    : 'Table 5.1 — ' + t('lbl.class') + ' ' + cls + ' ' + t('b48.male');
 
-  const title    = 'NPS ' + r.nps + '” Class ' + cls + ' Figure-8 Blank — ' + faceLabel;
+  const title    = t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + r.nps + '”';
   const subtitle = 'ASME B16.48-2025, ' + tableRef;
 
   let svg = B48_SVG[face];
 
-  // Strip embedded title/subtitle — they move to the dwg-header
-  svg = svg.replace(/<text[^>]*font-size="18"[^>]*>[^<]*<\/text>/, '');
+  // Replace embedded title with standardized format
+  const svgInnerTitle = title + ' — ASME B16.48';
+  svg = svg.replace(/<text([^>]*font-size="18"[^>]*)>[^<]*<\/text>/, '<text$1>' + svgInnerTitle + '</text>');
   svg = svg.replace(/<text[^>]*font-size="12"[^>]*fill="#4b5563"[^>]*>[^<]*<\/text>/, '');
 
   // Move "TOP VIEW" label from bottom of top-view area (y=406) to the top (y=40),
@@ -4559,8 +4659,11 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   svg = svg.split(
     'y="406" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW'
   ).join(
-    'y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW'
+    'y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">' + t('b48.topView')
   );
+  // Translate section/top view labels
+  svg = svg.split('>TOP VIEW<').join('>' + t('b48.topView') + '<');
+  svg = svg.split('>SECTION VIEW<').join('>' + t('b48.sectionView') + '<');
 
   // Fix A dimension annotation: keep it near the circles (upper part of the gap),
   // move text ABOVE the arrow so it doesn't sit on the line,
@@ -4612,24 +4715,12 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   }
   replLabel('B', B);
   replLabel('A', A);
-  replLabel('t', t);
+  replLabel('t', th);
   replLabel('W', W);
   if(face !== 'MRJ') replLabel('O', O);
 
-  // Bottom caption lines
-  const line1 = face === 'MRJ'
-    ? 'Dimensions: B = ' + B + ' ' + u + ';  A = ' + A + ' ' + u + ';  t = ' + t + ' ' + u + ';  W = ' + W + ' ' + u + '.'
-    : 'Dimensions: B = ' + B + ' ' + u + ';  O = ' + O + ' ' + u + ';  A = ' + A + ' ' + u + ';  t = ' + t + ' ' + u + ';  W = ' + W + ' ' + u + '.';
-  const line2 = face === 'RF'
-    ? 'ASME B16.48-2025 — Raised Face, Class ' + cls + '.'
-    : face === 'FRJ'
-    ? 'ASME B16.48-2025 — Female Ring-Joint Facing, Class ' + cls + '.'
-    : 'ASME B16.48-2025 — Male Ring-Joint Facing, Class ' + cls + '.';
-
-  let lineCount = 0;
-  svg = svg.replace(/(<text x="28"[^>]*>)[^<]*(<\/text>)/g, function(match, p1, p2){
-    return lineCount++ === 0 ? p1 + line1 + p2 : p1 + line2 + p2;
-  });
+  // Remove bottom redundant caption lines
+  svg = svg.replace(/(<text x="28"[^>]*>)[^<]*(<\/text>)/g, '$1$2');
 
   return '<div class="dwg-panel" style="background:#fff">' +
     '<div class="dwg-header"><div class="dwg-title">' + title + '</div>' +
@@ -4640,8 +4731,8 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
 function _b48FaceBar(face){
   return '<div class="fl-type-bar">' +
     '<button class="fl-btn' + (face==='RF'?' active':'') + '" onclick="setB48Face(\'RF\')">RF</button>' +
-    '<button class="fl-btn' + (face==='FRJ'?' active':'') + '" onclick="setB48Face(\'FRJ\')">Female RTJ</button>' +
-    '<button class="fl-btn' + (face==='MRJ'?' active':'') + '" onclick="setB48Face(\'MRJ\')">Male RTJ</button>' +
+    '<button class="fl-btn' + (face==='FRJ'?' active':'') + '" onclick="setB48Face(\'FRJ\')">' + t('b48.female') + '</button>' +
+    '<button class="fl-btn' + (face==='MRJ'?' active':'') + '" onclick="setB48Face(\'MRJ\')">' + t('b48.male') + '</button>' +
     '</div>';
 }
 
@@ -4657,9 +4748,9 @@ function renderB1648(){
   const content = document.getElementById('content');
 
   if(!cls){
-    content.innerHTML = '<div class="welcome"><div class="big-icon">🔲</div>' +
+    content.innerHTML = '<div class="welcome"><div class="big-icon"><svg width="72" height="40" viewBox="0 0 36 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="4" fill="currentColor" opacity="0.25"/><circle cx="27" cy="10" r="8" fill="currentColor" opacity="0.85"/><circle cx="27" cy="10" r="4" fill="none" stroke="white" stroke-width="1.5"/></svg></div>' +
       '<h2>' + t('cat.b1648') + ' — ASME B16.48</h2>' +
-      '<p>' + t('welcome.b1648') + '<br>Available faces: Raised Face (RF), Female RTJ, and Male RTJ.</p></div>';
+      '<p>' + t('welcome.b1648') + '<br>' + t('b48.faces') + '</p></div>';
     return;
   }
 
@@ -4668,8 +4759,8 @@ function renderB1648(){
 
   if(rows.length === 0){
     content.innerHTML = '<div class="welcome"><div class="big-icon">🚫</div>' +
-      '<h2>Not Available</h2>' +
-      '<p>No data for NPS ' + (nps||'—') + '" Class ' + cls + ' ' + face + ' under ASME B16.48.</p></div>';
+      '<h2>' + t('b48.notAvail') + '</h2>' +
+      '<p>No data for NPS ' + (nps||'—') + '" ' + t('lbl.class') + ' ' + cls + ' ' + face + ' under ASME B16.48.</p></div>';
     return;
   }
 
@@ -4679,25 +4770,28 @@ function renderB1648(){
     const B = isUS ? r.B_in : r.B_mm;
     const O = isUS ? r.O_in : r.O_mm;
     const A = isUS ? r.A_in : r.A_mm;
-    const t = isUS ? r.t_in : r.t_mm;
+    const th = isUS ? r.t_in : r.t_mm;
     const W = isUS ? r.W_in : r.W_mm;
     const hasO = face !== 'MRJ';
 
-    const faceLabel = face === 'RF' ? 'Raised Face' : face === 'FRJ' ? 'Female RTJ' : 'Male RTJ';
+    const faceLabel = face === 'RF' ? t('b48.raisedFaceShort') : face === 'FRJ' ? t('b48.female') : t('b48.male');
     const dimRows =
       '<div class="dim-row"><span class="d-label">Inside Diam. B</span><span class="d-value">' + B + ' ' + u + '</span></div>' +
       (hasO ? '<div class="dim-row"><span class="d-label">Outside Diam. O</span><span class="d-value">' + O + ' ' + u + '</span></div>' : '') +
       '<div class="dim-row"><span class="d-label">Centerline Dim. A</span><span class="d-value">' + A + ' ' + u + '</span></div>' +
-      '<div class="dim-row"><span class="d-label">Thickness t</span><span class="d-value">' + t + ' ' + u + '</span></div>' +
+      '<div class="dim-row"><span class="d-label">Thickness t</span><span class="d-value">' + th + ' ' + u + '</span></div>' +
       '<div class="dim-row"><span class="d-label">Web Width W</span><span class="d-value">' + W + ' ' + u + '</span></div>';
     const cards = '<div class="dim-card">' +
-      '<div class="dim-card-title">ASME B16.48  ·  Class ' + cls + '  ·  ' + faceLabel + '</div>' +
+      '<div class="dim-card-title">' + t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + nps + '" · ' + faceLabel + '</div>' +
       dimRows + '</div>';
 
     content.innerHTML = '<div class="drawing-view">' + svgPanel + '<div class="dim-panel">' + cards + '</div></div>';
     renderCtxBar();
     return;
   }
+
+  // No NPS selected → prompt user
+  if(!nps){ content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">${t('prompt.selectNps')}</p></div>`; renderCtxBar(); return; }
 
   // Table view
   const hasO = face !== 'MRJ';
@@ -4959,9 +5053,9 @@ function initSpanCalc(){
 function onSpanNpsChange(){
   const nps = document.getElementById('span-nps').value;
   const schSel = document.getElementById('span-sch');
-  if(!nps){ schSel.innerHTML='<option value="">— Select Schedule —</option>'; renderSpanCalc(); return; }
+  if(!nps){ schSel.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`; renderSpanCalc(); return; }
   const rows = B3610.filter(r=>r.nps===nps);
-  schSel.innerHTML = '<option value="">— Select Schedule —</option>' +
+  schSel.innerHTML = `<option value="">${t('opt.selectSchedule')}</option>` +
     rows.map(r=>`<option value="${r.wt_mm}">${[r.sch,r.id].filter(Boolean).join(' / ')||r.wt_mm+' mm WT'}</option>`).join('');
   const stdOpt = [...schSel.options].find(o=>o.text.includes('STD')||o.text.includes('40'));
   if(stdOpt) stdOpt.selected=true;
