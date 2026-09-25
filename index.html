@@ -45,6 +45,54 @@
   /* ── Right column (filter bar + content) ── */
   .right-col { display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
 
+  /* ── Mode toggle ── */
+  .mode-toggle-bar { display:flex; align-items:center; gap:10px; padding:7px 14px; background:var(--surface); border-bottom:1px solid var(--border); }
+  .mode-toggle-bar .mode-lbl { font-size:10px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--text2); }
+  .mode-btn { padding:4px 13px; font-size:11px; font-weight:600; border-radius:5px; border:1px solid var(--border); background:transparent; color:var(--text2); cursor:pointer; transition:all .15s; }
+  .mode-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+  /* ── Multi mode layout ── */
+  #multi-area { display:none; flex-direction:column; flex:1; overflow:hidden; }
+  #multi-shared-bar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:flex-end; padding:10px 14px; background:#131620; border-bottom:1px solid var(--border); }
+  #multi-shared-bar .select-group { margin-bottom:0; min-width:120px; flex:1; max-width:190px; }
+  #multi-shared-bar .select-group select { font-size:12px; padding:6px 28px 6px 9px; }
+  #multi-shared-bar .select-label { font-size:10px; margin-bottom:3px; }
+  #multi-cards-wrap { flex:1; overflow-y:auto; padding:14px; }
+  #multi-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:start; }
+
+  /* ── Drop zone ── */
+  .multi-drop { border:2px dashed var(--border); border-radius:10px; min-height:300px; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:13px; transition:border-color .15s, background .15s; position:relative; }
+  .multi-drop.drag-over { border-color:var(--accent); background:rgba(99,102,241,.07); }
+  .multi-drop .drop-hint { text-align:center; pointer-events:none; }
+  .multi-drop .drop-hint span { font-size:28px; display:block; margin-bottom:6px; }
+
+  /* ── Filled card ── */
+  .multi-card { border:1px solid var(--border); border-radius:10px; background:var(--surface); display:flex; flex-direction:column; overflow:hidden; position:relative; min-height:300px; }
+  .multi-card-header { display:flex; align-items:center; gap:8px; padding:8px 10px; background:#131620; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .multi-card-icon { font-size:18px; flex-shrink:0; }
+  .multi-card-title { font-size:11px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.5px; flex-shrink:0; }
+  .multi-card-type { flex:1; min-width:120px; font-size:11px; padding:4px 24px 4px 7px; }
+  .multi-card-del { position:absolute; bottom:8px; right:8px; width:24px; height:24px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--text2); font-size:11px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; opacity:.6; transition:opacity .15s; z-index:2; }
+  .multi-card-del:hover { opacity:1; color:#f87171; border-color:#f87171; }
+  .multi-card-body { padding:8px 10px 34px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .mc-svg-wrap { height:150px; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .mc-svg-wrap img { max-width:100%; max-height:150px; object-fit:contain; }
+  .mc-svg-wrap svg { width:100%; max-height:150px; }
+  .mc-data-grid { display:grid; grid-template-columns:1fr 1fr; gap:3px 10px; }
+  .mc-row { display:flex; flex-direction:column; }
+  .mc-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text2); }
+  .mc-val { font-size:13px; font-weight:600; color:var(--text); }
+  .mc-loading { font-size:12px; color:var(--text2); padding:10px 12px; }
+
+  /* ── Draggable tiles in multi mode ── */
+  .cat-tile.multi-draggable { cursor:grab; }
+  .cat-tile.multi-draggable:active { cursor:grabbing; opacity:.7; }
+  .cat-tile.multi-disabled { opacity:.35; pointer-events:none; }
+
+  /* ── Card drag-to-reorder ── */
+  .multi-card[draggable="true"] { cursor:grab; }
+  .multi-card.card-drag-over { outline:2px solid var(--accent); }
+
   /* ── Filter bar ── */
   .filter-bar {
     background: #131620; border-bottom: 1px solid var(--border);
@@ -738,6 +786,25 @@
     </div>
 
   </div><!-- end filter-bar -->
+
+  <!-- ── MODE TOGGLE BAR ── -->
+  <div class="mode-toggle-bar">
+    <span class="mode-lbl">Mode</span>
+    <button class="mode-btn active" id="btn-mode-single" onclick="setMode('single')">Single</button>
+    <button class="mode-btn" id="btn-mode-multi" onclick="setMode('multi')">Multiple</button>
+  </div>
+
+  <!-- ── MULTI MODE AREA ── -->
+  <div id="multi-area">
+    <div id="multi-shared-bar">
+      <!-- populated dynamically -->
+    </div>
+    <div id="multi-cards-wrap">
+      <div id="multi-cards">
+        <!-- drop zones populated by JS -->
+      </div>
+    </div>
+  </div>
 
   <main class="content" id="content">
     <div class="welcome" id="home-welcome">
@@ -3045,6 +3112,7 @@ function renderCtxBar(){
 // ═══════════════════════════════════════════════════════
 
 function selectCat(cat){
+  if(state.mode === 'multi') return;
   // Save current NPS as global before switching
   const prev = getActiveNps();
   if(prev) state.globalNps = prev;
@@ -5556,6 +5624,301 @@ function renderConverter(){
   </div>`;
 
   _renderConvInputs();
+}
+
+// ─── MULTI MODE ──────────────────────────────────────────
+const MULTI_SLOTS = 6;
+const MULTI_MODULES = ['facilities','flanges','b1648','fittings','sw11','th11'];
+const MULTI_DISABLED = ['converter','spanCalc'];
+
+// Module metadata for multi mode
+const MULTI_META = {
+  facilities: { icon:'🏭', label:'Pipe',    std:'B36.10', needsSch:true,  needsClass:false },
+  flanges:    { icon:'⚙️', label:'Flange',  std:'B16.5',  needsSch:false, needsClass:true  },
+  b1648:      { icon:'○●', label:'Blank',   std:'B16.48', needsSch:false, needsClass:true  },
+  fittings:   { icon:'🔧', label:'BW Fit',  std:'B16.9',  needsSch:true,  needsClass:false },
+  sw11:       { icon:'🔩', label:'SW Fit',  std:'B16.11', needsSch:false, needsClass:true  },
+  th11:       { icon:'🪛', label:'TH Fit',  std:'B16.11', needsSch:false, needsClass:true  },
+};
+
+// Type options per module for the card header select
+const MULTI_TYPES = {
+  facilities: [['facilities','Pipe (Facilities)']],
+  flanges:    [['WN','Welding Neck'],['SO','Slip-On'],['SW','Socket Weld'],['TH','Threaded'],['LJ','Lap Joint'],['BL','Blind']],
+  b1648:      [['figure8','Figure-8']],
+  fittings:   [['LR_90','90° LR Elbow'],['LR_45','45° LR Elbow'],['LR_Returns','180° LR Return'],['SR_Returns','180° SR Return'],['Reducing_Tees','Reducing Tee'],['Ecc_Reducers','Ecc. Reducer'],['Caps','Cap'],['Straight_Tees','Straight Tee'],['Conc_Reducers','Conc. Reducer'],['Stub_Ends','Stub End']],
+  sw11:       [['sw_90_elbow','90° SW Elbow'],['sw_45_elbow','45° SW Elbow'],['sw_tee','SW Tee'],['sw_cross','SW Cross'],['sw_coupling','SW Coupling'],['sw_cap','SW Cap']],
+  th11:       [['th_90_elbow','90° TH Elbow'],['th_45_elbow','45° TH Elbow'],['th_tee','TH Tee'],['th_cross','TH Cross'],['th_street_elbow','TH Street Elbow'],['th_coupling','TH Coupling'],['th_cap','TH Cap']],
+};
+
+let multiCards = []; // array of {id, module, type}
+let multiDragSlot = null; // for card reorder
+let multiDragTile = null; // for tile drag
+
+let multiShared = { nps:'', sch:'', cls:'' };
+
+function setMode(m){
+  state.mode = m;
+  document.getElementById('btn-mode-single').classList.toggle('active', m==='single');
+  document.getElementById('btn-mode-multi').classList.toggle('active', m==='multi');
+  document.getElementById('multi-area').style.display = m==='multi' ? 'flex' : 'none';
+  document.getElementById('content').style.display = m==='multi' ? 'none' : '';
+  document.getElementById('filter-bar').style.display = m==='multi' ? 'none' : (state.cat ? 'flex' : 'none');
+
+  // tiles: draggable in multi, clickable in single
+  document.querySelectorAll('.cat-tile').forEach(t => {
+    const cat = t.dataset.cat;
+    if(m==='multi'){
+      if(MULTI_DISABLED.includes(cat)){
+        t.classList.add('multi-disabled');
+        t.draggable = false;
+      } else if(MULTI_MODULES.includes(cat)){
+        t.classList.add('multi-draggable');
+        t.draggable = true;
+        t.ondragstart = e => { multiDragTile = cat; e.dataTransfer.effectAllowed='copy'; };
+        t.ondragend = () => { multiDragTile = null; };
+      }
+    } else {
+      t.classList.remove('multi-draggable','multi-disabled');
+      t.draggable = false;
+      t.ondragstart = null;
+    }
+  });
+
+  if(m==='multi') renderMultiSlots();
+}
+
+function renderMultiSlots(){
+  const grid = document.getElementById('multi-cards');
+  grid.innerHTML = '';
+  for(let i=0; i<MULTI_SLOTS; i++){
+    const card = multiCards[i];
+    if(card){
+      grid.appendChild(buildFilledCard(card, i));
+    } else {
+      grid.appendChild(buildDropZone(i));
+    }
+  }
+  renderMultiSharedBar();
+}
+
+function buildDropZone(idx){
+  const div = document.createElement('div');
+  div.className = 'multi-drop';
+  div.dataset.slot = idx;
+  div.innerHTML = `<div class="drop-hint"><span>＋</span>Drag a module here</div>`;
+  div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
+  div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+  div.addEventListener('drop', e => {
+    e.preventDefault();
+    div.classList.remove('drag-over');
+    if(multiDragTile){
+      const types = MULTI_TYPES[multiDragTile];
+      multiCards[idx] = { id: Date.now(), module: multiDragTile, type: types?.[0]?.[0]||'' };
+      renderMultiSlots();
+      fetchMultiCard(idx);
+    } else if(multiDragSlot !== null && multiDragSlot !== idx){
+      const tmp = multiCards[idx];
+      multiCards[idx] = multiCards[multiDragSlot];
+      multiCards[multiDragSlot] = tmp;
+      multiDragSlot = null;
+      renderMultiSlots();
+    }
+  });
+  return div;
+}
+
+function buildFilledCard(card, idx){
+  const meta = MULTI_META[card.module] || {};
+  const types = MULTI_TYPES[card.module] || [];
+  const div = document.createElement('div');
+  div.className = 'multi-card';
+  div.draggable = true;
+  div.dataset.slot = idx;
+  div.addEventListener('dragstart', e => { multiDragSlot = idx; e.dataTransfer.effectAllowed='move'; });
+  div.addEventListener('dragend', () => { multiDragSlot = null; div.classList.remove('card-drag-over'); });
+  div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('card-drag-over'); });
+  div.addEventListener('dragleave', () => div.classList.remove('card-drag-over'));
+  div.addEventListener('drop', e => {
+    e.preventDefault();
+    div.classList.remove('card-drag-over');
+    if(multiDragTile){
+      const types2 = MULTI_TYPES[multiDragTile];
+      multiCards[idx] = { id: Date.now(), module: multiDragTile, type: types2?.[0]?.[0]||'' };
+      renderMultiSlots();
+      fetchMultiCard(idx);
+    } else if(multiDragSlot !== null && multiDragSlot !== idx){
+      const tmp = multiCards[idx];
+      multiCards[idx] = multiCards[multiDragSlot];
+      multiCards[multiDragSlot] = tmp;
+      multiDragSlot = null;
+      renderMultiSlots();
+    }
+  });
+
+  const typeOpts = types.map(([v,l])=>`<option value="${v}"${v===card.type?' selected':''}>${l}</option>`).join('');
+  div.innerHTML = `
+    <div class="multi-card-header">
+      <span class="multi-card-icon">${meta.icon||'📦'}</span>
+      <span class="multi-card-title">${meta.label||card.module}</span>
+      <select class="multi-card-type" onchange="onMultiTypeChange(${idx},this.value)">${typeOpts}</select>
+    </div>
+    <div class="multi-card-body" id="mc-body-${idx}">
+      <div class="mc-loading">Select NPS to load data…</div>
+    </div>
+    <button class="multi-card-del" title="Remove" onclick="removeMultiCard(${idx})">✕</button>`;
+  return div;
+}
+
+function onMultiTypeChange(idx, val){
+  multiCards[idx].type = val;
+  fetchMultiCard(idx);
+}
+
+function removeMultiCard(idx){
+  multiCards[idx] = null;
+  renderMultiSlots();
+}
+
+function renderMultiSharedBar(){
+  const bar = document.getElementById('multi-shared-bar');
+  const active = multiCards.filter(Boolean);
+  if(!active.length){ bar.innerHTML='<span style="color:var(--text2);font-size:12px">Drag modules from the left to start.</span>'; return; }
+
+  const needsSch   = active.some(c => MULTI_META[c.module]?.needsSch);
+  const needsClass = active.some(c => MULTI_META[c.module]?.needsClass);
+
+  bar.innerHTML = `
+    <div class="select-group">
+      <div class="select-label">NPS</div>
+      <select id="ms-nps" onchange="onMultiNpsChange(this.value)">
+        <option value="">— Select NPS —</option>
+        ${NPS_ORDER.map(n=>`<option value="${n}"${n===multiShared.nps?' selected':''}>${n}"</option>`).join('')}
+      </select>
+    </div>
+    ${needsSch ? `<div class="select-group">
+      <div class="select-label">Schedule</div>
+      <select id="ms-sch" onchange="onMultiSchChange(this.value)">
+        <option value="">— All Schedules —</option>
+        ${['SCH5','SCH10','SCH20','SCH30','STD','SCH40','SCH60','XS','SCH80','SCH100','SCH120','SCH140','SCH160','XXS'].map(s=>`<option value="${s}"${s===multiShared.sch?' selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>` : ''}
+    ${needsClass ? `<div class="select-group">
+      <div class="select-label">Pressure Class</div>
+      <select id="ms-cls" onchange="onMultiClsChange(this.value)">
+        <option value="">— Select Class —</option>
+        ${['150','300','400','600','900','1500','2500'].map(c=>`<option value="${c}"${c===multiShared.cls?' selected':''}>${c} lb</option>`).join('')}
+      </select>
+    </div>` : ''}`;
+}
+
+function onMultiNpsChange(v){ multiShared.nps=v; fetchAllMultiCards(); }
+function onMultiSchChange(v){ multiShared.sch=v; fetchAllMultiCards(); }
+function onMultiClsChange(v){ multiShared.cls=v; fetchAllMultiCards(); }
+
+function fetchAllMultiCards(){
+  multiCards.forEach((_,i) => { if(multiCards[i]) fetchMultiCard(i); });
+}
+
+async function fetchMultiCard(idx){
+  const card = multiCards[idx];
+  if(!card) return;
+  const body = document.getElementById(`mc-body-${idx}`);
+  if(!body) return;
+  if(!multiShared.nps){ body.innerHTML='<div class="mc-loading">Select NPS to load data…</div>'; return; }
+
+  body.innerHTML='<div class="mc-loading">Loading…</div>';
+  const nps = multiShared.nps;
+  const sch = multiShared.sch;
+  const cls = multiShared.cls;
+  const unit = state.pipeUnit||'SI';
+  const u = unit==='SI'?'mm':'in';
+  const apiUnit = unit; // 'SI' or 'US' for API calls
+
+  try {
+    let rows = [];
+    if(card.module==='facilities'){
+      const std = state.pipeStd||'b3610';
+      const data = std==='b3619'?B3619:B3610;
+      const isSI = unit==='SI';
+      const row = data.find(r=>r.nps===nps && (!sch||(r.sch===sch||r.id===sch)));
+      if(row) rows = [
+        ['OD', isSI?`${row.od_mm} mm`:`${row.od_in}"`],
+        ['WT', isSI?`${row.wt_mm} mm`:`${row.wt_in}"`],
+        ['Sch', row.sch||row.id||'—'],
+        ['W',  isSI?`${row.w_kgm??'—'} kg/m`:`${row.w_lbft??'—'} lb/ft`],
+      ];
+    }
+    else if(card.module==='fittings'){
+      // Dimensions from b169 — map UI type to data key
+      const b169Key = FIT_DATA_KEY[card.type] || card.type;
+      const dimRes = await fetch(`/.netlify/functions/b169?type=${encodeURIComponent(b169Key)}&nps=${encodeURIComponent(nps)}`);
+      if(dimRes.ok){
+        const dimJson = await dimRes.json();
+        const hdrs = dimJson.headers||[];
+        const row = dimJson.data?.[0];
+        if(row){ const unitHdrs=hdrs.slice(1).filter(h=>unit==='SI'?String(h).includes(' mm'):String(h).includes(' in')); (unitHdrs.length?unitHdrs:hdrs.slice(1)).slice(0,3).forEach(h=>{ const k=h.key||h; if(row[k]!=null) rows.push([String(k).replace(/ mm| in\.?/g,'').trim(),`${row[k]} ${u}`]); }); }
+      }
+      // Weight from b169weights
+      const wRes = await fetch(`/.netlify/functions/b169weights?wkeys=${encodeURIComponent(card.type)}&nps=${encodeURIComponent(nps)}${sch?'&sch='+encodeURIComponent(sch):''}`);
+      if(wRes.ok){ const wj=await wRes.json(); const wt=wj[card.type]; if(wt!=null) rows.push(['Weight',`${typeof wt==='object'?JSON.stringify(wt):wt} kg`]); }
+    }
+    else if(card.module==='flanges'){
+      if(!cls){ body.innerHTML='<div class="mc-loading">Select Class…</div>'; return; }
+      const res = await fetch(`/.netlify/functions/b165?cls=${cls}&nps=${encodeURIComponent(nps)}&unit=${apiUnit}`);
+      if(res.ok){
+        const json = await res.json();
+        const hdrs = json.headers||[];
+        const row = json.data?.[0];
+        if(row) hdrs.slice(1,4).forEach(h=>{ const k=h.key||h; if(row[k]!=null) rows.push([h.desc||k,`${row[k]} ${u}`]); });
+      }
+      const wRes = await fetch(`/.netlify/functions/b165weights?cls=${cls}&nps=${encodeURIComponent(nps)}&type=${card.type.toLowerCase()}`);
+      if(wRes.ok){ const wj=await wRes.json(); if(wj.weight!=null) rows.push(['Weight',`${wj.weight} kg`]); }
+    }
+    else if(card.module==='b1648'){
+      if(!cls){ body.innerHTML='<div class="mc-loading">Select Class…</div>'; return; }
+      const res = await fetch(`/.netlify/functions/b1648?cls=${cls}&nps=${encodeURIComponent(nps)}`);
+      if(res.ok){
+        const json = await res.json();
+        const row = json.data?.[0];
+        if(row){ const keys=Object.keys(row).filter(k=>k!=='nps').slice(0,4); keys.forEach(k=>rows.push([k,`${row[k]} ${u}`])); }
+      }
+    }
+    else if(card.module==='sw11'||card.module==='th11'){
+      if(!cls){ body.innerHTML='<div class="mc-loading">Select Class…</div>'; return; }
+      const res = await fetch(`/.netlify/functions/b1611?type=${encodeURIComponent(card.type)}&unit=${apiUnit}&nps=${encodeURIComponent(nps)}`);
+      if(res.ok){
+        const json = await res.json();
+        const row = json.row;
+        if(row){ const clsData=row[cls]; if(clsData && typeof clsData==='object'){ Object.entries(clsData).slice(0,4).forEach(([k,v])=>rows.push([k,`${v} ${u}`])); } else if(clsData!=null){ rows.push([cls+' lb',`${clsData} ${u}`]); } }
+      }
+    }
+
+    if(!rows.length){ body.innerHTML='<div class="mc-loading">No data for this selection.</div>'; return; }
+
+    // Build SVG image section
+    let svgHtml = '';
+    if(card.module==='facilities'){
+      svgHtml = `<img src="Fittings SVG/pipe_12in_sch80_lateral_transverse.svg" alt="Pipe cross-section">`;
+    } else if(card.module==='fittings'){
+      svgHtml = FITTING_SVG[card.type] || '';
+    } else if(card.module==='flanges'){
+      const svgKey = FLANGE_TYPES.find(f=>f.key===card.type)?.svg || 'BL';
+      svgHtml = FLANGE_SVG[svgKey] || FLANGE_SVG['BL'] || '';
+    } else if(card.module==='b1648'){
+      svgHtml = `<img src="Fittings SVG/figure_8_blank_12in_300_RF.svg" alt="Figure 8 Blank">`;
+    } else if(card.module==='sw11'||card.module==='th11'){
+      const b11 = B11_TYPES[card.type];
+      if(b11?.svgFile) svgHtml = `<img src="Fittings SVG/${b11.svgFile}" alt="${b11.title}">`;
+    }
+
+    const dataHtml = rows.map(([l,v])=>`<div class="mc-row"><span class="mc-lbl">${l}</span><span class="mc-val">${v}</span></div>`).join('');
+    body.innerHTML = `
+      <div class="mc-svg-wrap">${svgHtml}</div>
+      <div class="mc-data-grid">${dataHtml}</div>`;
+  } catch(e){
+    body.innerHTML='<div class="mc-loading">Error loading data.</div>';
+  }
 }
 
 // ─── LITE MODE INIT ──────────────────────────────────────
