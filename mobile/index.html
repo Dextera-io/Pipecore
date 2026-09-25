@@ -527,26 +527,18 @@
           <option value="">— Select Type —</option>
           <optgroup label="── ELBOWS ──────────────">
             <option value="LR_90">90° LR Elbow BW</option>
-            <option value="SR_90">90° SR Elbow BW</option>
-            <option value="3D_90">90° 3D Elbow BW</option>
-            <option value="LR_Reducing">90° LR Reducing Elbow BW</option>
             <option value="LR_45">45° LR Elbow BW</option>
-            <option value="3D_45">45° 3D Elbow BW</option>
             <option value="LR_Returns">180° LR Return BW</option>
             <option value="SR_Returns">180° SR Return BW</option>
           </optgroup>
           <optgroup label="── TEES ────────────────">
-            <option value="Straight_Tees">Straight Tees BW</option>
-            <option value="Straight_Crosses">Straight Crosses BW</option>
             <option value="Reducing_Tees">Reducing Tees BW</option>
           </optgroup>
           <optgroup label="── REDUCERS ────────────">
-            <option value="Conc_Reducers">Concentric Reducers BW</option>
             <option value="Ecc_Reducers">Eccentric Reducers BW</option>
           </optgroup>
           <optgroup label="── OTHER ────────────────">
             <option value="Caps">Caps BW</option>
-            <option value="Stub_Ends">Stub Ends (Lap Joint) BW</option>
           </optgroup>
         </select>
       </div>
@@ -3380,10 +3372,12 @@ const B11_CLASS_COLS = {
   '2000': k => k.includes('2k')||(!k.includes('3k')&&!k.includes('6k')&&!k.includes('9k')),
 };
 
+const B11_LITE = new Set(['sw_90_elbow','sw_cross','sw_coupling','th_90_elbow','th_tee','th_cross','th_coupling','th_cap']);
+
 function buildB11TypeOptions(){
   const typeEl = document.getElementById('b11-type');
   const cat = state.b11cat;
-  const entries = Object.entries(B11_TYPES).filter(([,v])=>v.cat===cat);
+  const entries = Object.entries(B11_TYPES).filter(([k,v])=>v.cat===cat && B11_LITE.has(k));
   typeEl.innerHTML = `<option value="">${t('opt.selectType')}</option>` +
     entries.map(([k])=>`<option value="${k}">${t('b11.'+k)}</option>`).join('');
   state.b11type=''; state.b11class=''; state.b11nps='';
