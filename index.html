@@ -428,7 +428,7 @@
           <div class="name" data-i18n="cat.facilities">Pipe Facilities</div>
           <div class="std">B36.10 / B36.19</div>
         </div>
-        <div class="cat-tile" data-cat="pipelines" onclick="selectCat('pipelines')">
+        <div class="cat-tile" data-cat="pipelines" onclick="selectCat('pipelines')" id="tile-pipelines">
           <div class="icon">🛢️</div>
           <div class="name" data-i18n="cat.pipelines">Pipe Pipelines</div>
           <div class="std">B36.10</div>
@@ -438,7 +438,7 @@
           <div class="name" data-i18n="cat.flanges">Flanges</div>
           <div class="std">B16.5</div>
         </div>
-        <div class="cat-tile" data-cat="b1647" onclick="selectCat('b1647')">
+        <div class="cat-tile" data-cat="b1647" onclick="selectCat('b1647')" id="tile-b1647">
           <div class="icon">🔵</div>
           <div class="name" data-i18n="cat.b1647">Large Flanges</div>
           <div class="std">B16.47</div>
@@ -468,7 +468,7 @@
           <div class="name" data-i18n="cat.converter">Unit Converter</div>
           <div class="std">SI ↔ Imperial</div>
         </div>
-        <div class="cat-tile" data-cat="spanCalc" onclick="selectCat('spanCalc')" style="grid-column:1/-1">
+        <div class="cat-tile" data-cat="spanCalc" onclick="selectCat('spanCalc')" style="grid-column:1/-1" id="tile-spanCalc">
           <div class="icon">📐</div>
           <div class="name" data-i18n="cat.spanCalc">Pipe Span Calculator</div>
           <div class="std">MSS SP-58</div>
@@ -757,6 +757,8 @@
 <!-- flange_weights.js served via /.netlify/functions/b165weights -->
 <!-- b1647_2025_data.js served via /.netlify/functions/b1647 -->
 <script>
+const IS_LITE = location.hostname === 'lite.usepipecore.app';
+
 // ─── STATE ───────────────────────────────────────────────
 const state = {
   cat: null,
@@ -1702,7 +1704,10 @@ FLANGE_SVG['BL'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353
 </svg>`;
 
 // Flange type config
-const FLANGE_TYPES = [
+const FLANGE_TYPES = IS_LITE ? [
+  {key:'WN', label:'Welding Neck', img:'FL Welding Neck.png', svg:'WN', yKey:['Y Neck']},
+  {key:'BL', label:'Blind',        img:'FL Flange.png',       svg:'BL', yKey:[]},
+] : [
   {key:'WN', label:'Welding Neck', img:'FL Welding Neck.png', svg:'WN', yKey:['Y Neck']},
   {key:'SO', label:'Slip-On',      img:'FL Slip on.png',      svg:'SO', yKey:['Y SO/SW','Y SO/T']},
   {key:'SW', label:'Socket Weld',  img:'FL Socket Weld.png',  svg:'SW', yKey:['Y SO/SW']},
@@ -3402,7 +3407,7 @@ const B11_CLASS_COLS = {
 function buildB11TypeOptions(){
   const typeEl = document.getElementById('b11-type');
   const cat = state.b11cat;
-  const entries = Object.entries(B11_TYPES).filter(([,v])=>v.cat===cat);
+  const entries = Object.entries(B11_TYPES).filter(([k,v])=>v.cat===cat && (!IS_LITE || B11_LITE.has(k)));
   typeEl.innerHTML = `<option value="">${t('opt.selectType')}</option>` +
     entries.map(([k])=>`<option value="${k}">${t('b11.'+k)}</option>`).join('');
   state.b11type=''; state.b11class=''; state.b11nps='';
@@ -5551,6 +5556,24 @@ function renderConverter(){
   </div>`;
 
   _renderConvInputs();
+}
+
+// ─── LITE MODE INIT ──────────────────────────────────────
+const BW_LITE = new Set(['LR_90','LR_45','LR_Returns','SR_Returns','Reducing_Tees','Ecc_Reducers','Caps']);
+const B11_LITE = new Set(['sw_90_elbow','sw_cross','sw_coupling','th_90_elbow','th_tee','th_cross','th_coupling','th_cap']);
+
+if (IS_LITE) {
+  document.addEventListener('DOMContentLoaded', () => {
+    // Hide tiles
+    ['tile-pipelines','tile-b1647','tile-spanCalc'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    // Filter BW fitting types
+    document.querySelectorAll('#fit-type option[value]').forEach(o => {
+      if (!BW_LITE.has(o.value)) o.style.display = 'none';
+    });
+  });
 }
 </script>
 </body>
