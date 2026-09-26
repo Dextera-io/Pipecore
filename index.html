@@ -5889,7 +5889,11 @@ async function fetchMultiCard(idx){
       if(res.ok){
         const json = await res.json();
         const row = json.data?.[0];
-        if(row){ const keys=Object.keys(row).filter(k=>k!=='nps').slice(0,4); keys.forEach(k=>rows.push([k,`${row[k]} ${u}`])); }
+        if(row){
+          const suffix = unit==='SI'?'_mm':'_in';
+          const keys = Object.keys(row).filter(k=>k!=='nps'&&k.endsWith(suffix));
+          keys.forEach(k=>rows.push([k.replace(suffix,''),`${row[k]} ${u}`]));
+        }
       }
     }
     else if(card.module==='sw11'||card.module==='th11'){
