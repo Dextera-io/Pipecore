@@ -61,27 +61,27 @@
   #multi-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:start; }
 
   /* ── Drop zone ── */
-  .multi-drop { border:2px dashed var(--border); border-radius:10px; min-height:300px; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:13px; transition:border-color .15s, background .15s; position:relative; }
+  .multi-drop { border:2px dashed var(--border); border-radius:10px; height:280px; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:13px; transition:border-color .15s, background .15s; position:relative; }
   .multi-drop.drag-over { border-color:var(--accent); background:rgba(99,102,241,.07); }
   .multi-drop .drop-hint { text-align:center; pointer-events:none; }
   .multi-drop .drop-hint span { font-size:28px; display:block; margin-bottom:6px; }
 
   /* ── Filled card ── */
-  .multi-card { border:1px solid var(--border); border-radius:10px; background:var(--surface); display:flex; flex-direction:column; overflow:hidden; position:relative; min-height:300px; }
-  .multi-card-header { display:flex; align-items:center; gap:8px; padding:8px 10px; background:#131620; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .multi-card { border:1px solid var(--border); border-radius:10px; background:#000; display:flex; flex-direction:column; overflow:hidden; position:relative; height:280px; }
+  .multi-card-header { display:flex; align-items:center; gap:8px; padding:7px 10px; background:#131620; border-bottom:1px solid var(--border); flex-wrap:wrap; flex-shrink:0; }
   .multi-card-icon { font-size:18px; flex-shrink:0; }
   .multi-card-title { font-size:11px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.5px; flex-shrink:0; }
-  .multi-card-type { flex:1; min-width:120px; font-size:11px; padding:4px 24px 4px 7px; }
-  .multi-card-del { position:absolute; bottom:8px; right:8px; width:24px; height:24px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--text2); font-size:11px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; opacity:.6; transition:opacity .15s; z-index:2; }
+  .multi-card-type { flex:1; min-width:100px; font-size:11px; padding:3px 22px 3px 6px; }
+  .multi-card-del { position:absolute; top:6px; right:6px; width:20px; height:20px; border-radius:50%; border:1px solid rgba(255,255,255,.25); background:rgba(0,0,0,.6); color:#bbb; font-size:10px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; opacity:.75; transition:opacity .15s; z-index:10; }
   .multi-card-del:hover { opacity:1; color:#f87171; border-color:#f87171; }
-  .multi-card-body { padding:8px 10px 34px; display:flex; flex-direction:column; gap:8px; flex:1; }
-  .mc-svg-wrap { height:150px; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .mc-svg-wrap img { max-width:100%; max-height:150px; object-fit:contain; }
-  .mc-svg-wrap svg { width:100%; max-height:150px; }
-  .mc-data-grid { display:grid; grid-template-columns:1fr 1fr; gap:3px 10px; }
-  .mc-row { display:flex; flex-direction:column; }
-  .mc-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text2); }
-  .mc-val { font-size:13px; font-weight:600; color:var(--text); }
+  .multi-card-body { padding:0; flex:1; min-height:0; position:relative; overflow:hidden; }
+  .mc-svg-wrap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#fff; }
+  .mc-svg-wrap img { width:100%; height:100%; object-fit:contain; display:block; }
+  .mc-svg-wrap svg { width:100%; height:100%; display:block; }
+  .mc-dim-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(transparent,rgba(10,12,22,.85) 35%); padding:22px 10px 8px; display:grid; grid-template-columns:repeat(2,1fr); gap:1px 8px; pointer-events:none; }
+  .mc-dim-item { display:flex; gap:4px; align-items:baseline; min-width:0; }
+  .mc-dim-lbl { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:rgba(180,190,210,.75); white-space:nowrap; flex-shrink:0; }
+  .mc-dim-val { font-size:12px; font-weight:700; color:#e2e8f0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .mc-loading { font-size:12px; color:var(--text2); padding:10px 12px; }
 
   /* ── Draggable tiles in multi mode ── */
@@ -5870,7 +5870,7 @@ async function fetchMultiCard(idx){
         const json = await res.json();
         const hdrs = json.headers||[];
         const row = json.data?.[0];
-        if(row) hdrs.slice(1,4).forEach(h=>{ const k=h.key||h; if(row[k]!=null) rows.push([h.desc||k,`${row[k]} ${u}`]); });
+        if(row) hdrs.slice(1,4).forEach(h=>{ const k=h.key||h; if(row[k]!=null) rows.push([k,`${row[k]} ${u}`]); });
       }
       const wRes = await fetch(`/.netlify/functions/b165weights?cls=${cls}&nps=${encodeURIComponent(nps)}&type=${card.type.toLowerCase()}`);
       if(wRes.ok){ const wj=await wRes.json(); if(wj.weight!=null) rows.push(['Weight',`${wj.weight} kg`]); }
@@ -5912,10 +5912,8 @@ async function fetchMultiCard(idx){
       if(b11?.svgFile) svgHtml = `<img src="Fittings SVG/${b11.svgFile}" alt="${b11.title}">`;
     }
 
-    const dataHtml = rows.map(([l,v])=>`<div class="mc-row"><span class="mc-lbl">${l}</span><span class="mc-val">${v}</span></div>`).join('');
-    body.innerHTML = `
-      <div class="mc-svg-wrap">${svgHtml}</div>
-      <div class="mc-data-grid">${dataHtml}</div>`;
+    const overlayHtml = rows.map(([l,v])=>`<div class="mc-dim-item"><span class="mc-dim-lbl">${l}</span><span class="mc-dim-val">${v}</span></div>`).join('');
+    body.innerHTML = `<div class="mc-svg-wrap">${svgHtml}<div class="mc-dim-overlay">${overlayHtml}</div></div>`;
   } catch(e){
     body.innerHTML='<div class="mc-loading">Error loading data.</div>';
   }
