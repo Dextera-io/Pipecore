@@ -3590,6 +3590,7 @@ function setB11Unit(u){
     if(state.b11nps && sizes.includes(state.b11nps)) npsEl.value=state.b11nps;
   }
   renderB1611();
+  if(state.mode==='multi') multiCards.forEach((_,i)=>{ if(multiCards[i]) fetchMultiCard(i); });
 }
 
 const _b11SvgCache = {};
@@ -5871,7 +5872,13 @@ async function fetchMultiCard(idx){
         const json = await res.json();
         const hdrs = json.headers||[];
         const row = json.data?.[0];
-        if(row) hdrs.slice(1,4).forEach(h=>{ const k=h.key||h; if(row[k]!=null) rows.push([k,`${row[k]} ${u}`]); });
+        if(row){
+          // O = Outside Dia (always), tf/t/X = bore/thickness dims, Y key depends on flange type
+          const yKeyMap = {WN:'Y Neck', SO:'Y SO/SW', SW:'Y SO/SW', LJ:'Y Lapped', TH:'Y SO/SW', BL:'Y SO/SW'};
+          const yKey = yKeyMap[card.type] || 'Y Neck';
+          const wantKeys = ['O','tf','t','X',yKey];
+          wantKeys.forEach(k=>{ if(row[k]!=null) rows.push([k,`${row[k]} ${u}`]); });
+        }
       }
       const wRes = await fetch(`/.netlify/functions/b165weights?cls=${cls}&nps=${encodeURIComponent(nps)}&type=${card.type.toLowerCase()}`);
       if(wRes.ok){ const wj=await wRes.json(); if(wj.weight!=null) rows.push(['Weight',`${wj.weight} kg`]); }
@@ -5895,7 +5902,7 @@ async function fetchMultiCard(idx){
       }
     }
 
-    if(!rows.length){ body.innerHTML='<div class="mc-loading">No data for this selection.</div>'; return; }
+    if(!rows.length && card.module!=='facilities'){ body.innerHTML='<div class="mc-loading">No data for this selection.</div>'; return; }
 
     // Build SVG image section
     let svgHtml = '';

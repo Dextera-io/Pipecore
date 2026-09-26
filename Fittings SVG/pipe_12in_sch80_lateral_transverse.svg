@@ -67,7 +67,6 @@
   <line x1="390" y1="270" x2="390" y2="321" stroke="black" stroke-width="0.75"/>
   <line x1="690" y1="270" x2="690" y2="321" stroke="black" stroke-width="0.75"/>
   <line x1="390" y1="312" x2="690" y2="312" stroke="black" stroke-width="1"/>
-  <text x="540" y="306" text-anchor="middle" font-size="14" font-weight="bold">W = 132.04 kg/m  (88.71 lb/ft)</text>
 
   <!-- View names aligned at the same height below the mass reference. -->
   <text x="185" y="342" text-anchor="middle" font-size="15" font-weight="bold">Transverse View</text>
