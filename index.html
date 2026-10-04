@@ -104,12 +104,80 @@
     display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: flex-end; width: 100%;
   }
   .filter-bar .sidebar-label { display: none; }
-  .filter-bar .select-group { margin-bottom: 0; min-width: 130px; flex: 1; max-width: 210px; }
+  .filter-bar .select-group { margin-bottom: 0; min-width: 100px; flex: 1 1 120px; max-width: calc(50% - 7px); display: flex; flex-direction: column; }
   .filter-bar .select-group select { font-size: 12px; padding: 6px 28px 6px 9px; }
   .filter-bar .select-label { font-size: 10px; margin-bottom: 3px; }
   .filter-bar .toggle-row { margin-bottom: 0; flex: 0 0 auto; gap: 6px; }
   .filter-bar .toggle-label { display: none; }   /* "Units" label hidden, toggle speaks for itself */
   .filter-bar .toggle button { padding: 5px 10px; font-size: 11px; }
+
+  /* ── Mobile portrait SVG rotation ── */
+  @media (max-width: 480px) {
+    /* 3-select modules: all selects in one row */
+    #pipe-selectors .select-group,
+    #flange-selectors .select-group,
+    #b1648-selectors .select-group,
+    #b1611-selectors .select-group { flex: 1 1 0 !important; max-width: calc(33.333% - 6px) !important; min-width: 0 !important; }
+    /* Truncate long labels so they don't wrap */
+    #pipe-selectors .select-label,
+    #flange-selectors .select-label,
+    #b1648-selectors .select-label,
+    #b1611-selectors .select-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Multi mode shared bar — compact on mobile */
+    #multi-shared-bar { padding:6px 10px; gap:6px 8px; }
+    #multi-shared-bar .select-group { min-width:0; flex:1; max-width:none; }
+    #multi-shared-bar .select-group select { font-size:11px; padding:5px 22px 5px 7px; }
+    #multi-shared-bar .select-label { font-size:9px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    /* Multi card SVG: fill card area (preserving aspect ratio) on mobile */
+    .mc-svg-wrap > svg { position:absolute; inset:8px; width:calc(100% - 16px) !important; height:calc(100% - 16px) !important; }
+    .mc-svg-wrap > img { position:absolute; inset:8px; width:calc(100% - 16px) !important; height:calc(100% - 16px) !important; object-fit:contain; }
+    /* Multi mode: swipe carousel */
+    #multi-cards-wrap { padding: 0; overflow-x:hidden; overflow-y:hidden; }
+    #multi-cards { display:flex !important; flex-direction:row; overflow-x:scroll; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; height:100%; gap:0; grid-template-columns:none !important; grid-template-rows:none !important; }
+    #multi-cards::-webkit-scrollbar { display:none; }
+    #multi-cards .multi-card, #multi-cards .multi-drop { flex:0 0 100%; width:100%; border-radius:0; border-left:none; border-right:none; scroll-snap-align:start; }
+    /* Mobile module picker bottom sheet */
+    #mobile-module-picker .picker-sheet { background:var(--surface); width:100%; border-radius:16px 16px 0 0; padding:16px; max-height:70vh; overflow-y:auto; box-sizing:border-box; }
+    #mobile-module-picker .picker-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+    #mobile-module-picker .picker-btn { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px 8px; color:var(--text); cursor:pointer; text-align:left; }
+    #mobile-module-picker .picker-btn-icon { font-size:22px; }
+    #mobile-module-picker .picker-btn-lbl { font-size:11px; font-weight:700; margin-top:5px; }
+    /* Make drawing-view single-column on mobile so dwg-panel gets full width */
+    .drawing-view { grid-template-columns: 1fr !important; }
+    .dim-panel { display: none !important; }
+    .dwg-panel { border-radius: 0 !important; border-left: none !important; border-right: none !important; }
+    /* Pipe SVG (760×353): rotate 90° → transverse on top, lateral below */
+    .pipe-portrait-wrap {
+      position: relative; overflow: hidden; width: 100%;
+      padding-top: 215%; /* 760/353 */
+    }
+    .pipe-portrait-wrap > svg {
+      position: absolute !important; width: 215% !important; height: auto !important;
+      left: -57.5%; top: 26.7%;
+      transform: rotate(90deg); transform-origin: center center;
+    }
+    /* B16.48 RF (840×560): rotate 90° → portrait */
+    .b48-portrait-rf {
+      position: relative; overflow: hidden; width: 100%;
+      padding-top: 150%; /* 840/560 */
+    }
+    .b48-portrait-rf > svg {
+      position: absolute !important; width: 150% !important; height: auto !important;
+      left: -25%; top: 16.7%;
+      transform: rotate(90deg); transform-origin: center center;
+    }
+    /* B16.48 FRJ/MRJ (840×580): rotate 90° → portrait */
+    .b48-portrait-frj {
+      position: relative; overflow: hidden; width: 100%;
+      padding-top: 144.8%; /* 840/580 */
+    }
+    .b48-portrait-frj > svg {
+      position: absolute !important; width: 144.8% !important; height: auto !important;
+      left: -22.4%; top: 15.5%;
+      transform: rotate(90deg); transform-origin: center center;
+    }
+  }
 
   .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   /* Span calculator panel */
@@ -236,8 +304,8 @@
   }
   .dwg-panel svg { display: block; width: 100%; max-width: 720px; height: auto; margin: 0 auto; }
   .dwg-header { padding: 10px 14px 8px; background: #e8edf2; border-bottom: 1px solid #ccd; }
-  .dwg-title { font-size: 13px; font-weight: 700; color: #1a2d3a; }
-  .dwg-sub { font-size: 10px; color: #667; margin-top: 2px; }
+  .dwg-title { font-size: 15px; font-weight: 700; color: #1a2d3a; }
+  .dwg-sub { font-size: 11px; color: #667; margin-top: 2px; }
   .img-container {
     padding: 20px 24px; display: flex; align-items: center; justify-content: center;
     gap: 18px; background: #f5f7f2; min-height: 260px;
@@ -259,7 +327,7 @@
     position: absolute; transform: translate(-50%, -50%);
     background: #111; color: #fff;
     font-family: Arial, sans-serif;
-    font-size: clamp(6px, 0.85vw, 12px);
+    font-size: clamp(8px, 1.1vw, 14px);
     font-weight: 700;
     padding: clamp(1px, 0.2vw, 4px) clamp(4px, 0.7vw, 11px);
     border-radius: 3px;
@@ -424,6 +492,43 @@
     border: 1px solid #6a3a1a; border-radius: 5px; padding: 2px 9px;
     display: inline-flex; align-items: center; gap: 5px;
   }
+
+  /* ── Mobile layout (Android WebView) ── */
+  @media (max-width: 600px) { .android-webview-placeholder {} }
+
+  .android-webview header {
+    padding-top: 28px;
+    height: auto;
+    min-height: 58px;
+  }
+  .android-webview .app { grid-template-columns: 1fr; }
+  .android-webview .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 8px;
+  }
+  .android-webview .cat-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .android-webview .cat-tile {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    min-height: 48px;
+    text-align: left;
+  }
+  .android-webview .cat-tile .icon { font-size: 20px; margin-bottom: 0; }
+  .android-webview .cat-tile .name { font-size: 13px; }
+  .android-webview .cat-tile .std  { margin-top: 0; }
+  .android-webview .right-col { height: calc(100vh - 86px); }
+  .android-webview .drawing-view { grid-template-columns: 1fr; }
+  .android-webview .dim-panel { display: none !important; }
+  .android-webview .dwg-panel { border-radius: 0; border-left: none; border-right: none; }
 </style>
 </head>
 <body>
@@ -445,7 +550,7 @@
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:7px">
-      <span id="hdr-lang-label" style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Language</span>
+      <span id="hdr-lang-label" style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Lang</span>
       <div class="toggle header-toggle">
         <button id="lang-en" class="active" onclick="setLang('EN')" title="English" style="font-size:15px;font-weight:700;font-family:'Segoe UI',system-ui,sans-serif;letter-spacing:-0.3px;padding:4px 11px">e</button>
         <button id="lang-es" onclick="setLang('ES')" title="Español" style="font-size:15px;font-weight:700;font-family:'Segoe UI',system-ui,sans-serif;letter-spacing:-0.3px;padding:4px 11px">ñ</button>
@@ -578,6 +683,11 @@
           <option value="">— All Sizes —</option>
         </select>
       </div>
+      <div class="select-group">
+        <div class="select-label">Type</div>
+        <select id="fl-type" onchange="setFlangeType(this.value)">
+        </select>
+      </div>
       <!-- hidden sync buttons kept for setFlangeUnit DOM updates -->
       <button id="fl-unit-us" class="active" style="display:none" onclick="setFlangeUnit('US')"></button>
       <button id="fl-unit-si" style="display:none" onclick="setFlangeUnit('SI')"></button>
@@ -653,6 +763,13 @@
           <option value="">— All Sizes —</option>
         </select>
       </div>
+      <div class="select-group">
+        <div class="select-label">Type</div>
+        <select id="b47-type" onchange="setB47Type(this.value)">
+          <option value="WN">Welding Neck</option>
+          <option value="BL">Blind</option>
+        </select>
+      </div>
       <!-- hidden sync buttons kept for setB47Unit DOM updates -->
       <button id="b47-unit-us" class="active" style="display:none" onclick="setB47Unit('US')"></button>
       <button id="b47-unit-si" style="display:none" onclick="setB47Unit('SI')"></button>
@@ -676,6 +793,14 @@
         <div class="select-label">NPS</div>
         <select id="b48-nps" onchange="renderB1648()" disabled>
           <option value="">— All Sizes —</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <div class="select-label">Face Type</div>
+        <select id="b48-face" onchange="setB48Face(this.value)">
+          <option value="RF">RF (Raised Face)</option>
+          <option value="FRJ">Female RTJ</option>
+          <option value="MRJ">Male RTJ</option>
         </select>
       </div>
       <!-- hidden sync buttons kept for setB48Unit DOM updates -->
@@ -793,6 +918,7 @@
     <span class="mode-lbl">Mode</span>
     <button class="mode-btn active" id="btn-mode-single" onclick="setMode('single')">Single</button>
     <button class="mode-btn" id="btn-mode-multi" onclick="setMode('multi')">Multiple</button>
+    <button id="multi-add-btn" onclick="openMobilePickerNext()" style="display:none;margin-left:auto;background:var(--accent);border:none;color:#fff;border-radius:7px;padding:5px 13px;font-size:18px;line-height:1;cursor:pointer">＋</button>
   </div>
 
   <!-- ── MULTI MODE AREA ── -->
@@ -800,7 +926,7 @@
     <div id="multi-shared-bar">
       <!-- populated dynamically -->
     </div>
-    <div id="multi-cards-wrap">
+    <div id="multi-cards-wrap" style="position:relative">
       <div id="multi-cards">
         <!-- drop zones populated by JS -->
       </div>
@@ -843,7 +969,7 @@ const state = {
 // ─── LANGUAGE / i18n ─────────────────────────────────────
 const LANG = {
   EN: {
-    'hdr.units': 'Units', 'hdr.lang': 'Language',
+    'hdr.units': 'Units', 'hdr.lang': 'Lang',
     'cat.label': 'Category',
     'cat.facilities': 'Pipe Facilities', 'cat.pipelines': 'Pipe Pipelines',
     'cat.flanges': 'Flanges', 'cat.b1647': 'Large Flanges',
@@ -937,7 +1063,7 @@ const LANG = {
     'prompt.complete': 'Complete all selections to view dimensions.',
   },
   ES: {
-    'hdr.units': 'Unidades', 'hdr.lang': 'Idioma',
+    'hdr.units': 'Unid.', 'hdr.lang': 'Idiom.',
     'cat.label': 'Categoría',
     'cat.facilities': 'Tubería Plantas', 'cat.pipelines': 'Tubería Oleoductos',
     'cat.flanges': 'Bridas', 'cat.b1647': 'Bridas Grandes',
@@ -1784,7 +1910,12 @@ const FLANGE_TYPES = IS_LITE ? [
   {key:'BL', label:'Blind',        img:'FL Flange.png',       svg:'BL', yKey:[]},
 ];
 
-function setFlangeType(key){ state.flangeType=key; renderFlanges(); }
+function setFlangeType(key){
+  state.flangeType=key;
+  const sel = document.getElementById('fl-type');
+  if(sel && sel.value !== key) sel.value = key;
+  renderFlanges();
+}
 
 // Resolve a label mapping to a value from row
 function resolveValue(mapping, row, isFlange, unit) {
@@ -2464,6 +2595,64 @@ const PIPE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353" 
   <text id="svgPipeViewR" x="597" y="342" text-anchor="middle" font-size="15" font-weight="bold">Lateral View</text>
 </svg>`;
 
+// Portrait (vertical) pipe SVG for mobile — 460×660, transverse on top, lateral below
+const PIPE_SVG_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 460 660" font-family="Arial, sans-serif">
+  <rect x="0" y="0" width="460" height="660" fill="white"/>
+  <defs>
+    <linearGradient id="pipeSideFillV" gradientUnits="userSpaceOnUse" x1="0" y1="90" x2="0" y2="270">
+      <stop offset="0" stop-color="#aebbc9"/>
+      <stop offset="0.22" stop-color="#d9e1e9"/>
+      <stop offset="0.50" stop-color="#ffffff"/>
+      <stop offset="0.78" stop-color="#d9e1e9"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </linearGradient>
+    <radialGradient id="pipeEndFillV" gradientUnits="userSpaceOnUse" cx="185" cy="180" r="90">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.84" stop-color="#f8fafc"/>
+      <stop offset="0.90" stop-color="#eef2f6"/>
+      <stop offset="1" stop-color="#aebbc9"/>
+    </radialGradient>
+    <mask id="pipeRingMaskV">
+      <rect x="0" y="0" width="760" height="353" fill="black"/>
+      <circle cx="185" cy="180" r="90" fill="white"/>
+      <circle cx="185" cy="180" r="80.28" fill="black"/>
+    </mask>
+    <marker id="pipeArrowSV" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M9,0 L9,6 L0,3 z" fill="black"/>
+    </marker>
+    <marker id="pipeArrowEV" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+    <marker id="pipeLeaderV" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <text x="230" y="24" text-anchor="middle" font-size="17" font-weight="bold">12&quot; Sch 80 Pipe &#8212; Transverse and Lateral Views</text>
+  <g id="transverse-view" transform="translate(35 5)">
+  <rect x="95" y="90" width="180" height="180" fill="url(#pipeEndFillV)" mask="url(#pipeRingMaskV)"/>
+  <circle cx="185" cy="180" r="90" fill="none" stroke="black" stroke-width="1.75"/>
+  <circle cx="185" cy="180" r="80.28" fill="white" stroke="black" stroke-width="1.75"/>
+  <line x1="75" y1="180" x2="295" y2="180" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="185" y1="70" x2="185" y2="290" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="185" y1="90" x2="325" y2="90" stroke="black" stroke-width="0.75"/>
+  <line x1="185" y1="270" x2="325" y2="270" stroke="black" stroke-width="0.75"/>
+  <line x1="315" y1="90" x2="315" y2="270" stroke="black" stroke-width="1" marker-start="url(#pipeArrowSV)" marker-end="url(#pipeArrowEV)"/>
+  <text x="327" y="185" text-anchor="start" font-size="15" font-weight="bold">D</text>
+  <line x1="88" y1="104" x2="124.85" y2="119.85" stroke="black" stroke-width="1" marker-end="url(#pipeLeaderV)"/>
+  <text x="83" y="100" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">t</text>
+  <text id="svgPipeViewL" x="185" y="60" text-anchor="middle" font-size="15" font-weight="bold">Transverse View</text>
+  </g>
+  <g id="lateral-view" transform="translate(-310 270)">
+  <rect x="390" y="90" width="300" height="180" fill="url(#pipeSideFillV)" stroke="black" stroke-width="1.75"/>
+  <line x1="370" y1="180" x2="710" y2="180" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <line x1="390" y1="270" x2="390" y2="321" stroke="black" stroke-width="0.75"/>
+  <line x1="690" y1="270" x2="690" y2="321" stroke="black" stroke-width="0.75"/>
+  <line x1="390" y1="312" x2="690" y2="312" stroke="black" stroke-width="1"/>
+  <text x="540" y="330" text-anchor="middle" font-size="14" font-weight="bold">W</text>
+  <text id="svgPipeViewR" x="540" y="60" text-anchor="middle" font-size="15" font-weight="bold">Lateral View</text>
+  </g>
+</svg>`;
+
 function buildPipeSvgPanel(r, std, unit, nps){
   const isUS = unit === 'US';
   const u    = isUS ? 'in' : 'mm';
@@ -2477,7 +2666,8 @@ function buildPipeSvgPanel(r, std, unit, nps){
                  : (state.cat === 'pipelines' ? `WT ${r.wt_in} in` : '');
   const stdTxt = std === 'b3619' ? 'ASME B36.19' : 'ASME B36.10';
 
-  let svg = PIPE_SVG;
+  const isMobile = window.innerWidth <= 480;
+  let svg = isMobile ? PIPE_SVG_V : PIPE_SVG;
 
   // Title
   const _pipeWord = state.lang==='ES' ? 'Tubería' : 'Pipe';
@@ -2505,7 +2695,8 @@ function buildPipeSvgPanel(r, std, unit, nps){
     `$1W = ${w_si} kg/m  (${w_us} lb/ft)$3`);
 
   const hdr = `<div class="dwg-header"><div class="dwg-title">${_pipeWord}  NPS ${nps}"  ${schTxt}</div><div class="dwg-sub">${stdTxt}</div></div>`;
-  return `${hdr}<div style="padding:0">${svg}</div>`;
+  if(isMobile) return `${hdr}${svg}`;
+  return `${hdr}<div class="pipe-portrait-wrap">${svg}</div>`;
 }
 
 // ─── FITTING SVG TEMPLATES ────────────────────────────
@@ -3340,9 +3531,7 @@ async function renderFlanges(){
   }).join('');
   const cards = dimCard(`${t('flange.'+state.flangeType+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
 
-  const typeBar = `<div class="fl-type-bar">
-    ${FLANGE_TYPES.map(f=>`<button class="fl-btn${f.key===state.flangeType?' active':''}" onclick="setFlangeType('${f.key}')">${t('flange.'+f.key)}</button>`).join('')}
-  </div>`;
+  const typeBar = '';
 
   let weightCard = '';
   try {
@@ -3579,17 +3768,25 @@ function setB11Unit(u){
   document.getElementById('pipe-unit-us').classList.toggle('active',u==='US');
   document.getElementById('pipe-unit-si').classList.toggle('active',u==='SI');
   if(state.cat==='spanCalc'){ renderSpanCalc(); return; }
-  // Rebuild NPS list for new unit but keep selection
-  if(state.b11class && state.b11type){
-    const dataKey = B11_TYPES[state.b11type]?.data;
-    const unit = u==='SI'?'mm':'in';
-    const rawSizes2 = B1611_META[dataKey]?.nps||[];
-    const sizes = _NPS_ORD.filter(n=>rawSizes2.includes(n));
-    const npsEl = document.getElementById('b11-nps');
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
-    if(state.b11nps && sizes.includes(state.b11nps)) npsEl.value=state.b11nps;
+  // Re-render active single-mode module
+  const cat = state.cat;
+  if(cat==='facilities'||cat==='pipelines'){ renderPipe(); }
+  else if(cat==='flanges'){ renderFlanges(); }
+  else if(cat==='b1647'){ renderB1647(); }
+  else if(cat==='fittings'){ renderFittings(); }
+  else if(cat==='b1648'){ renderB1648 && renderB1648(); }
+  else if(cat==='sw11'||cat==='th11'){
+    // Rebuild NPS list for new unit but keep selection
+    if(state.b11class && state.b11type){
+      const dataKey = B11_TYPES[state.b11type]?.data;
+      const rawSizes2 = B1611_META[dataKey]?.nps||[];
+      const sizes = _NPS_ORD.filter(n=>rawSizes2.includes(n));
+      const npsEl = document.getElementById('b11-nps');
+      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      if(state.b11nps && sizes.includes(state.b11nps)) npsEl.value=state.b11nps;
+    }
+    renderB1611();
   }
-  renderB1611();
   if(state.mode==='multi') multiCards.forEach((_,i)=>{ if(multiCards[i]) fetchMultiCard(i); });
 }
 
@@ -3915,14 +4112,14 @@ function _b47Row(series, cls, unit, nps){
 
 const NOTE_H = `(h) Dimensions for Classes 400, 600, and 900 NPS 38 and larger for Series B flanges are the same as for the Series A flanges.`;
 
-function setB47Type(t){ state.b47type = t; renderB1647(); }
-
-function _b47TypeBar(){
-  return `<div class="fl-type-bar">
-    <button class="fl-btn${state.b47type==='WN'?' active':''}" onclick="setB47Type('WN')">${t('flange.WN')}</button>
-    <button class="fl-btn${state.b47type==='BL'?' active':''}" onclick="setB47Type('BL')">${t('flange.BL')}</button>
-  </div>`;
+function setB47Type(t){
+  state.b47type = t;
+  const sel = document.getElementById('b47-type');
+  if(sel && sel.value !== t) sel.value = t;
+  renderB1647();
 }
+
+function _b47TypeBar(){ return ''; }
 
 async function renderB1647(){
   state.b47nps = document.getElementById('b47-nps').value;
@@ -4634,6 +4831,234 @@ const B48_SVG_MRJ = `<svg xmlns="http://www.w3.org/2000/svg" width="840" height=
 
 const B48_SVG = { RF: B48_SVG_RF, FRJ: B48_SVG_FRJ, MRJ: B48_SVG_MRJ };
 
+// Portrait (vertical) B16.48 SVGs for mobile — 630×840
+const B48_SVG_RF_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 840" font-family="Arial, sans-serif">
+  <g transform="translate(0 840) rotate(-90)">
+  <rect x="0" y="0" width="840" height="630" fill="white"/>
+  <defs>
+    <linearGradient id="steelFace" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#eef3f7"/><stop offset="0.28" stop-color="#c7d1da"/>
+      <stop offset="0.55" stop-color="#f8fafc"/><stop offset="0.82" stop-color="#b9c5cf"/>
+      <stop offset="1" stop-color="#e5ebf0"/>
+    </linearGradient>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="#e7edf2"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#4b5563" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
+  </defs>
+  <g id="top-view" transform="translate(0 40)">
+    <rect x="351.30" y="164.28" width="31.40" height="73.44" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
+    <circle cx="205" cy="201" r="150.84" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="205" cy="201" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="529" cy="201" r="150.84" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="367" cy="201" r="2.52" fill="white" stroke="#111827" stroke-width="1.3"/>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4">
+      <line x1="34" y1="201" x2="700" y2="201"/><line x1="205" y1="31" x2="205" y2="371"/><line x1="529" y1="31" x2="529" y2="371"/>
+    </g>
+    <line x1="356" y1="164.28" x2="374" y2="164.28" stroke="#111827" stroke-width="0.8"/>
+    <line x1="356" y1="237.72" x2="374" y2="237.72" stroke="#111827" stroke-width="0.8"/>
+    <line x1="370" y1="164.28" x2="370" y2="237.72" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="205" y1="351.84" x2="205" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="529" y1="351.84" x2="529" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="205" y1="376" x2="529" y2="376" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <rect x="357" y="365" width="20" height="16" fill="white"/>
+  </g>
+  <g id="section-view" transform="translate(0 40)">
+    <rect x="54.16" y="452" width="34.20" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="321.64" y="452" width="34.20" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="355.84" y="452" width="26.86" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="382.70" y="452" width="297.14" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <g fill="#d7e0e7" stroke="#111827" stroke-width="1">
+      <rect x="67.84" y="450.92" width="20.52" height="1.08"/><rect x="321.64" y="450.92" width="20.52" height="1.08"/>
+      <rect x="67.84" y="488.58" width="20.52" height="1.08"/><rect x="321.64" y="488.58" width="20.52" height="1.08"/>
+      <rect x="391.84" y="450.92" width="274.32" height="1.08"/><rect x="391.84" y="488.58" width="274.32" height="1.08"/>
+    </g>
+    <rect x="364.48" y="451.2" width="5.04" height="38.18" fill="white" stroke="#111827" stroke-width="1.2"/>
+    <g stroke="#111827" stroke-width="1.2"><line x1="88.36" y1="452" x2="321.64" y2="452"/><line x1="88.36" y1="488.58" x2="321.64" y2="488.58"/></g>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"><line x1="205" y1="414" x2="205" y2="501"/><line x1="529" y1="414" x2="529" y2="501"/></g>
+    <line x1="54.16" y1="452" x2="54.16" y2="414" stroke="#111827" stroke-width="0.8"/>
+    <line x1="355.84" y1="452" x2="355.84" y2="414" stroke="#111827" stroke-width="0.8"/>
+    <line x1="54.16" y1="420" x2="355.84" y2="420" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <rect x="195" y="409" width="20" height="16" fill="white"/>
+    <line x1="679.84" y1="452" x2="715" y2="452" stroke="#111827" stroke-width="0.8"/>
+    <line x1="679.84" y1="488.58" x2="715" y2="488.58" stroke="#111827" stroke-width="0.8"/>
+    <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  </g>
+  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Figure-8 Blank (Spectacle Blind) &#8212; RF</text>
+  <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 4.3.1-2</text>
+  <text x="241" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="510" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
+    <rect x="231" y="461" width="20" height="18" fill="white"/><text x="241" y="476" font-style="italic" font-weight="bold">W</text>
+    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
+    <rect x="450" y="626" width="20" height="18" fill="white"/><text x="460" y="641" font-style="italic" font-weight="bold">O</text>
+    <rect x="500" y="124" width="21" height="18" fill="white"/><text x="510.5" y="139" font-style="italic" font-weight="bold">t</text>
+  </g>
+  <g stroke="#111827" fill="none">
+    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
+    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <rect x="540" y="626" width="20" height="18" fill="white"/>
+  <text x="550" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+</svg>`;
+
+const B48_SVG_FRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 840" font-family="Arial, sans-serif">
+  <g transform="translate(0 840) rotate(-90)">
+  <rect width="840" height="630" fill="white"/>
+  <defs>
+    <linearGradient id="steelFace" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#eef3f7"/><stop offset="0.28" stop-color="#c7d1da"/>
+      <stop offset="0.55" stop-color="#f8fafc"/><stop offset="0.82" stop-color="#b9c5cf"/>
+      <stop offset="1" stop-color="#e5ebf0"/>
+    </linearGradient>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="#e7edf2"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#4b5563" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
+  </defs>
+  <g id="top-view" transform="translate(0 40)">
+    <path d="M347.15 151.44 L386.85 151.44 A148.68 148.68 0 0 0 386.85 238.56 L347.15 238.56 A148.68 148.68 0 0 0 347.15 151.44 Z" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
+    <circle cx="205" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="205" cy="195" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="205" cy="195" r="128.5" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="205" cy="195" r="137.5" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="529" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="529" cy="195" r="116.64" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="529" cy="195" r="128.5" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="529" cy="195" r="137.5" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="367" cy="195" r="2.52" fill="white" stroke="#111827" stroke-width="1.3"/>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4">
+      <line x1="36" y1="195" x2="698" y2="195"/><line x1="205" y1="27" x2="205" y2="363"/><line x1="529" y1="27" x2="529" y2="363"/>
+    </g>
+    <line x1="356" y1="151.44" x2="374" y2="151.44" stroke="#111827" stroke-width="0.8"/>
+    <line x1="356" y1="238.56" x2="374" y2="238.56" stroke="#111827" stroke-width="0.8"/>
+    <line x1="370" y1="151.44" x2="370" y2="238.56" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="205" y1="343.68" x2="205" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="529" y1="343.68" x2="529" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="205" y1="376" x2="529" y2="376" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <rect x="357" y="365" width="20" height="16" fill="white"/>
+  </g>
+  <g id="section-view" transform="translate(0 40)">
+    <rect x="56.32" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="321.64" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="380.32" y="452" width="297.36" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <g fill="white" stroke="#111827" stroke-width="1.1" stroke-linejoin="round">
+      <path d="M67.5 452 L72 458.5 L76.5 452 Z"/><path d="M67.5 488.58 L72 482.08 L76.5 488.58 Z"/>
+      <path d="M333.5 452 L338 458.5 L342.5 452 Z"/><path d="M333.5 488.58 L338 482.08 L342.5 488.58 Z"/>
+      <path d="M391.5 452 L396 458.5 L400.5 452 Z"/><path d="M391.5 488.58 L396 482.08 L400.5 488.58 Z"/>
+      <path d="M657.5 452 L662 458.5 L666.5 452 Z"/><path d="M657.5 488.58 L662 482.08 L666.5 488.58 Z"/>
+    </g>
+    <rect x="353.68" y="463.5" width="26.64" height="13.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.5"/>
+    <rect x="364.48" y="462.7" width="5.04" height="15.18" fill="white" stroke="#111827" stroke-width="1.2"/>
+    <line x1="88.36" y1="452" x2="321.64" y2="452" stroke="#111827" stroke-width="1.2"/>
+    <line x1="88.36" y1="488.58" x2="321.64" y2="488.58" stroke="#111827" stroke-width="1.2"/>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"><line x1="205" y1="411" x2="205" y2="510"/><line x1="529" y1="411" x2="529" y2="510"/></g>
+    <line x1="56.32" y1="452" x2="56.32" y2="414" stroke="#111827" stroke-width="0.8"/>
+    <line x1="353.68" y1="452" x2="353.68" y2="414" stroke="#111827" stroke-width="0.8"/>
+    <line x1="56.32" y1="420" x2="353.68" y2="420" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <rect x="195" y="409" width="20" height="16" fill="white"/>
+    <line x1="677.68" y1="452" x2="715" y2="452" stroke="#111827" stroke-width="0.8"/>
+    <line x1="677.68" y1="488.58" x2="715" y2="488.58" stroke="#111827" stroke-width="0.8"/>
+    <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  </g>
+  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Female RTJ Figure-8 Blank</text>
+  <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-2</text>
+  <text x="235" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="510" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
+    <rect x="225" y="461" width="20" height="18" fill="white"/><text x="235" y="476" font-style="italic" font-weight="bold">W</text>
+    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
+    <rect x="450" y="626" width="20" height="18" fill="white"/><text x="460" y="641" font-style="italic" font-weight="bold">O</text>
+    <rect x="500" y="124" width="21" height="18" fill="white"/><text x="510.5" y="139" font-style="italic" font-weight="bold">t</text>
+  </g>
+  <g stroke="#111827" fill="none">
+    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
+    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <rect x="540" y="626" width="20" height="18" fill="white"/>
+  <text x="550" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+</svg>`;
+
+const B48_SVG_MRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 840" font-family="Arial, sans-serif">
+  <g transform="translate(0 840) rotate(-90)">
+  <rect width="840" height="630" fill="white"/>
+  <defs>
+    <linearGradient id="steelFace" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#eef3f7"/><stop offset="0.28" stop-color="#c7d1da"/>
+      <stop offset="0.55" stop-color="#f8fafc"/><stop offset="0.82" stop-color="#b9c5cf"/>
+      <stop offset="1" stop-color="#e5ebf0"/>
+    </linearGradient>
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
+      <rect width="7" height="7" fill="#e7edf2"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#4b5563" stroke-width="1"/>
+    </pattern>
+    <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
+    <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
+  </defs>
+  <g id="top-view" transform="translate(0 40)">
+    <path d="M347.15 151.44 L386.85 151.44 A148.68 148.68 0 0 0 386.85 238.56 L347.15 238.56 A148.68 148.68 0 0 0 347.15 151.44 Z" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
+    <circle cx="205" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="205" cy="195" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="529" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
+    <circle cx="529" cy="195" r="116.64" fill="none" stroke="#111827" stroke-width="1.2"/>
+    <circle cx="367" cy="195" r="2.52" fill="white" stroke="#111827" stroke-width="1.3"/>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4">
+      <line x1="36" y1="195" x2="698" y2="195"/><line x1="205" y1="27" x2="205" y2="363"/><line x1="529" y1="27" x2="529" y2="363"/>
+    </g>
+    <line x1="356" y1="151.44" x2="374" y2="151.44" stroke="#111827" stroke-width="0.8"/>
+    <line x1="356" y1="238.56" x2="374" y2="238.56" stroke="#111827" stroke-width="0.8"/>
+    <line x1="370" y1="151.44" x2="370" y2="238.56" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="205" y1="343.68" x2="205" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="529" y1="343.68" x2="529" y2="384" stroke="#111827" stroke-width="0.8"/>
+    <line x1="205" y1="376" x2="529" y2="376" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <rect x="357" y="365" width="20" height="16" fill="white"/>
+  </g>
+  <g id="section-view" transform="translate(0 40)">
+    <rect x="56.32" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="321.64" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <rect x="380.32" y="452" width="297.36" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
+    <g fill="url(#hatch)" stroke="#111827" stroke-width="1.5">
+      <ellipse cx="72" cy="470.29" rx="10.5" ry="23"/><ellipse cx="338" cy="470.29" rx="10.5" ry="23"/>
+      <ellipse cx="396" cy="470.29" rx="10.5" ry="23"/><ellipse cx="662" cy="470.29" rx="10.5" ry="23"/>
+    </g>
+    <rect x="353.68" y="463.5" width="26.64" height="13.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.5"/>
+    <rect x="364.48" y="462.7" width="5.04" height="15.18" fill="white" stroke="#111827" stroke-width="1.2"/>
+    <line x1="88.36" y1="452" x2="321.64" y2="452" stroke="#111827" stroke-width="1.2"/>
+    <line x1="88.36" y1="488.58" x2="321.64" y2="488.58" stroke="#111827" stroke-width="1.2"/>
+    <g stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"><line x1="205" y1="411" x2="205" y2="512"/><line x1="529" y1="411" x2="529" y2="512"/></g>
+    <line x1="677.68" y1="452" x2="715" y2="452" stroke="#111827" stroke-width="0.8"/>
+    <line x1="677.68" y1="488.58" x2="715" y2="488.58" stroke="#111827" stroke-width="0.8"/>
+    <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  </g>
+  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Male RTJ Figure-8 Blank</text>
+  <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-8</text>
+  <text x="235" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="510" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
+    <rect x="225" y="461" width="20" height="18" fill="white"/><text x="235" y="476" font-style="italic" font-weight="bold">W</text>
+    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
+    <rect x="500" y="124" width="21" height="18" fill="white"/><text x="510.5" y="139" font-style="italic" font-weight="bold">t</text>
+  </g>
+  <g stroke="#111827" fill="none">
+    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
+    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+  </g>
+  <rect x="540" y="626" width="20" height="18" fill="white"/>
+  <text x="550" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+</svg>`;
+
+const B48_SVG_V = { RF: B48_SVG_RF_V, FRJ: B48_SVG_FRJ_V, MRJ: B48_SVG_MRJ_V };
+
 
 const B1648_META = {
   "150":  { nps: ["1/2","3/4","1","1-1/4","1-1/2","2","2-1/2","3","3-1/2","4","5","6","8","10","12","14","16","18","20","24"] },
@@ -4666,6 +5091,8 @@ function onB48ClassChange(){
 
 function setB48Face(face){
   state.b48face = face;
+  const faceSel = document.getElementById('b48-face');
+  if(faceSel && faceSel.value !== face) faceSel.value = face;
   const sel = document.getElementById('b48-nps');
   const npsList = state.b48class ? ((B1648_META[state.b48class] || {}).nps || []) : [];
   sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
@@ -4705,7 +5132,8 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   const title    = t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + r.nps + '”';
   const subtitle = 'ASME B16.48-2025, ' + tableRef;
 
-  let svg = B48_SVG[face];
+  const isMobile = window.innerWidth <= 480;
+  let svg = isMobile ? B48_SVG_V[face] : B48_SVG[face];
 
   // Replace embedded title with standardized format
   const svgInnerTitle = title + ' — ASME B16.48';
@@ -4780,19 +5208,20 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   // Remove bottom redundant caption lines
   svg = svg.replace(/(<text x="28"[^>]*>)[^<]*(<\/text>)/g, '$1$2');
 
+  if(isMobile){
+    return '<div class="dwg-panel" style="background:#fff">' +
+      '<div class="dwg-header"><div class="dwg-title">' + title + '</div>' +
+      '<div class="dwg-sub">' + subtitle + '</div></div>' +
+      faceBar + svg + '</div>';
+  }
+  const b48WrapClass = face === 'RF' ? 'b48-portrait-rf' : 'b48-portrait-frj';
   return '<div class="dwg-panel" style="background:#fff">' +
     '<div class="dwg-header"><div class="dwg-title">' + title + '</div>' +
     '<div class="dwg-sub">' + subtitle + '</div></div>' +
     faceBar +
-    '<div style="padding:0">' + svg + '</div></div>';
+    '<div class="' + b48WrapClass + '">' + svg + '</div></div>';
 }
-function _b48FaceBar(face){
-  return '<div class="fl-type-bar">' +
-    '<button class="fl-btn' + (face==='RF'?' active':'') + '" onclick="setB48Face(\'RF\')">RF</button>' +
-    '<button class="fl-btn' + (face==='FRJ'?' active':'') + '" onclick="setB48Face(\'FRJ\')">' + t('b48.female') + '</button>' +
-    '<button class="fl-btn' + (face==='MRJ'?' active':'') + '" onclick="setB48Face(\'MRJ\')">' + t('b48.male') + '</button>' +
-    '</div>';
-}
+function _b48FaceBar(face){ return ''; }
 
 async function renderB1648(){
   state.b48class = document.getElementById('b48-class').value;
@@ -5653,11 +6082,14 @@ const MULTI_TYPES = {
   th11:       [['th_90_elbow','90° TH Elbow'],['th_45_elbow','45° TH Elbow'],['th_tee','TH Tee'],['th_cross','TH Cross'],['th_street_elbow','TH Street Elbow'],['th_coupling','TH Coupling'],['th_cap','TH Cap']],
 };
 
-let multiCards = []; // array of {id, module, type}
+const MULTI_SLOTS_COUNT = 6;
+let multiCards = Array(MULTI_SLOTS_COUNT).fill(null); // array of {id, module, type} | null
 let multiDragSlot = null; // for card reorder
 let multiDragTile = null; // for tile drag
 
 let multiShared = { nps:'', sch:'', cls:'' };
+
+function isMobileMulti(){ return window.innerWidth <= 480; }
 
 function setMode(m){
   state.mode = m;
@@ -5667,10 +6099,10 @@ function setMode(m){
   document.getElementById('content').style.display = m==='multi' ? 'none' : '';
   document.getElementById('filter-bar').style.display = m==='multi' ? 'none' : (state.cat ? 'flex' : 'none');
 
-  // tiles: draggable in multi, clickable in single
+  // tiles: draggable in multi on desktop only; mobile uses tap picker
   document.querySelectorAll('.cat-tile').forEach(t => {
     const cat = t.dataset.cat;
-    if(m==='multi'){
+    if(m==='multi' && !isMobileMulti()){
       if(MULTI_DISABLED.includes(cat)){
         t.classList.add('multi-disabled');
         t.draggable = false;
@@ -5687,21 +6119,96 @@ function setMode(m){
     }
   });
 
+  // Mobile add button: visible only in multi mode on mobile
+  const addBtn = document.getElementById('multi-add-btn');
+  if(addBtn) addBtn.style.display = (m==='multi' && isMobileMulti()) ? '' : 'none';
+
   if(m==='multi') renderMultiSlots();
 }
 
 function renderMultiSlots(){
   const grid = document.getElementById('multi-cards');
   grid.innerHTML = '';
-  for(let i=0; i<MULTI_SLOTS; i++){
-    const card = multiCards[i];
-    if(card){
-      grid.appendChild(buildFilledCard(card, i));
+  if(isMobileMulti()){
+    // Carousel: show only filled cards; empty state shows add-prompt
+    const filled = multiCards.filter(Boolean);
+    if(filled.length === 0){
+      grid.appendChild(buildMobileAddCard(0));
     } else {
-      grid.appendChild(buildDropZone(i));
+      for(let i=0; i<MULTI_SLOTS; i++){
+        if(multiCards[i]) grid.appendChild(buildFilledCard(multiCards[i], i));
+      }
+    }
+    // Keep add button enabled only while there are free slots
+    const addBtn = document.getElementById('multi-add-btn');
+    const hasSpace = multiCards.findIndex(c => !c) !== -1;
+    if(addBtn){ addBtn.disabled = !hasSpace; addBtn.style.opacity = hasSpace ? '1' : '.4'; }
+  } else {
+    const addBtn = document.getElementById('multi-add-btn');
+    if(addBtn) addBtn.style.display = 'none';
+    for(let i=0; i<MULTI_SLOTS; i++){
+      const card = multiCards[i];
+      if(card) grid.appendChild(buildFilledCard(card, i));
+      else grid.appendChild(buildDropZone(i));
     }
   }
   renderMultiSharedBar();
+}
+
+function buildMobileAddCard(idx){
+  const div = document.createElement('div');
+  div.className = 'multi-drop';
+  div.dataset.slot = idx;
+  const hint = idx === 0
+    ? `<span style="font-size:36px">＋</span><div style="margin-top:8px;font-size:14px;font-weight:600">Tap to add a module</div>`
+    : `<span style="font-size:36px">＋</span><div style="margin-top:8px;font-size:13px">Add another module</div>`;
+  div.innerHTML = `<div class="drop-hint" style="pointer-events:none">${hint}</div>`;
+  div.addEventListener('click', () => openMobileModulePicker(idx));
+  return div;
+}
+
+function openMobilePickerNext(){
+  // Find first free slot; if multiCards is empty, use slot 0
+  const idx = multiCards.length === 0 ? 0 : multiCards.findIndex(c => !c);
+  if(idx === -1) return; // all 6 slots full
+  openMobileModulePicker(idx);
+}
+
+function openMobileModulePicker(idx){
+  const existing = document.getElementById('mobile-module-picker');
+  if(existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'mobile-module-picker';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:flex;align-items:flex-end';
+  const sheet = document.createElement('div');
+  sheet.className = 'picker-sheet';
+  const title = state.lang==='ES' ? 'Agregar módulo' : 'Add module';
+  const cancel = state.lang==='ES' ? 'Cancelar' : 'Cancel';
+  sheet.innerHTML = `<div style="text-align:center;font-weight:700;font-size:15px;margin-bottom:14px;color:var(--text)">${title}</div>
+    <div class="picker-grid">${MULTI_MODULES.map(m => {
+      const meta = MULTI_META[m] || {};
+      return `<button class="picker-btn" onclick="pickMobileModule(${idx},'${m}')">
+        <div class="picker-btn-icon">${meta.icon||'📦'}</div>
+        <div class="picker-btn-lbl">${meta.label||m}</div>
+      </button>`;
+    }).join('')}</div>
+    <button onclick="document.getElementById('mobile-module-picker').remove()" style="width:100%;margin-top:14px;padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;font-size:13px">${cancel}</button>`;
+  overlay.appendChild(sheet);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+function pickMobileModule(idx, mod){
+  document.getElementById('mobile-module-picker')?.remove();
+  const types = MULTI_TYPES[mod];
+  multiCards[idx] = { id: Date.now(), module: mod, type: types?.[0]?.[0]||'' };
+  renderMultiSlots();
+  fetchMultiCard(idx);
+  // Scroll the new card into view
+  setTimeout(() => {
+    const grid = document.getElementById('multi-cards');
+    for(const c of grid.children){ if(+c.dataset.slot === idx){ c.scrollIntoView({behavior:'smooth',inline:'start'}); break; } }
+  }, 80);
 }
 
 function buildDropZone(idx){
@@ -5785,7 +6292,13 @@ function removeMultiCard(idx){
 function renderMultiSharedBar(){
   const bar = document.getElementById('multi-shared-bar');
   const active = multiCards.filter(Boolean);
-  if(!active.length){ bar.innerHTML='<span style="color:var(--text2);font-size:12px">Drag modules from the left to start.</span>'; return; }
+  if(!active.length){
+    const msg = isMobileMulti()
+      ? (state.lang==='ES' ? 'Toca ＋ para agregar módulos.' : 'Tap ＋ to add modules.')
+      : (state.lang==='ES' ? 'Arrastra módulos desde la izquierda.' : 'Drag modules from the left to start.');
+    bar.innerHTML = `<span style="color:var(--text2);font-size:12px">${msg}</span>`;
+    return;
+  }
 
   const needsSch   = active.some(c => MULTI_META[c.module]?.needsSch);
   const needsClass = active.some(c => MULTI_META[c.module]?.needsClass);
@@ -5909,16 +6422,22 @@ async function fetchMultiCard(idx){
     if(!rows.length && card.module!=='facilities'){ body.innerHTML='<div class="mc-loading">No data for this selection.</div>'; return; }
 
     // Build SVG image section
+    const mobile = isMobileMulti();
     let svgHtml = '';
     if(card.module==='facilities'){
-      svgHtml = `<img src="Fittings SVG/pipe_12in_sch80_lateral_transverse.svg" alt="Pipe cross-section">`;
+      svgHtml = mobile
+        ? PIPE_SVG_V
+        : `<img src="Fittings SVG/pipe_12in_sch80_lateral_transverse.svg" alt="Pipe cross-section">`;
     } else if(card.module==='fittings'){
       svgHtml = FITTING_SVG[card.type] || '';
     } else if(card.module==='flanges'){
       const svgKey = FLANGE_TYPES.find(f=>f.key===card.type)?.svg || 'BL';
       svgHtml = FLANGE_SVG[svgKey] || FLANGE_SVG['BL'] || '';
     } else if(card.module==='b1648'){
-      svgHtml = `<img src="Fittings SVG/figure_8_blank_12in_300_RF.svg" alt="Figure 8 Blank">`;
+      const b48face = card.type || 'RF';
+      svgHtml = mobile
+        ? (B48_SVG_V[b48face] || B48_SVG_V['RF'])
+        : `<img src="Fittings SVG/figure_8_blank_12in_300_RF.svg" alt="Figure 8 Blank">`;
     } else if(card.module==='sw11'||card.module==='th11'){
       const b11 = B11_TYPES[card.type];
       if(b11?.svgFile) svgHtml = `<img src="Fittings SVG/${b11.svgFile}" alt="${b11.title}">`;
@@ -5934,6 +6453,17 @@ async function fetchMultiCard(idx){
 // ─── LITE MODE INIT ──────────────────────────────────────
 const BW_LITE = new Set(['LR_90','LR_45','LR_Returns','SR_Returns','Reducing_Tees','Ecc_Reducers','Caps']);
 const B11_LITE = new Set(['sw_90_elbow','sw_cross','sw_coupling','th_90_elbow','th_tee','th_cross','th_coupling','th_cap']);
+
+// Populate fl-type dropdown from FLANGE_TYPES array
+document.addEventListener('DOMContentLoaded', () => {
+  const ftSel = document.getElementById('fl-type');
+  if (ftSel) {
+    ftSel.innerHTML = FLANGE_TYPES.map(f =>
+      `<option value="${f.key}">${f.label}</option>`
+    ).join('');
+    ftSel.value = state.flangeType || 'WN';
+  }
+});
 
 if (IS_LITE) {
   document.addEventListener('DOMContentLoaded', () => {

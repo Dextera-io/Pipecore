@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="840" height="580" viewBox="0 0 840 580" font-family="Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="630" viewBox="0 0 840 630" font-family="Arial, sans-serif">
   <title>12 inch Class 300 Female RTJ Figure-8 blank</title>
   <desc>Proportional top and section views based on ASME B16.48-2025 Table 5.1-2: B 324 mm, O 413 mm, A 450 mm, t 50.8 mm, and W 121 mm. Female ring-joint grooves are shown schematically without a raised face.</desc>
 
-  <rect width="840" height="580" fill="white"/>
+  <rect width="840" height="630" fill="white"/>
 
   <defs>
     <linearGradient id="steelFace" x1="0" y1="0" x2="0.85" y2="1">
@@ -24,11 +24,11 @@
     </marker>
   </defs>
 
-  <text x="420" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Female RTJ Figure-8 Blank</text>
-  <text x="420" y="45" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-2</text>
+  <text x="367" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Female RTJ Figure-8 Blank</text>
+  <text x="367" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-2</text>
 
   <!-- Top view. Geometry scale: 0.72 px/mm. -->
-  <g id="top-view">
+  <g id="top-view" transform="translate(0 40)">
     <!-- Curved web follows the outside profiles of both circular ends. -->
     <path d="M347.15 151.44
              L386.85 151.44
@@ -74,7 +74,7 @@
   </g>
 
   <!-- Section view with female RTJ grooves; no raised face. -->
-  <g id="section-view">
+  <g id="section-view" transform="translate(0 40)">
     <rect x="56.32" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
     <rect x="321.64" y="452" width="32.04" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
     <rect x="380.32" y="452" width="297.36" height="36.58" fill="url(#hatch)" stroke="#111827" stroke-width="1.6"/>
@@ -127,11 +127,7 @@
     <text x="718" y="475" font-size="15" font-style="italic" font-weight="bold">t</text>
   </g>
 
-  <text x="367" y="406" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
-  <text x="367" y="522" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
+  <text x="367" y="446" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="367" y="562" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
 
-  <g font-size="11.5" fill="#4b5563">
-    <text x="28" y="550">Dimensions: B = 324 mm (12.75 in.); O = 413 mm (16.25 in.); A = 450 mm (17.75 in.).</text>
-    <text x="28" y="568">t = 50.8 mm (2.00 in.); W = 121 mm (4.75 in.). Female RTJ groove profile shown schematically.</text>
-  </g>
 </svg>
