@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="590" viewBox="0 0 780 590" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="500" height="463" viewBox="89 -12 500 463" font-family="Arial, sans-serif">
   <title>2 inch threaded hex head plug</title>
   <desc>NPS 2 threaded hex head plug based on ASME B16.11-2021 Table 6.1-6. Side and top views at 3 px/mm. Minimum thread length A 22 mm, minimum hex head height H 18 mm, and nominal width across flats F 63.5 mm.</desc>
 
-  <rect width="780" height="590" fill="white"/>
+  <rect x="89" y="-12" width="500" height="463" fill="white"/>
   <defs>
     <marker id="arrowStartHexPlug" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M9,0 L9,6 L0,3 z" fill="black"/>
@@ -37,33 +37,33 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Hex Head Plug — ASME B16.11</text>
+  <text x="339" y="13" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Hex Head Plug — ASME B16.11</text>
 
   <!-- Top view of hexagonal head, F=63.5 mm across flats. -->
   <path d="M280,145 L335,49.75 L445,49.75 L500,145 L445,240.25 L335,240.25 Z"
         fill="white" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
   <ellipse cx="390" cy="145" rx="95.25" ry="95.25"
            fill="none" stroke="#777" stroke-width="0.8"/>
-  <line x1="260" y1="145" x2="520" y2="145"
+  <line x1="268" y1="145" x2="512" y2="145"
         stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
   <line x1="390" y1="33" x2="390" y2="257"
         stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 
   <!-- F dimension: vertical left-side, top flat to bottom flat (across flats). -->
   <g fill="none" stroke="black">
-    <line x1="335" y1="49.75" x2="195" y2="49.75" stroke-width="0.75"/>
-    <line x1="335" y1="240.25" x2="195" y2="240.25" stroke-width="0.75"/>
-    <line x1="202" y1="49.75" x2="202" y2="240.25" stroke-width="1"
+    <line x1="335" y1="49.75" x2="255" y2="49.75" stroke-width="0.75"/>
+    <line x1="335" y1="240.25" x2="255" y2="240.25" stroke-width="0.75"/>
+    <line x1="260" y1="49.75" x2="260" y2="240.25" stroke-width="1"
           marker-start="url(#arrowStartHexPlug)" marker-end="url(#arrowEndHexPlug)"/>
   </g>
-  <text x="192" y="150" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">F</text>
+  <text x="252" y="150" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">F</text>
 
   <!-- Side view of hex head: H=18 mm. -->
-  <path d="M306,299 Q295,299 295,307 L295,345 Q295,353 306,353
-           L474,353 Q485,353 485,345 L485,307 Q485,299 474,299 Z"
+  <path d="M291,299 Q280,299 280,307 L280,345 Q280,353 291,353
+           L489,353 Q500,353 500,345 L500,307 Q500,299 489,299 Z"
         fill="white" stroke="black" stroke-width="1.75"/>
-  <path d="M326,299 L326,353 M454,299 L454,353
-           M326,299 Q390,287 454,299 M326,353 Q390,365 454,353"
+  <path d="M335,299 L335,353 M445,299 L445,353
+           M335,299 Q390,289 445,299 M335,353 Q390,363 445,353"
         fill="none" stroke="black" stroke-width="1"/>
 
   <use href="#maleThreadHexPlug" transform="translate(390 353)"/>
@@ -73,21 +73,17 @@
 
   <!-- H and A at left. -->
   <g fill="none" stroke="black">
-    <line x1="295" y1="299" x2="195" y2="299" stroke-width="0.75"/>
-    <line x1="295" y1="353" x2="195" y2="353" stroke-width="0.75"/>
-    <line x1="202" y1="299" x2="202" y2="353" stroke-width="1"
+    <line x1="280" y1="299" x2="255" y2="299" stroke-width="0.75"/>
+    <line x1="280" y1="353" x2="255" y2="353" stroke-width="0.75"/>
+    <line x1="260" y1="299" x2="260" y2="353" stroke-width="1"
           marker-start="url(#arrowStartHexPlug)" marker-end="url(#arrowEndHexPlug)"/>
 
-    <line x1="299" y1="353" x2="195" y2="353" stroke-width="0.75"/>
-    <line x1="299" y1="419" x2="195" y2="419" stroke-width="0.75"/>
-    <line x1="202" y1="353" x2="202" y2="419" stroke-width="1"
+    
+    <line x1="303" y1="419" x2="255" y2="419" stroke-width="0.75"/>
+    <line x1="260" y1="353" x2="260" y2="419" stroke-width="1"
           marker-start="url(#arrowStartHexPlug)" marker-end="url(#arrowEndHexPlug)"/>
   </g>
-  <text x="192" y="330" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">H</text>
-  <text x="192" y="391" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">A</text>
+  <text x="252" y="330" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">H</text>
+  <text x="252" y="391" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">A</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="552">Top and exterior views. ASME B16.11-2021, Table 6.1-6, NPS 2. Geometric scale: 3 px/mm.</text>
-    <text x="20" y="570">A=22 min; H=18 min; F=63.5 nominal across flats. Male thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

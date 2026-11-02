@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="500" viewBox="0 0 780 500" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="470" height="370" viewBox="223 0 470 370" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 threaded couplet, sectioned view</title>
   <desc>NPS 2 Class 3000 threaded couplet based on ASME B16.11-2021 Tables 6.1-5 and 6.1-3. Uniform scale 3 px/mm. E 79.4 mm, M 51 mm, Q 9.5 mm, N 61.9 mm, minimum perfect thread B 19 mm, and minimum effective thread L2 19.2 mm.</desc>
 
-  <rect width="780" height="500" fill="white"/>
+  <rect x="223" y="0" width="470" height="370" fill="white"/>
 
   <defs>
     <pattern id="hatchCoupletT" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -29,7 +29,7 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Couplet — ASME B16.11</text>
+  <text x="458" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Couplet — ASME B16.11</text>
 
   <!-- E=79.4 mm, M=51 mm, N=61.9 mm. Transition placed below the thread. -->
   <path d="M276.9,151 L503.1,151
@@ -49,7 +49,7 @@
   <use href="#femaleThreadCoupletT" transform="translate(390 151)"/>
   <line x1="321" y1="209" x2="459" y2="209" stroke="black" stroke-width="1.75"/>
 
-  <line x1="390" y1="124" x2="390" y2="337"
+  <line x1="390" y1="124" x2="390" y2="318"
         stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 
   <!-- Top E. -->
@@ -62,30 +62,23 @@
   <text x="390" y="55" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">E</text>
 
   <!-- Thread lengths B / L2. -->
-  <g fill="none" stroke="black">
-    <line x1="300" y1="151" x2="102" y2="151" stroke-width="0.75"/>
-    <line x1="306" y1="208.6" x2="102" y2="208.6" stroke-width="0.75"/>
-    <line x1="109" y1="151" x2="109" y2="208.6" stroke-width="1"
-          marker-start="url(#arrowStartCoupletT)" marker-end="url(#arrowEndCoupletT)"/>
-  </g>
-  <text x="115" y="184" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
 
   <!-- Overall M and weld-ring Q. Q arrow at x=556; M arrow at x=620. -->
   <!-- M bottom witness drawn in two segments to leave a gap around the Q arrow. -->
   <g fill="none" stroke="black">
-    <line x1="509.1" y1="151" x2="697" y2="151" stroke-width="0.75"/>
-    <line x1="482.85" y1="304" x2="548" y2="304" stroke-width="0.75"/>
-    <line x1="564" y1="304" x2="697" y2="304" stroke-width="0.75"/>
-    <line x1="690" y1="151" x2="690" y2="304" stroke-width="1"
+    <line x1="509.1" y1="151" x2="645" y2="151" stroke-width="0.75"/>
+    <line x1="474" y1="208.6" x2="528" y2="208.6" stroke-width="0.75"/>
+    <line x1="523" y1="151" x2="523" y2="208.6" stroke-width="1"
           marker-start="url(#arrowStartCoupletT)" marker-end="url(#arrowEndCoupletT)"/>
-
-    <line x1="482.85" y1="252.25" x2="563" y2="252.25" stroke-width="0.75"/>
-    <line x1="482.85" y1="304" x2="563" y2="304" stroke-width="0.75"/>
-    <line x1="556" y1="252.25" x2="556" y2="304" stroke-width="1"
+    <line x1="482.85" y1="252.25" x2="528" y2="252.25" stroke-width="0.75"/>
+    <line x1="482.85" y1="304" x2="645" y2="304" stroke-width="0.75"/>
+    <line x1="523" y1="252.25" x2="523" y2="304" stroke-width="1"
+          marker-start="url(#arrowStartCoupletT)" marker-end="url(#arrowEndCoupletT)"/>
+    <line x1="640" y1="151" x2="640" y2="304" stroke-width="1"
           marker-start="url(#arrowStartCoupletT)" marker-end="url(#arrowEndCoupletT)"/>
   </g>
-  <text x="698" y="232" font-size="15" font-style="italic" font-weight="bold">M</text>
-  <text x="568" y="283" font-size="15" font-style="italic" font-weight="bold">Q</text>
+  <text x="632" y="234" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">M</text>
+  <text x="531" y="283" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">Q</text>
 
   <!-- N across the lower weld ring. -->
   <g fill="none" stroke="black">
@@ -97,12 +90,9 @@
   <text x="390" y="343" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">N</text>
 
   <!-- 45-degree transition callout. -->
-  <path d="M222,249 L276,241" fill="none" stroke="black" stroke-width="1"
+  <text x="531" y="185" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+  <path d="M322,228 L286,239" fill="none" stroke="black" stroke-width="1"
         marker-end="url(#arrowEndCoupletT)"/>
-  <text x="151" y="239" font-size="13" font-weight="bold">45° ± 2.5°</text>
+  <text x="325" y="232" stroke="white" stroke-width="4" paint-order="stroke" font-size="13" font-weight="bold">45° ± 2.5°</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="462">Symmetric sectioned view. Female thread shown in section. ASME B16.11-2021, Tables 6.1-5 and 6.1-3, NPS 2, Class 3000.</text>
-    <text x="20" y="480">E=79.4; M=51; N=61.9; Q=9.5; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

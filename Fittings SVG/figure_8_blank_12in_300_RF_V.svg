@@ -26,7 +26,7 @@
   </defs>
 
   <!-- Top view. Geometry scale: 0.72 px/mm. -->
-  <g id="top-view" transform="translate(0 40)">
+  <g id="top-view" transform="translate(0 20)">
     <!-- Connecting web, placed behind both circular ends. -->
     <rect x="351.30" y="164.28" width="31.40" height="73.44" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
 
@@ -116,17 +116,17 @@
 
   <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Figure-8 Blank (Spectacle Blind) &#8212; RF</text>
   <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 4.3.1-2</text>
-  <text x="241" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="221" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">LATERAL VIEW</text>
   <text x="510" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
 
   <g transform="translate(0 -20)">
   <!-- Dimension labels; t, O and B placed outside their dimension lines. -->
   <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
-    <rect x="231" y="461" width="20" height="18" fill="white"/>
-    <text x="241" y="476" font-style="italic" font-weight="bold">W</text>
+    <rect x="211" y="461" width="20" height="18" fill="white"/>
+    <text x="221" y="476" font-style="italic" font-weight="bold">W</text>
 
-    <rect x="406" y="464" width="20" height="18" fill="white"/>
-    <text x="416" y="479" font-style="italic" font-weight="bold">A</text>
+    <rect x="386" y="464" width="20" height="18" fill="white"/>
+    <text x="396" y="479" font-style="italic" font-weight="bold">A</text>
 
     <text x="441" y="641" font-style="italic" font-weight="bold">O</text>
 
@@ -135,11 +135,11 @@
 
   <!-- B dimension moved to the right side of the vertical section view. -->
   <g stroke="#111827" fill="none">
-    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
-    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
-    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1"
+    <line x1="529" y1="518.36" x2="573" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="573" y2="751.64" stroke-width="0.8"/>
+    <line x1="565" y1="518.36" x2="565" y2="751.64" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <text x="567" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <text x="582" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
   </g>
 </svg>

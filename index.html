@@ -1037,7 +1037,7 @@ const LANG = {
     'card.weight': 'APPROX. WEIGHT',
     'lbl.class': 'Class',
     'b48.female': 'Female RTJ', 'b48.male': 'Male RTJ',
-    'b48.sectionView': 'SECTION VIEW (lateral)', 'b48.topView': 'TOP VIEW',
+    'b48.sectionView': 'SECTION VIEW (lateral)', 'b48.topView': 'LATERAL VIEW',
     'b48.notAvail': 'Not Available',
     'b48.faces': 'Available faces: Raised Face (RF), Female RTJ, and Male RTJ.',
     'b48.raisedFace': 'Raised Face (RF)', 'b48.raisedFaceShort': 'Raised Face',
@@ -1135,7 +1135,7 @@ const LANG = {
     // weight card
     'card.weight': 'PESO APROX.',
     'b48.female': 'Hembra RTJ', 'b48.male': 'Macho RTJ',
-    'b48.sectionView': 'SECCIÓN (lateral)', 'b48.topView': 'VISTA SUPERIOR',
+    'b48.sectionView': 'SECCIÓN (lateral)', 'b48.topView': 'VISTA LATERAL',
     'b48.notAvail': 'No Disponible',
     'b48.faces': 'Caras disponibles: Cara Levantada (RF), Hembra RTJ y Macho RTJ.',
     'b48.raisedFace': 'Cara Levantada (RF)', 'b48.raisedFaceShort': 'Cara Levantada',
@@ -1592,7 +1592,9 @@ function buildB47SvgPanel(type, r, unit, title, typeBar='', weightBadgeHtml=''){
   const svgKey = type==='WN' ? 'B47WN' : 'B47BL';
   let svg = (window.innerWidth <= 480 && typeof FLANGE_SVG_V !== 'undefined' && FLANGE_SVG_V[svgKey]) || FLANGE_SVG[svgKey];
 
-  svg = svg.replace(/(font-size="18" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
+  svg = window._mobileApp
+    ? svg.replace(/<text[^>]*font-size="18" font-weight="bold">[^<]*<\/text>/, '')
+    : svg.replace(/(font-size="18" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
 
   if(window.innerWidth <= 480){
     svg = svg.replace(/viewBox="0 0 460 (\d+)"/, (m, h) => `viewBox="0 12 460 ${h - 12}"`);
@@ -1622,8 +1624,8 @@ function buildB47SvgPanel(type, r, unit, title, typeBar='', weightBadgeHtml=''){
   }
 
   const _hdrStyle = weightBadgeHtml ? 'display:flex;align-items:center;justify-content:space-between;gap:8px' : '';
-  return `<div class="dwg-panel">
-    <div class="dwg-header" style="${_hdrStyle}"><div style="min-width:0;flex:1"><div class="dwg-title">${title}</div><div class="dwg-sub">ASME B16.47-2025</div></div>${weightBadgeHtml}</div>
+  return `<div class="dwg-panel" style="background:white">
+    <div class="dwg-header" style="${_hdrStyle};border-bottom:1px solid #dde"><div style="min-width:0;flex:1"><div class="dwg-title">${title}</div><div class="dwg-sub">ASME B16.47-2025</div></div>${weightBadgeHtml}</div>
     ${typeBar}
     <div style="padding:0">${svg}</div>
   </div>`;
@@ -1684,8 +1686,10 @@ function buildFlangeSvgPanel(type, r, unit, cls, title, subtitle, typeBar='', we
   // Bolt circle W from dedicated table (keyed by class + NPS + unit)
   const wVal = B165_W[cls]?.[r.NPS]?.[unit] ?? null;
 
-  // Update drawing title to show actual NPS / Class
-  svg = svg.replace(/(font-size="18" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
+  // Update drawing title to show actual NPS / Class (hidden on mobile app)
+  svg = window._mobileApp
+    ? svg.replace(/<text[^>]*font-size="18" font-weight="bold">[^<]*<\/text>/, '')
+    : svg.replace(/(font-size="18" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
   // On mobile: crop top whitespace above title (title at y=28 stays visible)
   if(window.innerWidth <= 480){
     svg = svg.replace(/viewBox="0 0 460 (\d+)"/, (m, h) => `viewBox="0 12 460 ${h - 12}"`);
@@ -1694,7 +1698,7 @@ function buildFlangeSvgPanel(type, r, unit, cls, title, subtitle, typeBar='', we
   // Inject a value into an SVG text node identified by id
   // Match bold text nodes by label content (works for all SVG types without needing IDs)
   function inj(label, val){
-    if(val==null||val===''||val==='—') return;
+    if(val==null||val===''||val==='—'||val==='(6)'||val==='(9)'||val==='…') return;
     const v = String(val);
     const esc = label.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     svg = svg.replace(
@@ -1745,8 +1749,8 @@ function buildFlangeSvgPanel(type, r, unit, cls, title, subtitle, typeBar='', we
   }
 
   const _hdrStyle = weightBadgeHtml ? 'display:flex;align-items:center;justify-content:space-between;gap:8px' : '';
-  return `<div class="dwg-panel">
-    <div class="dwg-header" style="${_hdrStyle}"><div style="min-width:0;flex:1"><div class="dwg-title">${title}</div><div class="dwg-sub">${subtitle}</div></div>${weightBadgeHtml}</div>
+  return `<div class="dwg-panel" style="background:white">
+    <div class="dwg-header" style="${_hdrStyle};border-bottom:1px solid #dde"><div style="min-width:0;flex:1"><div class="dwg-title">${title}</div><div class="dwg-sub">${subtitle}</div></div>${weightBadgeHtml}</div>
     ${typeBar}
     <div style="padding:0">${svg}</div>
   </div>`;
@@ -3006,7 +3010,7 @@ const PIPE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353" 
   <!-- Weight dimension line -->
   <line x1="470" y1="270" x2="470" y2="321" stroke="black" stroke-width="0.75"/>
   <line x1="725" y1="270" x2="725" y2="321" stroke="black" stroke-width="0.75"/>
-  <line x1="470" y1="312" x2="725" y2="312" stroke="black" stroke-width="1"/>
+  <line x1="470" y1="312" x2="725" y2="312" stroke="black" stroke-width="1" marker-start="url(#pipeArrowS)" marker-end="url(#pipeArrowE)"/>
   <text x="597" y="306" text-anchor="middle" font-size="14" font-weight="bold">W</text>
   <!-- View labels -->
   <text id="svgPipeViewL" x="195" y="342" text-anchor="middle" font-size="15" font-weight="bold">Transverse View</text>
@@ -3065,7 +3069,7 @@ const PIPE_SVG_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;he
   <line x1="370" y1="180" x2="710" y2="180" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
   <line x1="390" y1="270" x2="390" y2="321" stroke="black" stroke-width="0.75"/>
   <line x1="690" y1="270" x2="690" y2="321" stroke="black" stroke-width="0.75"/>
-  <line x1="390" y1="312" x2="690" y2="312" stroke="black" stroke-width="1"/>
+  <line x1="390" y1="312" x2="690" y2="312" stroke="black" stroke-width="1" marker-start="url(#pipeArrowSV)" marker-end="url(#pipeArrowEV)"/>
   <text x="540" y="330" text-anchor="middle" font-size="14" font-weight="bold">W</text>
   <text id="svgPipeViewR" x="540" y="60" text-anchor="middle" font-size="15" font-weight="bold">Lateral View</text>
   </g>
@@ -3087,10 +3091,12 @@ function buildPipeSvgPanel(r, std, unit, nps){
   const isMobile = window.innerWidth <= 480;
   let svg = isMobile ? PIPE_SVG_V : PIPE_SVG;
 
-  // Title
+  // Title (hidden on mobile app)
   const _pipeWord = state.lang==='ES' ? 'Tubería' : 'Pipe';
   const title = `${_pipeWord}  NPS ${nps}"  ${schTxt} &#8212; ${stdTxt}`;
-  svg = svg.replace(/(font-size="17" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
+  svg = window._mobileApp
+    ? svg.replace(/<text[^>]*font-size="17" font-weight="bold">[^<]*<\/text>/, '')
+    : svg.replace(/(font-size="17" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
 
   // View labels
   const _transView = state.lang==='ES' ? 'Vista Transversal' : 'Transverse View';
@@ -3108,9 +3114,13 @@ function buildPipeSvgPanel(r, std, unit, nps){
     svg = svg.replace(/(<text[^>]*font-weight="bold"[^>]*>)(t)(<\/text>)/g,
       `$1t = ${wt_v} ${u}$3`);
 
-  // W weight line — show both units always
+  // W weight line — single unit on mobile, both on desktop
+  const w_v = isUS ? w_us : w_si;
+  const w_label = window._mobileApp
+    ? `W = ${w_v} ${wu}`
+    : `W = ${w_si} kg/m  (${w_us} lb/ft)`;
   svg = svg.replace(/(<text[^>]*font-size="14"[^>]*font-weight="bold"[^>]*>)(W)(<\/text>)/,
-    `$1W = ${w_si} kg/m  (${w_us} lb/ft)$3`);
+    `$1${w_label}$3`);
 
   const hdr = `<div class="dwg-header"><div class="dwg-title">${_pipeWord}  NPS ${nps}"  ${schTxt}</div><div class="dwg-sub">${stdTxt}</div></div>`;
   if(isMobile) return `${hdr}${svg}`;
@@ -3581,7 +3591,9 @@ function buildFittingSvgPanel(type, r, unit, nps_key, typeLabel, weightBadgeHtml
   let svg = FITTING_SVG[type];
   if(!svg) return null;
   const title = `NPS ${nps_key}"  ${type.replace(/_/g,' ')} &#8212; ASME B16.9`;
-  svg = svg.replace(/(font-size="17" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
+  svg = window._mobileApp
+    ? svg.replace(/<text[^>]*font-size="17" font-weight="bold">[^<]*<\/text>/, '')
+    : svg.replace(/(font-size="17" font-weight="bold">)[^<]+(<\/text>)/, `$1${title}$2`);
   function inj(label, val){
     if(val==null||val===''||val==='—') return;
     const v = String(val);
@@ -3943,9 +3955,12 @@ async function renderFlanges(){
 
   const dimRowsHtml = hdrs.map(h => {
     const isHighlight = yKeys.includes(h.key) || ['O','tf','B','B1'].includes(h.key);
+    const rawVal = r[h.key];
+    const dispVal = (rawVal === '(6)') ? '—' : (rawVal ?? '—');
+    const dispUnit = (rawVal === '(6)') ? '' : `<span style="color:var(--text2);font-size:10px">${u}</span>`;
     return `<div class="dim-row">
       <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.split('(')[0].trim().slice(0,28)}</span></span>
-      <span class="d-value${isHighlight?' accent':''}">${r[h.key]??'—'} <span style="color:var(--text2);font-size:10px">${u}</span></span>
+      <span class="d-value${isHighlight?' accent':''}">${dispVal} ${dispUnit}</span>
     </div>`;
   }).join('');
   const cards = dimCard(`${t('flange.'+state.flangeType+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
@@ -4022,7 +4037,7 @@ const B11_TYPES = {
   th_45_elbow:      { cat:'th11', data:'th_elbows_tees',   svgFile:'TH_elbow_45_threaded_2in_class3000_B16.11_section.svg',          title:'TH 45° Elbow' },
   th_tee:           { cat:'th11', data:'th_elbows_tees',   svgFile:'TH_tee_threaded_2in_class3000_B16.11_section.svg',               title:'TH Tee' },
   th_cross:         { cat:'th11', data:'th_elbows_tees',   svgFile:'TH_cross_threaded_2in_class3000_B16.11_section.svg',             title:'TH Cross' },
-  th_street_elbow:  { cat:'th11', data:'th_street_elbows', img:'TH 90 STREET ELBOW.png',                                         title:'TH Street Elbow' },
+  th_street_elbow:  { cat:'th11', data:'th_street_elbows', svgFile:'TH_street_elbow_90_threaded_2in_class3000_B16.11_section.svg', svgFileV:'TH_street_elbow_90_threaded_2in_class3000_B16.11_section_V.svg', title:'TH Street Elbow' },
   th_coupling:      { cat:'th11', data:'th_couplings',     svgFile:'TH_coupling_threaded_2in_class3000_B16.11_section.svg',          title:'TH Coupling' },
   th_half_coupling: { cat:'th11', data:'th_couplings',     svgFile:'TH_half_coupling_threaded_2in_class3000_B16.11_section.svg',     title:'TH Half Coupling' },
   th_cap:           { cat:'th11', data:'th_couplings',     svgFile:'TH_cap_threaded_2in_class3000_B16.11_section.svg',               title:'TH Cap' },
@@ -4129,9 +4144,14 @@ function onB11TypeChange(){
     classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
     classEl.disabled=false;
 
-    if(prevClass && classes.includes(prevClass)){
-      classEl.value = prevClass;
-      state.b11class = prevClass;
+    const resolvedClass = (prevClass && classes.includes(prevClass))
+      ? prevClass
+      : (prevClass && classes.length > 0
+          ? ([...classes].sort((a,b)=>parseInt(a)-parseInt(b)).filter(c=>parseInt(c)<=parseInt(prevClass)).pop() || classes[0])
+          : '');
+    if(resolvedClass){
+      classEl.value = resolvedClass;
+      state.b11class = resolvedClass;
       const sizes = B1611_META[dataKey]?.nps||[];
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       npsEl.disabled=false;
@@ -4302,10 +4322,9 @@ function _b11InjectValues(svgText, typeKey, r, cls, unit){
   // Update SVG title
   const nps = state.b11nps;
   const titleText = `${t('b11.'+typeKey)} · ${t('lbl.class')} ${cls} · NPS ${nps}" — ASME B16.11`;
-  svgText = svgText.replace(
-    /(font-size="17" font-weight="bold">)[^<]*(<\/text>)/,
-    `$1${titleText}$2`
-  );
+  svgText = window._mobileApp
+    ? svgText.replace(/<text[^>]*font-size="17" font-weight="bold">[^<]*<\/text>/, '')
+    : svgText.replace(/(font-size="17" font-weight="bold">)[^<]*(<\/text>)/, `$1${titleText}$2`);
 
   // Remove caption lines (y=464 and y=481)
   svgText = svgText.replace(/(<text x="20" y="4[68][14]">)[^<]*(<\/text>)/g, '$1$2');
@@ -4422,7 +4441,7 @@ async function renderB1611(){
       <div id="${panelId}_inner" class="b11-svg-inner" style="background:#fff;overflow:auto"></div>
     </div>`;
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
-    const svgFile = typeInfo.svgFile;
+    const svgFile = (window._mobileApp && typeInfo.svgFileV) ? typeInfo.svgFileV : typeInfo.svgFile;
     const _nps = state.b11nps, _cls = state.b11class, _unit = state.b11unit, _typeKey = state.b11type;
     (async () => {
       try {
@@ -4461,7 +4480,7 @@ async function renderB1611(){
                 const scaleY = vb.height / svgRect.height;
                 let xMin=Infinity, yMin=Infinity, xMax=-Infinity, yMax=-Infinity;
                 // getBoundingClientRect works in screen space — correctly handles all SVG transforms
-                svgEl.querySelectorAll('path,line,polyline,circle,ellipse,text').forEach(el => {
+                svgEl.querySelectorAll('path,line,polyline,circle,ellipse,text,use').forEach(el => {
                   if(el.closest('defs,marker,pattern,symbol')) return;
                   try {
                     const r = el.getBoundingClientRect();
@@ -4631,7 +4650,7 @@ async function renderB1647(){
     return;
   }
 
-  const unit = state.b47unit === 'SI' ? 'si' : 'us';
+  const unit = state.b47unit === 'SI' ? 'si' : 'usc';
   const uLabel = state.b47unit === 'SI' ? 'mm' : 'in';
   const typeLabel = t('flange.' + state.b47type);
   const imgFile = state.b47type === 'WN' ? 'FL Welding Neck.png' : 'FL Flange.png';
@@ -5346,7 +5365,8 @@ const B48_SVG_MRJ = `<svg xmlns="http://www.w3.org/2000/svg" width="840" height=
 const B48_SVG = { RF: B48_SVG_RF, FRJ: B48_SVG_FRJ, MRJ: B48_SVG_MRJ };
 
 // Portrait (vertical) B16.48 SVGs for mobile — 630×840
-const B48_SVG_RF_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 772" font-family="Arial, sans-serif">
+const B48_SVG_RF_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="40 0 630 772" font-family="Arial, sans-serif">
+  <rect x="0" y="0" width="720" height="800" fill="white"/>
   <g transform="translate(0 800) rotate(-90)">
   <rect x="0" y="0" width="840" height="630" fill="white"/>
   <defs>
@@ -5362,7 +5382,7 @@ const B48_SVG_RF_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;
     <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
     <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
   </defs>
-  <g id="top-view" transform="translate(0 40)">
+  <g id="top-view" transform="translate(0 14)">
     <rect x="351.30" y="164.28" width="31.40" height="73.44" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
     <circle cx="205" cy="201" r="150.84" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
     <circle cx="205" cy="201" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
@@ -5400,27 +5420,26 @@ const B48_SVG_RF_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;
     <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
   </g>
-  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Figure-8 Blank (Spectacle Blind) &#8212; RF</text>
+  <text x="355" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Figure-8 Blank (Spectacle Blind) &#8212; RF</text>
   <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 4.3.1-2</text>
-  <text x="241" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="215" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
   <text x="510" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
   <g transform="translate(0 -40)">
-  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
-    <rect x="231" y="461" width="20" height="18" fill="white"/><text x="241" y="476" font-style="italic" font-weight="bold">W</text>
-    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
-    <text x="448" y="635" transform="rotate(-90 448 635)" font-style="italic" font-weight="bold">O</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle"><text x="172" y="476" text-anchor="end" font-style="italic" font-weight="bold">W</text><text x="377" y="479" text-anchor="end" font-style="italic" font-weight="bold">A</text>
+    <text x="452" y="770" text-anchor="end" font-style="italic" font-weight="bold">O</text>
     <text x="510.5" y="119" font-style="italic" font-weight="bold">t</text>
   </g>
   <g stroke="#111827" fill="none">
-    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
-    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
-    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="529" y1="518.36" x2="566" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="566" y2="751.64" stroke-width="0.8"/>
+    <line x1="558" y1="518.36" x2="558" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <text x="575" y="635" transform="rotate(-90 575 635)" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <text x="566" y="560" text-anchor="start" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
   </g>
 </svg>`;
 
-const B48_SVG_FRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 772" font-family="Arial, sans-serif">
+const B48_SVG_FRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="40 0 630 772" font-family="Arial, sans-serif">
+  <rect x="0" y="0" width="720" height="800" fill="white"/>
   <g transform="translate(0 800) rotate(-90)">
   <rect width="840" height="630" fill="white"/>
   <defs>
@@ -5436,7 +5455,7 @@ const B48_SVG_FRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%
     <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
     <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
   </defs>
-  <g id="top-view" transform="translate(0 40)">
+  <g id="top-view" transform="translate(0 20)">
     <path d="M347.15 151.44 L386.85 151.44 A148.68 148.68 0 0 0 386.85 238.56 L347.15 238.56 A148.68 148.68 0 0 0 347.15 151.44 Z" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
     <circle cx="205" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
     <circle cx="205" cy="195" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
@@ -5481,27 +5500,26 @@ const B48_SVG_FRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%
     <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
   </g>
-  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Female RTJ Figure-8 Blank</text>
+  <text x="355" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Female RTJ Figure-8 Blank</text>
   <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-2</text>
-  <text x="235" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="215" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
   <text x="510" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
   <g transform="translate(0 -40)">
-  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
-    <rect x="225" y="461" width="20" height="18" fill="white"/><text x="235" y="476" font-style="italic" font-weight="bold">W</text>
-    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
-    <text x="448" y="635" transform="rotate(-90 448 635)" font-style="italic" font-weight="bold">O</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle"><text x="165" y="476" text-anchor="end" font-style="italic" font-weight="bold">W</text><text x="383" y="479" text-anchor="end" font-style="italic" font-weight="bold">A</text>
+    <text x="452" y="770" text-anchor="end" font-style="italic" font-weight="bold">O</text>
     <text x="510.5" y="119" font-style="italic" font-weight="bold">t</text>
   </g>
   <g stroke="#111827" fill="none">
-    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
-    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
-    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="529" y1="518.36" x2="566" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="566" y2="751.64" stroke-width="0.8"/>
+    <line x1="558" y1="518.36" x2="558" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <text x="575" y="635" transform="rotate(-90 575 635)" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <text x="566" y="560" text-anchor="start" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
   </g>
 </svg>`;
 
-const B48_SVG_MRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 630 772" font-family="Arial, sans-serif">
+const B48_SVG_MRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="40 0 630 772" font-family="Arial, sans-serif">
+  <rect x="0" y="0" width="720" height="800" fill="white"/>
   <g transform="translate(0 800) rotate(-90)">
   <rect width="840" height="630" fill="white"/>
   <defs>
@@ -5517,7 +5535,7 @@ const B48_SVG_MRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%
     <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="#111827"/></marker>
     <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="#111827"/></marker>
   </defs>
-  <g id="top-view" transform="translate(0 40)">
+  <g id="top-view" transform="translate(0 20)">
     <path d="M347.15 151.44 L386.85 151.44 A148.68 148.68 0 0 0 386.85 238.56 L347.15 238.56 A148.68 148.68 0 0 0 347.15 151.44 Z" fill="url(#steelFace)" stroke="#111827" stroke-width="1.6"/>
     <circle cx="205" cy="195" r="148.68" fill="url(#steelFace)" stroke="#111827" stroke-width="1.8"/>
     <circle cx="205" cy="195" r="116.64" fill="white" stroke="#111827" stroke-width="1.8"/>
@@ -5553,22 +5571,20 @@ const B48_SVG_MRJ_V = `<svg xmlns="http://www.w3.org/2000/svg" style="width:100%
     <line x1="707" y1="452" x2="707" y2="488.58" stroke="#111827" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
   </g>
-  <text x="315" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Male RTJ Figure-8 Blank</text>
+  <text x="355" y="24" text-anchor="middle" font-size="18" font-weight="bold" fill="#111827">12&quot; Class 300 Male RTJ Figure-8 Blank</text>
   <text x="315" y="52" text-anchor="middle" font-size="12" fill="#4b5563">ASME B16.48-2025, Table 5.1-8</text>
-  <text x="235" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
+  <text x="215" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
   <text x="510" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
   <g transform="translate(0 -40)">
-  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
-    <rect x="225" y="461" width="20" height="18" fill="white"/><text x="235" y="476" font-style="italic" font-weight="bold">W</text>
-    <rect x="406" y="464" width="20" height="18" fill="white"/><text x="416" y="479" font-style="italic" font-weight="bold">A</text>
+  <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle"><text x="165" y="476" text-anchor="end" font-style="italic" font-weight="bold">W</text><text x="383" y="479" text-anchor="end" font-style="italic" font-weight="bold">A</text>
     <text x="510.5" y="119" font-style="italic" font-weight="bold">t</text>
   </g>
   <g stroke="#111827" fill="none">
-    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
-    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
-    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <line x1="529" y1="518.36" x2="566" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="566" y2="751.64" stroke-width="0.8"/>
+    <line x1="558" y1="518.36" x2="558" y2="751.64" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <text x="575" y="635" transform="rotate(-90 575 635)" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <text x="566" y="560" text-anchor="start" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
   </g>
 </svg>`;
 
@@ -5645,14 +5661,14 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
     : 'Table 5.1 — ' + t('lbl.class') + ' ' + cls + ' ' + t('b48.male');
 
   const title    = t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + r.nps + '”';
-  const subtitle = 'ASME B16.48-2025, ' + tableRef;
+  const subtitle = window._mobileApp ? 'ASME B16.48-2025' : 'ASME B16.48-2025, ' + tableRef;
 
   const isMobile = window.innerWidth <= 480;
   let svg = isMobile ? B48_SVG_V[face] : B48_SVG[face];
 
-  // Replace embedded title with standardized format
+  // Replace embedded title with standardized format (hidden on mobile app)
   const svgInnerTitle = title + ' — ASME B16.48';
-  svg = svg.replace(/<text([^>]*font-size="18"[^>]*)>[^<]*<\/text>/, '<text$1>' + svgInnerTitle + '</text>');
+  svg = svg.replace(/<text([^>]*font-size="18"[^>]*)>[^<]*<\/text>/, window._mobileApp ? '' : '<text$1>' + svgInnerTitle + '</text>');
   svg = svg.replace(/<text[^>]*font-size="12"[^>]*fill="#4b5563"[^>]*>[^<]*<\/text>/, '');
 
   // Move "TOP VIEW" label from bottom of top-view area (y=406) to the top (y=40),

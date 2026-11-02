@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="500" viewBox="0 0 780 500" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="500" height="348" viewBox="205 0 500 348" font-family="Arial, sans-serif">
   <title>2 inch threaded round head plug</title>
   <desc>NPS 2 threaded round head plug based on ASME B16.11-2021 Table 6.1-6. Uniform scale 3 px/mm. Minimum thread length A 22 mm, minimum overall length D 64 mm, and nominal head diameter E 60 mm.</desc>
 
-  <rect width="780" height="500" fill="white"/>
+  <rect x="205" y="0" width="500" height="348" fill="white"/>
   <defs>
     <marker id="arrowStartRoundPlug" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M9,0 L9,6 L0,3 z" fill="black"/>
@@ -37,7 +37,7 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Round Head Plug — ASME B16.11</text>
+  <text x="455" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Round Head Plug — ASME B16.11</text>
 
   <!-- Round head: E=60 mm; total D=64 mm. -->
   <path d="M306,112 Q300,112 300,120 L300,238 L480,238 L480,120 Q480,112 474,112 Z"
@@ -60,21 +60,17 @@
 
   <!-- D overall and A thread length. -->
   <g fill="none" stroke="black">
-    <line x1="480" y1="112" x2="652" y2="112" stroke-width="0.75"/>
-    <line x1="481" y1="304" x2="652" y2="304" stroke-width="0.75"/>
-    <line x1="645" y1="112" x2="645" y2="304" stroke-width="1"
+    <line x1="480" y1="112" x2="617" y2="112" stroke-width="0.75"/>
+    <line x1="481" y1="304" x2="617" y2="304" stroke-width="0.75"/>
+    <line x1="612" y1="112" x2="612" y2="304" stroke-width="1"
           marker-start="url(#arrowStartRoundPlug)" marker-end="url(#arrowEndRoundPlug)"/>
 
-    <line x1="480" y1="238" x2="558" y2="238" stroke-width="0.75"/>
-    <line x1="481" y1="304" x2="558" y2="304" stroke-width="0.75"/>
-    <line x1="551" y1="238" x2="551" y2="304" stroke-width="1"
+    <line x1="480" y1="238" x2="506" y2="238" stroke-width="0.75"/>
+    
+    <line x1="501" y1="238" x2="501" y2="304" stroke-width="1"
           marker-start="url(#arrowStartRoundPlug)" marker-end="url(#arrowEndRoundPlug)"/>
   </g>
-  <text x="656" y="214" font-size="15" font-style="italic" font-weight="bold">D</text>
-  <text x="565" y="277" font-size="15" font-style="italic" font-weight="bold">A</text>
+  <text x="604" y="180" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">D</text>
+  <text x="509" y="277" font-size="15" font-style="italic" font-weight="bold">A</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="462">Exterior view. ASME B16.11-2021, Table 6.1-6, NPS 2. Geometric scale: 3 px/mm.</text>
-    <text x="20" y="480">A=22 min; D=64 min; E=60 nominal. Male thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>
