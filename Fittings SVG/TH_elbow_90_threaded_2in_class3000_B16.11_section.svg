@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="500" height="440" viewBox="78 0 500 440" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 threaded 90-degree elbow, sectioned view</title>
   <desc>Symmetrical sectioned NPS 2 Class 3000 threaded 90-degree elbow based on ASME B16.11-2021 Table 6.1-3. Dimensions: A 64 mm minimum, H 84 mm minimum, G 7.14 mm minimum, B 19 mm minimum, and L2 19.2 mm minimum.</desc>
 
-  <rect width="760" height="520" fill="white"/>
+  <rect x="78" y="0" width="500" height="440" fill="white"/>
 
   <defs>
     <pattern id="hatch90t" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -60,7 +60,7 @@
     </g>
   </defs>
 
-  <text x="380" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded 90° Elbow — ASME B16.11</text>
+  <text x="328" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded 90° Elbow — ASME B16.11</text>
 
   <!-- Narrow central elbow body with full-diameter threaded bands at both ends. -->
   <path d="M360,175 L360,297 L482,297"
@@ -98,7 +98,7 @@
   </g>
 
   <!-- Centerlines. -->
-  <path d="M360,82 L360,297 L578,297"
+  <path d="M360,82 L360,297 L562,297"
         fill="none" stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 
   <!-- H across the upper band. -->
@@ -112,42 +112,28 @@
 
   <!-- Center-to-end A (broken line with gap for label). -->
   <g fill="none" stroke="black">
-    <line x1="234" y1="105" x2="30" y2="105" stroke-width="0.75"/>
-    <line x1="360" y1="297" x2="30" y2="297" stroke-width="0.75"/>
-    <line x1="37" y1="105" x2="37" y2="182" stroke-width="1"
-          marker-start="url(#arrowStart90t)"/>
-    <line x1="37" y1="222" x2="37" y2="297" stroke-width="1"
-          marker-end="url(#arrowEnd90t)"/>
+    <line x1="234" y1="105" x2="95" y2="105" stroke-width="0.75"/>
+    <line x1="360" y1="297" x2="95" y2="297" stroke-width="0.75"/>
+    <line x1="100" y1="105" x2="100" y2="297" stroke-width="1"
+          marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
   </g>
-  <text x="5" y="207" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
+  <text x="108" y="245" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
 
   <!-- Thread engagement length L2 (label to the left of arrow). -->
   <g fill="none" stroke="black">
-    <line x1="270" y1="105" x2="102" y2="105" stroke-width="0.75"/>
-    <line x1="276" y1="162.6" x2="102" y2="162.6" stroke-width="0.75"/>
-    <line x1="109" y1="105" x2="109" y2="162.6" stroke-width="1"
+    
+    <line x1="276" y1="162.6" x2="209" y2="162.6" stroke-width="0.75"/>
+    <line x1="214" y1="105" x2="214" y2="162.6" stroke-width="1"
           marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
   </g>
-  <text x="115" y="138" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+  <text x="206" y="139" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">L₂</text>
 
-  <!-- H across the right-hand band. -->
-  <g fill="none" stroke="black">
-    <line x1="552" y1="171" x2="617" y2="171" stroke-width="0.75"/>
-    <line x1="552" y1="423" x2="617" y2="423" stroke-width="0.75"/>
-    <line x1="610" y1="171" x2="610" y2="423" stroke-width="1"
-          marker-start="url(#arrowStart90t)" marker-end="url(#arrowEnd90t)"/>
-  </g>
-  <text x="621" y="302" font-size="15" font-style="italic" font-weight="bold">H</text>
 
   <!-- Minimum body wall G. -->
   <g fill="none" stroke="black">
-    <line x1="210" y1="418" x2="295" y2="358" stroke-width="1"
+    <line x1="312" y1="333" x2="292" y2="353" stroke-width="1"
           marker-end="url(#arrowEnd90t)"/>
   </g>
-  <text x="198" y="423" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">G</text>
+  <text x="316" y="336" text-anchor="start" stroke="white" stroke-width="4" paint-order="stroke" font-size="15" font-style="italic" font-weight="bold">G</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="484">Schematic sectioned view. Female threads shown in section. ASME B16.11-2021, Table 6.1-3, NPS 2, Class 3000.</text>
-    <text x="20" y="502">A=64 min; H=84 min; G=7.14 min; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

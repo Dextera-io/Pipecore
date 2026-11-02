@@ -2,8 +2,8 @@
   <title>12 inch Class 300 Female RTJ Figure-8 blank - vertical</title>
   <desc>Proportional top and section views based on ASME B16.48-2025 Table 5.1-2: B 324 mm, O 413 mm, A 450 mm, t 50.8 mm, and W 121 mm. Female ring-joint grooves are shown schematically without a raised face.</desc>
 
-  <g transform="translate(0 840) rotate(-90)">
-  <rect width="840" height="630" fill="white"/>
+  <rect width="630" height="840" fill="white"/>
+  <g transform="translate(0 820) rotate(-90)">
 
   <defs>
     <linearGradient id="steelFace" x1="0" y1="0" x2="0.85" y2="1">
@@ -105,7 +105,6 @@
     <line x1="353.68" y1="452" x2="353.68" y2="414" stroke="#111827" stroke-width="0.8"/>
     <line x1="56.32" y1="420" x2="353.68" y2="420" stroke="#111827" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-    <rect x="195" y="409" width="20" height="16" fill="white"/>
 
     <!-- Thickness t. -->
     <line x1="677.68" y1="452" x2="715" y2="452" stroke="#111827" stroke-width="0.8"/>
@@ -121,15 +120,14 @@
   <text x="235" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW</text>
   <text x="510" y="92" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">SECTION VIEW</text>
 
+  <g transform="translate(0 -20)">
   <g font-size="15" font-style="italic" font-weight="bold" fill="#111827" text-anchor="middle">
     <rect x="225" y="461" width="20" height="18" fill="white"/>
     <text x="235" y="476" font-style="italic" font-weight="bold">W</text>
     <rect x="406" y="464" width="20" height="18" fill="white"/>
     <text x="416" y="479" font-style="italic" font-weight="bold">A</text>
-    <rect x="450" y="626" width="20" height="18" fill="white"/>
-    <text x="460" y="641" font-style="italic" font-weight="bold">O</text>
-    <rect x="500" y="124" width="21" height="18" fill="white"/>
-    <text x="510.5" y="139" font-style="italic" font-weight="bold">t</text>
+    <text x="441" y="641" font-style="italic" font-weight="bold">O</text>
+    <text x="540" y="139" font-style="italic" font-weight="bold">t</text>
   </g>
 
   <g stroke="#111827" fill="none">
@@ -138,6 +136,6 @@
     <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <rect x="540" y="626" width="20" height="18" fill="white"/>
-  <text x="550" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <text x="567" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  </g>
 </svg>

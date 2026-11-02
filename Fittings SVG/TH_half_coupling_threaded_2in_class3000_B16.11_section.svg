@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="500" viewBox="0 0 780 500" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="470" height="294" viewBox="85 62 470 294" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 threaded half-coupling, sectioned view</title>
   <desc>Sectioned NPS 2 Class 3000 threaded half-coupling based on ASME B16.11-2021 Tables 6.1-5 and 6.1-3. Dimensions: outside diameter D 76 mm, length W over 2 equal to 43 mm, minimum perfect thread B 19 mm, and minimum effective thread L2 19.2 mm.</desc>
 
-  <rect width="780" height="500" fill="white"/>
+  <rect x="85" y="62" width="470" height="294" fill="white"/>
 
   <defs>
     <pattern id="hatchHalfCouplingT" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -30,7 +30,7 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Half-Coupling — ASME B16.11</text>
+  <text x="320" y="87" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Half-Coupling — ASME B16.11</text>
 
   <!-- Half-coupling body: D=76 mm and W/2=43 mm at 3 px/mm. -->
   <path d="M282,185 L498,185 L504,191 L504,308 L498,314
@@ -62,21 +62,17 @@
 
   <!-- W/2 and thread lengths B / L2. -->
   <g fill="none" stroke="black">
-    <line x1="276" y1="185" x2="53" y2="185" stroke-width="0.75"/>
-    <line x1="276" y1="314" x2="53" y2="314" stroke-width="0.75"/>
-    <line x1="60" y1="185" x2="60" y2="314" stroke-width="1"
+    <line x1="276" y1="185" x2="135" y2="185" stroke-width="0.75"/>
+    <line x1="276" y1="314" x2="135" y2="314" stroke-width="0.75"/>
+    <line x1="140" y1="185" x2="140" y2="314" stroke-width="1"
           marker-start="url(#arrowStartHalfCouplingT)" marker-end="url(#arrowEndHalfCouplingT)"/>
 
-    <line x1="300" y1="185" x2="102" y2="185" stroke-width="0.75"/>
-    <line x1="306" y1="242.6" x2="102" y2="242.6" stroke-width="0.75"/>
-    <line x1="109" y1="185" x2="109" y2="242.6" stroke-width="1"
+    
+    <line x1="306" y1="242.6" x2="251" y2="242.6" stroke-width="0.75"/>
+    <line x1="256" y1="185" x2="256" y2="242.6" stroke-width="1"
           marker-start="url(#arrowStartHalfCouplingT)" marker-end="url(#arrowEndHalfCouplingT)"/>
   </g>
-  <text x="68" y="255" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">W/2</text>
-  <text x="115" y="218" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+  <text x="148" y="283" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">W/2</text>
+  <text x="248" y="218" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">L₂</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="462">Symmetric sectioned view. Female thread shown in section. ASME B16.11-2021, Tables 6.1-5 and 6.1-3, NPS 2, Class 3000.</text>
-    <text x="20" y="480">D=76; W/2=43; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

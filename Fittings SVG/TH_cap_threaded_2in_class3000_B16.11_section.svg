@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="500" viewBox="0 0 780 500" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="470" height="350" viewBox="85 0 470 350" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 threaded cap, sectioned view</title>
   <desc>NPS 2 Class 3000 threaded cap based on ASME B16.11-2021 Tables 6.1-5 and 6.1-3. Uniform scale 3 px/mm. D 76 mm, P 48 mm, G 12.7 mm, minimum perfect thread B 19 mm, and minimum effective thread L2 19.2 mm.</desc>
 
-  <rect width="780" height="500" fill="white"/>
+  <rect x="85" y="0" width="470" height="350" fill="white"/>
 
   <defs>
     <pattern id="hatchCapT" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -29,7 +29,7 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Cap — ASME B16.11</text>
+  <text x="320" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Cap — ASME B16.11</text>
 
   <!-- D=76 mm, P=48 mm and G=12.7 mm at 3 px/mm. -->
   <path d="M282,165 L498,165 L504,171 L504,303 L498,309
@@ -59,33 +59,27 @@
 
   <!-- Thread lengths B / L2. -->
   <g fill="none" stroke="black">
-    <line x1="300" y1="165" x2="102" y2="165" stroke-width="0.75"/>
-    <line x1="306" y1="222.6" x2="102" y2="222.6" stroke-width="0.75"/>
-    <line x1="109" y1="165" x2="109" y2="222.6" stroke-width="1"
+    <line x1="276" y1="165" x2="135" y2="165" stroke-width="0.75"/>
+    <line x1="306" y1="222.6" x2="251" y2="222.6" stroke-width="0.75"/>
+    <line x1="256" y1="165" x2="256" y2="222.6" stroke-width="1"
           marker-start="url(#arrowStartCapT)" marker-end="url(#arrowEndCapT)"/>
   </g>
-  <text x="115" y="198" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+  <text x="248" y="198" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">L₂</text>
 
   <!-- Overall length P. -->
   <g fill="none" stroke="black">
-    <line x1="504" y1="165" x2="596" y2="165" stroke-width="0.75"/>
-    <line x1="504" y1="309" x2="596" y2="309" stroke-width="0.75"/>
-    <line x1="589" y1="165" x2="589" y2="309" stroke-width="1"
+    <line x1="140" y1="165" x2="140" y2="309" stroke-width="1"
           marker-start="url(#arrowStartCapT)" marker-end="url(#arrowEndCapT)"/>
   </g>
-  <text x="603" y="242" font-size="15" font-style="italic" font-weight="bold">P</text>
+  <text x="148" y="252" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">P</text>
 
   <!-- End-wall G (left side, aligned with L2). -->
   <g fill="none" stroke="black">
-    <line x1="321" y1="271" x2="102" y2="271" stroke-width="0.75"/>
-    <line x1="276" y1="309" x2="102" y2="309" stroke-width="0.75"/>
-    <line x1="109" y1="271" x2="109" y2="309" stroke-width="1"
+    <line x1="321" y1="271" x2="251" y2="271" stroke-width="0.75"/>
+    <line x1="276" y1="309" x2="135" y2="309" stroke-width="0.75"/>
+    <line x1="256" y1="271" x2="256" y2="309" stroke-width="1"
           marker-start="url(#arrowStartCapT)" marker-end="url(#arrowEndCapT)"/>
   </g>
-  <text x="115" y="295" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">G</text>
+  <text x="248" y="295" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">G</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="462">Symmetric sectioned view. Female thread shown in section. ASME B16.11-2021, Tables 6.1-5 and 6.1-3, NPS 2, Class 3000.</text>
-    <text x="20" y="480">D=76; P=48; G=12.7 min; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

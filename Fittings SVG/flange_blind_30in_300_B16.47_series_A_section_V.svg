@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin meet" viewBox="0 0 460 637" width="460" height="637" font-family="Arial, sans-serif">
+<rect x="0" y="0" width="460" height="637" fill="white"/>
+<defs>
+  <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#555" stroke-width="1"/></pattern>
+  <marker id="arrowStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M9,0 L9,6 L0,3 z" fill="black"/></marker>
+  <marker id="arrowEnd" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L0,6 L9,3 z" fill="black"/></marker>
+</defs>
+<text x="230" y="28" text-anchor="middle" font-size="18" font-weight="bold">Blind Flange — ASME B16.47 Series A</text>
+<g transform="matrix(0 -1 1 0 45.58 702)">
+<path d="M 100.85,193.82 Q 94.85,193.82 94.85,199.82 L 94.85,238.52 L 150.91,238.52 L 150.91,239.24 L 559.79,239.24 L 559.79,238.52 L 615.85,238.52 L 615.85,199.82 Q 615.85,193.82 609.85,193.82 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
+<rect x="106.15" y="193.82" width="22.72" height="44.70" fill="white" stroke="black" stroke-width="1.5"/>
+<rect x="581.83" y="193.82" width="22.72" height="44.70" fill="white" stroke="black" stroke-width="1.5"/>
+<line x1="355.35" y1="166" x2="355.35" y2="258" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="94.85" y1="199.82" x2="94.85" y2="49.09" stroke="black" stroke-width="0.75"/>
+<line x1="615.85" y1="199.82" x2="615.85" y2="49.09" stroke="black" stroke-width="0.75"/>
+<line x1="94.85" y1="61.09" x2="384.35" y2="61.09" stroke="black" stroke-width="1" marker-start="url(#arrowStart)"/>
+<line x1="406.35" y1="61.09" x2="615.85" y2="61.09" stroke="black" stroke-width="1" marker-end="url(#arrowEnd)"/>
+<line x1="609.85" y1="193.82" x2="640" y2="193.82" stroke="black" stroke-width="0.75"/>
+<line x1="615.85" y1="238.52" x2="640" y2="238.52" stroke="black" stroke-width="0.75"/>
+<line x1="638" y1="193.82" x2="638" y2="238.52" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+<line x1="117.51" y1="238.52" x2="117.51" y2="319.74" stroke="black" stroke-width="0.75"/>
+<line x1="593.19" y1="238.52" x2="593.19" y2="319.74" stroke="black" stroke-width="0.75"/>
+<line x1="117.51" y1="307.74" x2="384.35" y2="307.74" stroke="black" stroke-width="1" marker-start="url(#arrowStart)"/>
+<line x1="406.35" y1="307.74" x2="593.19" y2="307.74" stroke="black" stroke-width="1" marker-end="url(#arrowEnd)"/>
+</g>
+<text x="261.75" y="58" text-anchor="middle" stroke="white" stroke-width="4" paint-order="stroke" font-size="15" font-weight="bold">tf</text>
+<text x="106.67" y="311.65" text-anchor="middle" stroke="white" stroke-width="4" paint-order="stroke" font-size="15" font-weight="bold">O</text>
+<text x="353.32" y="311.65" text-anchor="middle" stroke="white" stroke-width="4" paint-order="stroke" font-size="15" font-weight="bold">W</text>
+</svg>

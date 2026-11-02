@@ -120,11 +120,11 @@
   </g>
 
   <g stroke="#111827" fill="none">
-    <line x1="529" y1="518.36" x2="558" y2="518.36" stroke-width="0.8"/>
-    <line x1="529" y1="751.64" x2="558" y2="751.64" stroke-width="0.8"/>
-    <line x1="550" y1="518.36" x2="550" y2="751.64" stroke-width="1"
+    <line x1="529" y1="518.36" x2="578" y2="518.36" stroke-width="0.8"/>
+    <line x1="529" y1="751.64" x2="578" y2="751.64" stroke-width="0.8"/>
+    <line x1="570" y1="518.36" x2="570" y2="751.64" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
-  <rect x="540" y="626" width="20" height="18" fill="white"/>
-  <text x="550" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
+  <rect x="560" y="626" width="20" height="18" fill="white"/>
+  <text x="570" y="641" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold" fill="#111827">B</text>
 </svg>

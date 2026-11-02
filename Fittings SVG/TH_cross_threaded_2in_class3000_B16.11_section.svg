@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="780" height="580" viewBox="0 0 780 580" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="553" height="552" viewBox="70 0 553 552" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 threaded cross, sectioned view</title>
   <desc>Symmetrical sectioned NPS 2 Class 3000 threaded cross based on ASME B16.11-2021 Table 6.1-3. Dimensions: A 64 mm minimum, H 84 mm minimum, G 7.14 mm minimum, B 19 mm minimum, and L2 19.2 mm minimum.</desc>
 
-  <rect width="780" height="580" fill="white"/>
+  <rect x="70" y="0" width="553" height="552" fill="white"/>
 
   <defs>
     <pattern id="hatchCrossT" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -51,7 +51,7 @@
     </g>
   </defs>
 
-  <text x="390" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Cross — ASME B16.11</text>
+  <text x="347" y="25" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Threaded Cross — ASME B16.11</text>
 
   <!-- Central body, scale 3 px/mm. -->
   <path d="M268,320 L512,320 M390,198 L390,442"
@@ -103,33 +103,29 @@
 
   <!-- Center-to-end A (broken line with gap for label). -->
   <g fill="none" stroke="black">
-    <line x1="264" y1="128" x2="30" y2="128" stroke-width="0.75"/>
-    <line x1="198" y1="320" x2="30" y2="320" stroke-width="0.75"/>
-    <line x1="37" y1="128" x2="37" y2="205" stroke-width="1"
+    <line x1="264" y1="128" x2="125" y2="128" stroke-width="0.75"/>
+    <line x1="198" y1="320" x2="125" y2="320" stroke-width="0.75"/>
+    <line x1="130" y1="128" x2="130" y2="244" stroke-width="1"
           marker-start="url(#arrowStartCrossT)"/>
-    <line x1="37" y1="245" x2="37" y2="320" stroke-width="1"
+    <line x1="130" y1="268" x2="130" y2="320" stroke-width="1"
           marker-end="url(#arrowEndCrossT)"/>
   </g>
-  <text x="5" y="230" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">A</text>
+  <text x="130" y="265" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">A</text>
 
   <!-- Thread engagement length L2 (label at same height as A). -->
   <g fill="none" stroke="black">
-    <line x1="300" y1="128" x2="102" y2="128" stroke-width="0.75"/>
-    <line x1="306" y1="185.6" x2="102" y2="185.6" stroke-width="0.75"/>
-    <line x1="109" y1="128" x2="109" y2="185.6" stroke-width="1"
+    
+    <line x1="306" y1="185.6" x2="239" y2="185.6" stroke-width="0.75"/>
+    <line x1="244" y1="128" x2="244" y2="185.6" stroke-width="1"
           marker-start="url(#arrowStartCrossT)" marker-end="url(#arrowEndCrossT)"/>
   </g>
-  <text x="115" y="162" text-anchor="start" font-size="15" font-style="italic" font-weight="bold">L₂</text>
+  <text x="236" y="162" text-anchor="end" font-size="15" font-style="italic" font-weight="bold">L₂</text>
 
   <!-- Minimum body wall G (45° callout). -->
   <g fill="none" stroke="black">
-    <line x1="605" y1="135" x2="491" y2="247" stroke-width="1"
+    <line x1="468" y1="262" x2="484" y2="241" stroke-width="1"
           marker-end="url(#arrowEndCrossT)"/>
   </g>
-  <text x="615" y="130" font-size="15" font-style="italic" font-weight="bold">G</text>
+  <text x="466" y="276" text-anchor="end" stroke="white" stroke-width="4" paint-order="stroke" font-size="15" font-style="italic" font-weight="bold">G</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="542">Symmetric sectioned view. Female threads shown in section. ASME B16.11-2021, Table 6.1-3, NPS 2, Class 3000.</text>
-    <text x="20" y="560">A=64 min; H=84 min; G=7.14 min; B=19 min; L₂=19.2 min. Thread per ASME B1.20.1. Dimensions in mm.</text>
-  </g>
 </svg>

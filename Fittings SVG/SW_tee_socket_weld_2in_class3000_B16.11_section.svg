@@ -1,8 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="760" height="530" viewBox="0 0 760 530" font-family="Arial, sans-serif">
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="484" height="492" viewBox="88 0 484 492" font-family="Arial, sans-serif">
   <title>2 inch Class 3000 socket-welding tee, sectioned view</title>
   <desc>Symmetrical NPS 2 Class 3000 socket-welding tee based on ASME B16.11-2021 Table 6.1-1. Uniform scale 3 px/mm. A 38 mm minimum, B 61.2 to 61.7 mm, C 6.93 mm average and 6.04 mm minimum, D 51.7 to 53.3 mm, G 5.54 mm minimum, and J 16 mm minimum.</desc>
 
-  <rect width="760" height="530" fill="white"/>
+  <rect x="88" y="0" width="484" height="492" fill="white"/>
 
   <defs>
     <pattern id="hatch" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)">
@@ -17,7 +17,7 @@
     </marker>
   </defs>
 
-  <text x="380" y="23" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Socket Weld Tee — ASME B16.11</text>
+  <text x="330" y="23" text-anchor="middle" font-size="17" font-weight="bold">2&quot; Class 3000 Socket Weld Tee — ASME B16.11</text>
 
   <!-- Three identical socket bodies. Scale: 3 px/mm. -->
   <path d="M 267.04,168 L 492.97,168 L 492.97,216 L 267.04,216 Z"
@@ -79,7 +79,7 @@
   </g>
 
   <!-- Centerlines. -->
-  <path d="M 380,150 L 380,330 M 200,330 L 560,330"
+  <path d="M 380,150 L 380,330 M 205,330 L 555,330"
         fill="none" stroke="#555" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 
   <!-- Top B, C, and D dimensions. -->
@@ -105,17 +105,17 @@
 
   <!-- J and A at the left. -->
   <g fill="none" stroke="black">
-    <line x1="267.04" y1="168" x2="105" y2="168" stroke-width="0.75"/>
-    <line x1="266" y1="216" x2="105" y2="216" stroke-width="0.75"/>
-    <line x1="266" y1="330" x2="105" y2="330" stroke-width="0.75"/>
-    <line x1="110" y1="168" x2="110" y2="216" stroke-width="1"
+    <line x1="267.04" y1="168" x2="195" y2="168" stroke-width="0.75"/>
+    <line x1="266" y1="216" x2="195" y2="216" stroke-width="0.75"/>
+    <line x1="266" y1="330" x2="195" y2="330" stroke-width="0.75"/>
+    <line x1="200" y1="168" x2="200" y2="216" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
-    <line x1="110" y1="216" x2="110" y2="330" stroke-width="1"
+    <line x1="200" y1="216" x2="200" y2="330" stroke-width="1"
           marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
   </g>
   <g font-size="15" font-style="italic" font-weight="bold">
-    <text x="118" y="197" text-anchor="start">J</text>
-    <text x="118" y="280" text-anchor="start">A</text>
+    <text x="192" y="197" text-anchor="end">J</text>
+    <text x="192" y="280" text-anchor="end">A</text>
   </g>
 
   <!-- G kept outside the fitting for a future numeric value. -->
@@ -125,8 +125,4 @@
   </g>
   <text x="380" y="476" text-anchor="middle" font-size="15" font-style="italic" font-weight="bold">G</text>
 
-  <g font-size="11" fill="#555">
-    <text x="20" y="494">Symmetric sectioned view. ASME B16.11-2021, Table 6.1-1, NPS 2, Class 3000. Geometric scale: 3 px/mm.</text>
-    <text x="20" y="511">A=38 min (±2); B=61.2–61.7; C=6.93 avg./6.04 min; D=51.7–53.3; G=5.54 min; J=16 min. Dimensions in mm.</text>
-  </g>
 </svg>
