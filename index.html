@@ -15,6 +15,66 @@
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PipeCore</title>
+<script>
+  // Auto-detect mobile: set by Android WebView injection OR by browser UA/screen width
+  if (!window._mobileApp) {
+    var _ua = navigator.userAgent || '';
+    var _isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(_ua);
+    var _isNarrow = window.screen && window.screen.width <= 768;
+    if (_isMobileUA || _isNarrow) window._mobileApp = true;
+  }
+  if (window._mobileApp) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var css = [
+        'header { padding-top: 44px !important; height: auto !important; min-height: 68px !important; padding-bottom: 4px !important; position: relative !important; z-index: 100 !important; }',
+        '.logo-icon { display: none !important; } .logo-text { font-size: 15px !important; }',
+        '.logo-sub { display: none !important; }',
+        '.app { display: flex !important; flex-direction: column !important; height: calc(100vh - 160px) !important; overflow: hidden !important; }',
+        '.sidebar { border-right: none !important; border-top: 1px solid #2a2d3a !important; padding: 6px 8px 10px !important; order: 4 !important; flex-shrink: 0 !important; }',
+        '.dwg-header { background: white !important; border-bottom: 1px solid #dde !important; }',
+        '.dwg-title { color: #1a2d3a !important; }',
+        '.dwg-sub { color: #667 !important; }',
+        '.sidebar-section { margin-bottom: 0 !important; }',
+        '.sidebar-label { display: none !important; }',
+        '.cat-grid { display: flex !important; flex-direction: row !important; gap: 6px !important; overflow-x: auto !important; flex-wrap: nowrap !important; padding-bottom: 2px !important; }',
+        '.cat-tile { flex-shrink: 0 !important; width: 60px !important; padding: 6px 4px !important; }',
+        '.cat-tile .icon { font-size: 18px !important; margin-bottom: 3px !important; }',
+        '.cat-tile .name { font-size: 8px !important; line-height: 1.2 !important; }',
+        '.cat-tile .std { font-size: 7px !important; }',
+        '.right-col { order: 1 !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }',
+        '.mode-toggle-bar { display: none !important; }',
+        '#filter-bar { order: 3 !important; flex-shrink: 0 !important; border-bottom: none !important; border-top: 1px solid #2a2d3a !important; padding: 8px 10px !important; background: #131620 !important; }',
+        '#content { background: white !important; }',
+        '#filter-bar > div { gap: 6px 8px !important; }',
+        '#filter-bar .select-group { flex: 1 1 0 !important; max-width: none !important; min-width: 0 !important; margin-bottom: 0 !important; }',
+        '#filter-bar .select-label { font-size: 9px !important; margin-bottom: 3px !important; }',
+        '#filter-bar select { font-size: 12px !important; padding: 8px 20px 8px 8px !important; min-height: 36px !important; }',
+        '#filter-bar .toggle-row { gap: 4px !important; }',
+        '#filter-bar .toggle button { font-size: 9px !important; padding: 4px 7px !important; }',
+        '.drawing-view { grid-template-columns: 1fr !important; height: 100% !important; }',
+        '.dim-panel { display: none !important; }',
+        '.content { padding: 0 !important; width: 100% !important; }',
+        '#content { height: 100% !important; display: flex !important; flex-direction: column !important; padding: 0 !important; width: 100% !important; }',
+        '.right-col { width: 100% !important; }',
+        '.drawing-view { flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; gap: 0 !important; width: 100% !important; }',
+        '.dwg-panel { flex: 1 !important; min-height: 0 !important; border-radius: 0 !important; border: none !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; }',
+        '.dwg-panel > div:not(.dwg-header) { position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; padding: 0 !important; margin-top: 44px !important; background: white !important; }',
+        '.dwg-panel svg { max-width: none !important; width: 100% !important; height: 100% !important; margin: 0 !important; }',
+        '.b11-svg-inner { overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; }',
+        '.b11-svg-inner svg { width: 100% !important; height: 100% !important; }',
+        '[data-cat=converter] { display: none !important; }',
+        '[data-cat=spanCalc] { display: none !important; }'
+      ].join(' ');
+      var s = document.createElement('style');
+      s.textContent = css;
+      document.head.appendChild(s);
+      // Move filter bar into .app
+      var app = document.querySelector('.app');
+      var filterBar = document.getElementById('filter-bar');
+      if (filterBar && app) app.appendChild(filterBar);
+    });
+  }
+</script>
 <style>
   :root {
     --bg: #0f1117;
