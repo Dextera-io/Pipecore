@@ -29,7 +29,7 @@
         'header { padding-top: 44px !important; height: auto !important; min-height: 68px !important; padding-bottom: 4px !important; position: relative !important; z-index: 100 !important; }',
         '.logo-icon { display: none !important; } .logo-text { font-size: 15px !important; }',
         '.logo-sub { display: none !important; }',
-        '.app { display: flex !important; flex-direction: column !important; height: calc(100vh - 160px) !important; overflow: hidden !important; }',
+        '.app { display: flex !important; flex-direction: column !important; overflow: hidden !important; }',
         '.sidebar { border-right: none !important; border-top: 1px solid #2a2d3a !important; padding: 6px 8px 10px !important; order: 4 !important; flex-shrink: 0 !important; }',
         '.dwg-header { background: white !important; border-bottom: 1px solid #dde !important; }',
         '.dwg-title { color: #1a2d3a !important; }',
@@ -72,6 +72,10 @@
       var app = document.querySelector('.app');
       var filterBar = document.getElementById('filter-bar');
       if (filterBar && app) app.appendChild(filterBar);
+      // Set .app height from innerHeight (avoids 100vh including system nav bar)
+      var hdr = document.querySelector('header');
+      var hdrH = hdr ? hdr.getBoundingClientRect().height : 68;
+      if (app) app.style.height = (window.innerHeight - hdrH) + 'px';
     });
   }
 </script>
