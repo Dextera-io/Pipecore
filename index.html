@@ -1042,7 +1042,7 @@
       <p id="home-welcome-p">Select a category and size to view engineering drawings with dimensions from ASME standards.</p>
       <div class="welcome-divider"></div>
       <div class="welcome-beta">
-        <p id="home-beta-p">PipeCore Lite is a free app with a selection of piping fittings available. We're evaluating user interest before releasing the full version — with more piping fittings and extra modules for a better experience. Interested? Let us know below!</p>
+        <p id="home-beta-p">PipeCore Lite is a free app with a selection of piping fittings. We're evaluating user interest before releasing a full version at a reasonable price — with more fittings and extra modules. Interested? Let us know below!</p>
         <button class="btn-wishlist" onclick="openWishlist()">🔔 <span id="home-beta-btn">Notify me when it's available</span></button>
       </div>
     </div>
@@ -1061,15 +1061,13 @@
       <!-- Tab: Get Notified -->
       <div id="wl-panel-notify">
         <div id="wishlist-form-wrap">
-          <h3 id="wl-title">Get notified at launch</h3>
-          <p class="wl-sub" id="wl-sub">Leave your info and we'll reach out when the full version is ready. No spam — just one email.</p>
+          <h3 id="wl-title">Get notified at launch 🚀</h3>
+          <p class="wl-sub" id="wl-sub">Select your country to see the estimated monthly price for your region.</p>
           <form name="pipecore-wishlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleWishlistSubmit(event)">
             <input type="hidden" name="form-name" value="pipecore-wishlist"/>
             <input type="hidden" name="bot-field" style="display:none"/>
-            <label id="wl-lbl-name" for="wl-name">Name / Nombre</label>
-            <input type="text" id="wl-name" name="name" required placeholder="John Smith"/>
             <label id="wl-lbl-country" for="wl-country">Country / País</label>
-            <select id="wl-country" name="country" required>
+            <select id="wl-country" name="country" required onchange="updateWlPrice()">
               <option value="">—</option>
               <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Angola</option><option>Argentina</option><option>Australia</option><option>Austria</option><option>Azerbaijan</option>
               <option>Bahrain</option><option>Bangladesh</option><option>Belarus</option><option>Belgium</option><option>Bolivia</option><option>Bosnia and Herzegovina</option><option>Brazil</option><option>Bulgaria</option>
@@ -1095,8 +1093,17 @@
               <option>Venezuela</option><option>Vietnam</option>
               <option>Other / Otro</option>
             </select>
-            <label id="wl-lbl-email" for="wl-email">Email</label>
-            <input type="email" id="wl-email" name="email" required placeholder="you@example.com"/>
+            <!-- Price display -->
+            <div id="wl-price-box" style="display:none;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:12px 14px;margin-bottom:14px;text-align:center">
+              <div id="wl-price-msg" style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:4px"></div>
+              <div style="font-size:22px;font-weight:800;color:var(--accent)" id="wl-price-val"></div>
+            </div>
+            <div id="wl-email-section" style="display:none">
+              <label id="wl-lbl-name" for="wl-name">Name / Nombre</label>
+              <input type="text" id="wl-name" name="name" required placeholder="John Smith"/>
+              <label id="wl-lbl-email" for="wl-email">Email</label>
+              <input type="email" id="wl-email" name="email" required placeholder="you@example.com"/>
+            </div>
             <p style="font-size:11px;color:var(--text2);margin:0 0 10px">By submitting you agree to our <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--accent)">Privacy Policy</a>.</p>
             <div class="wl-actions">
               <button type="button" class="wl-cancel" onclick="closeWishlist()" id="wl-btn-cancel">Cancel</button>
@@ -1229,11 +1236,11 @@ const LANG = {
     // home welcome
     'home.title': 'Welcome to PipeCore',
     'home.sub': 'Select a category and size to view engineering drawings with dimensions from ASME standards.',
-    'home.beta': 'PipeCore Lite is a free app with a selection of piping fittings available. We\'re evaluating user interest before releasing the full version — with more piping fittings and extra modules for a better experience. Interested? Let us know below!',
+    'home.beta': 'PipeCore Lite is a free app with a selection of piping fittings. We\'re evaluating user interest before releasing a full version at a reasonable price — with more fittings and extra modules. Interested? Let us know below!',
     'home.beta.btn': 'Notify me when it\'s available',
     'wl.tab.notify': 'Get Notified', 'wl.tab.contact': 'Send a Message',
-    'wl.title': 'Get notified at launch',
-    'wl.sub': 'Leave your info and we\'ll reach out when the full version is ready. No spam — just one email.',
+    'wl.title': 'Get notified at launch 🚀',
+    'wl.sub': 'Select your country to see the estimated monthly price for your region.',
     'wl.lbl.name': 'Name', 'wl.lbl.country': 'Country', 'wl.lbl.email': 'Email',
     'wl.cancel': 'Cancel', 'wl.submit': 'Send →', 'wl.close': 'Close',
     'wl.success': 'You\'re in! We\'ll reach out when PipeCore Pro is ready.',
@@ -1284,7 +1291,7 @@ const LANG = {
     'notice.availRange': 'Available range:',
     'prompt.selectNps': 'Select a size (NPS) to view dimensions.',
     'prompt.complete': 'Complete all selections to view dimensions.',
-    'prompt.beta': 'PipeCore Lite is a free app with a selection of piping fittings available. We\'re evaluating user interest before releasing the full version — with more piping fittings and extra modules for a better experience. Interested? Let us know below!',
+    'prompt.beta': 'PipeCore Lite is a free app with a selection of piping fittings. We\'re evaluating user interest before releasing a full version at a reasonable price — with more fittings and extra modules. Interested? Let us know below!',
     'prompt.beta.btn': 'Notify me when it\'s available',
   },
   ES: {
@@ -1337,11 +1344,11 @@ const LANG = {
     // home welcome
     'home.title': 'Bienvenido a PipeCore',
     'home.sub': 'Seleccione una categoría y tamaño para ver dibujos de ingeniería con dimensiones de estándares ASME.',
-    'home.beta': 'PipeCore Lite es una app gratuita con una selección de accesorios de tubería disponibles. Estamos evaluando el interés de los usuarios antes de lanzar la versión completa — con más accesorios y módulos adicionales para una mejor experiencia. ¿Te interesa? ¡Déjanos saber abajo!',
+    'home.beta': 'PipeCore Lite es una app gratuita con una selección de accesorios de tubería. Estamos evaluando el interés de los usuarios antes de lanzar una versión completa a un precio razonable — con más accesorios y módulos adicionales. ¿Te interesa? ¡Déjanos saber abajo!',
     'home.beta.btn': 'Avísame cuando esté disponible',
     'wl.tab.notify': 'Notificación', 'wl.tab.contact': 'Enviar mensaje',
-    'wl.title': 'Recibe la notificación de lanzamiento',
-    'wl.sub': 'Déjanos tus datos y te avisamos cuando la versión completa esté lista. Sin spam — solo un correo.',
+    'wl.title': 'Recibe la notificación de lanzamiento 🚀',
+    'wl.sub': 'Selecciona tu país para ver el precio mensual estimado para tu región.',
     'wl.lbl.name': 'Nombre', 'wl.lbl.country': 'País', 'wl.lbl.email': 'Correo electrónico',
     'wl.cancel': 'Cancelar', 'wl.submit': 'Enviar →', 'wl.close': 'Cerrar',
     'wl.success': '¡Listo! Te avisaremos cuando PipeCore Pro esté disponible.',
@@ -1361,7 +1368,7 @@ const LANG = {
     'notice.availRange': 'Rango disponible:',
     'prompt.selectNps': 'Seleccione un tamaño (NPS) para ver las dimensiones.',
     'prompt.complete': 'Complete todas las selecciones para ver las dimensiones.',
-    'prompt.beta': 'PipeCore Lite es una app gratuita con una selección de accesorios de tubería disponibles. Estamos evaluando el interés de los usuarios antes de lanzar la versión completa — con más accesorios y módulos adicionales para una mejor experiencia. ¿Te interesa? ¡Déjanos saber abajo!',
+    'prompt.beta': 'PipeCore Lite es una app gratuita con una selección de accesorios de tubería. Estamos evaluando el interés de los usuarios antes de lanzar una versión completa a un precio razonable — con más accesorios y módulos adicionales. ¿Te interesa? ¡Déjanos saber abajo!',
     'prompt.beta.btn': 'Avísame cuando esté disponible',
     // weight card
     'card.weight': 'PESO APROX.',
@@ -1418,12 +1425,35 @@ function moduleWelcomeHtml(icon, title, msgKey){
   return `<div class="welcome">${iconHtml}<h2>${title}</h2><p>${t(msgKey)}</p>${_betaCard()}</div>`;
 }
 
+const WL_TIER1 = new Set(['Australia','Canada','Kuwait','Norway','Qatar','Saudi Arabia','United Arab Emirates','United Kingdom','United States']);
+
+function updateWlPrice(){
+  const country = document.getElementById('wl-country').value;
+  const priceBox = document.getElementById('wl-price-box');
+  const priceMsg = document.getElementById('wl-price-msg');
+  const priceVal = document.getElementById('wl-price-val');
+  const emailSec = document.getElementById('wl-email-section');
+  if(!country){ priceBox.style.display='none'; emailSec.style.display='none'; return; }
+  const price = WL_TIER1.has(country) ? '$5–$6' : '$3–$4';
+  const isES = typeof state !== 'undefined' && state.lang === 'ES';
+  priceMsg.innerHTML = isES
+    ? `Precio estimado para tu región. Si estás dispuest@ a pagar <strong>${price}/mes</strong> por la versión completa, déjanos tu correo:`
+    : `Estimated price for your region. If you're willing to pay <strong>${price}/month</strong> for the full version, leave us your email:`;
+  priceVal.textContent = price + ' USD/mo';
+  priceBox.style.display='';
+  emailSec.style.display='';
+}
+
 function openWishlist(tab){
   document.getElementById('wishlist-modal').classList.add('open');
   document.getElementById('wishlist-form-wrap').style.display='';
   document.getElementById('wishlist-success').style.display='none';
   document.getElementById('contact-form-wrap').style.display='';
   document.getElementById('contact-success').style.display='none';
+  // Reset price state
+  document.getElementById('wl-country').value='';
+  document.getElementById('wl-price-box').style.display='none';
+  document.getElementById('wl-email-section').style.display='none';
   switchWlTab(tab||'notify');
 }
 function closeWishlist(){
