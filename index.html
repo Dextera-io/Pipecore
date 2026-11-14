@@ -27,67 +27,10 @@
     if (_isMobileUA || _isNarrow) window._mobileApp = true;
   }
   if (window._mobileApp) {
-    // Keep --app-height in sync with actual visible viewport so layout
-    // doesn't shift when the browser's address bar or bottom nav appears/disappears.
-    function _setAppHeight() {
-      document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
-    }
-    _setAppHeight();
-    window.addEventListener('resize', _setAppHeight);
-    window.addEventListener('orientationchange', function(){ setTimeout(_setAppHeight, 200); });
-
+    // Apply mobile layout class early (before body renders) so CSS takes effect immediately
+    document.documentElement.classList.add('mobile-layout');
     document.addEventListener('DOMContentLoaded', function() {
-      _setAppHeight(); // re-run after DOM is ready (fonts/status-bar may shift it)
-      var css = [
-        'header { padding-top: 44px !important; height: auto !important; min-height: 68px !important; padding-bottom: 4px !important; position: relative !important; z-index: 100 !important; }',
-        '.logo-icon { display: none !important; } .logo-text { font-size: 15px !important; }',
-        '.logo-sub { display: none !important; }',
-        'html { height: var(--app-height, 100dvh) !important; overflow: hidden !important; }',
-        'body { height: var(--app-height, 100dvh) !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; }',
-        'header { flex-shrink: 0 !important; }',
-        '.app { display: flex !important; flex-direction: column !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }',
-        '.sidebar { border-right: none !important; border-top: 1px solid #2a2d3a !important; padding: 6px 8px 10px !important; order: 4 !important; flex-shrink: 0 !important; }',
-        '.dwg-header { background: white !important; border-bottom: 1px solid #dde !important; }',
-        '.dwg-title { color: #1a2d3a !important; }',
-        '.dwg-sub { color: #667 !important; }',
-        '.sidebar-section { margin-bottom: 0 !important; }',
-        '.sidebar-label { display: none !important; }',
-        '.cat-grid { display: flex !important; flex-direction: row !important; gap: 6px !important; overflow-x: auto !important; flex-wrap: nowrap !important; padding-bottom: 2px !important; }',
-        '.cat-tile { flex-shrink: 0 !important; width: 60px !important; padding: 6px 4px !important; }',
-        '.cat-tile .icon { font-size: 18px !important; margin-bottom: 3px !important; }',
-        '.cat-tile .name { font-size: 8px !important; line-height: 1.2 !important; }',
-        '.cat-tile .std { font-size: 7px !important; }',
-        '.right-col { order: 1 !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }',
-        '.mode-toggle-bar { display: none !important; }',
-        '#filter-bar { order: 3 !important; flex-shrink: 0 !important; border-bottom: none !important; border-top: 1px solid #2a2d3a !important; padding: 8px 10px !important; background: #131620 !important; }',
-        '#content { background: #0f1117 !important; }',
-        '#filter-bar > div { gap: 6px 8px !important; }',
-        '#filter-bar .select-group { flex: 1 1 0 !important; max-width: none !important; min-width: 0 !important; margin-bottom: 0 !important; }',
-        '#filter-bar .select-label { font-size: 9px !important; margin-bottom: 3px !important; }',
-        '#filter-bar select { font-size: 12px !important; padding: 8px 20px 8px 8px !important; min-height: 36px !important; }',
-        '#filter-bar .toggle-row { gap: 4px !important; }',
-        '#filter-bar .toggle button { font-size: 9px !important; padding: 4px 7px !important; }',
-        '.drawing-view { grid-template-columns: 1fr !important; height: 100% !important; }',
-        '.dim-panel { display: none !important; }',
-        '.content { padding: 0 !important; width: 100% !important; }',
-        '#content { height: 100% !important; display: flex !important; flex-direction: column !important; padding: 0 !important; width: 100% !important; }',
-        '.right-col { width: 100% !important; }',
-        '.drawing-view { flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; gap: 0 !important; width: 100% !important; }',
-        '.dwg-panel { flex: 1 !important; min-height: 0 !important; border-radius: 0 !important; border: none !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; }',
-        '.dwg-panel > div:not(.dwg-header) { position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; padding: 0 !important; margin-top: 44px !important; background: white !important; }',
-        '.dwg-panel svg { max-width: none !important; width: 100% !important; height: 100% !important; margin: 0 !important; }',
-        '.b11-svg-inner { overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; }',
-        '.b11-svg-inner svg { width: 100% !important; height: 100% !important; }',
-        '[data-cat=converter] { display: none !important; }',
-        '[data-cat=spanCalc] { display: none !important; }',
-        '.flange-panel > div:not(.dwg-header) { bottom: 55px !important; }',
-        '.pipe-panel { flex: 1 !important; min-height: 0 !important; border-radius: 0 !important; border: none !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; }',
-        '.pipe-panel > div:not(.dwg-header) { position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; padding: 0 !important; margin-top: 44px !important; background: white !important; }'
-      ].join(' ');
-      var s = document.createElement('style');
-      s.textContent = css;
-      document.head.appendChild(s);
-      // Move filter bar into .app
+      // Move filter bar into .app so it sits between drawing and sidebar
       var app = document.querySelector('.app');
       var filterBar = document.getElementById('filter-bar');
       if (filterBar && app) app.appendChild(filterBar);
@@ -643,6 +586,58 @@
   .android-webview .drawing-view { grid-template-columns: 1fr; }
   .android-webview .dim-panel { display: none !important; }
   .android-webview .dwg-panel { border-radius: 0; border-left: none; border-right: none; }
+
+  /* ── Mobile layout (html.mobile-layout, set when _mobileApp=true) ── */
+  html.mobile-layout,
+  html.mobile-layout body { height: 100dvh !important; max-height: 100dvh !important; overflow: hidden !important; }
+  html.mobile-layout body { display: flex !important; flex-direction: column !important; min-height: unset !important; }
+  html.mobile-layout header {
+    /* Web Chrome: env() = 0 (browser handles its own chrome).
+       Play Store WebView: MainActivity.kt overrides this to 44px for the system status bar. */
+    padding-top: env(safe-area-inset-top, 0px) !important;
+    height: auto !important; min-height: 44px !important;
+    padding-bottom: 4px !important; position: relative !important;
+    z-index: 100 !important; flex-shrink: 0 !important;
+  }
+  html.mobile-layout .logo-icon { display: none !important; }
+  html.mobile-layout .logo-text { font-size: 15px !important; }
+  html.mobile-layout .logo-sub  { display: none !important; }
+  html.mobile-layout .app { display: flex !important; flex-direction: column !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }
+  html.mobile-layout .sidebar { border-right: none !important; border-top: 1px solid #2a2d3a !important; padding: 6px 8px !important; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important; order: 4 !important; flex-shrink: 0 !important; }
+  html.mobile-layout .dwg-header { background: white !important; border-bottom: 1px solid #dde !important; }
+  html.mobile-layout .dwg-title  { color: #1a2d3a !important; }
+  html.mobile-layout .dwg-sub    { color: #667 !important; }
+  html.mobile-layout .sidebar-section { margin-bottom: 0 !important; }
+  html.mobile-layout .sidebar-label   { display: none !important; }
+  html.mobile-layout .cat-grid { display: flex !important; flex-direction: row !important; gap: 6px !important; overflow-x: auto !important; flex-wrap: nowrap !important; padding-bottom: 2px !important; }
+  html.mobile-layout .cat-tile { flex-shrink: 0 !important; width: 60px !important; padding: 6px 4px !important; }
+  html.mobile-layout .cat-tile .icon { font-size: 18px !important; margin-bottom: 3px !important; }
+  html.mobile-layout .cat-tile .name { font-size: 8px !important; line-height: 1.2 !important; }
+  html.mobile-layout .cat-tile .std  { font-size: 7px !important; }
+  html.mobile-layout .right-col { order: 1 !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; width: 100% !important; }
+  html.mobile-layout .mode-toggle-bar { display: none !important; }
+  html.mobile-layout #filter-bar { order: 3 !important; flex-shrink: 0 !important; border-bottom: none !important; border-top: 1px solid #2a2d3a !important; padding: 8px 10px !important; background: #131620 !important; }
+  html.mobile-layout #content { background: #0f1117 !important; }
+  html.mobile-layout #filter-bar > div { gap: 6px 8px !important; }
+  html.mobile-layout #filter-bar .select-group { flex: 1 1 0 !important; max-width: none !important; min-width: 0 !important; margin-bottom: 0 !important; }
+  html.mobile-layout #filter-bar .select-label { font-size: 9px !important; margin-bottom: 3px !important; }
+  html.mobile-layout #filter-bar select { font-size: 12px !important; padding: 8px 20px 8px 8px !important; min-height: 36px !important; }
+  html.mobile-layout #filter-bar .toggle-row   { gap: 4px !important; }
+  html.mobile-layout #filter-bar .toggle button { font-size: 9px !important; padding: 4px 7px !important; }
+  html.mobile-layout .drawing-view { grid-template-columns: 1fr !important; height: 100% !important; flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; gap: 0 !important; width: 100% !important; }
+  html.mobile-layout .dim-panel { display: none !important; }
+  html.mobile-layout .content   { padding: 0 !important; width: 100% !important; }
+  html.mobile-layout #content { height: 100% !important; display: flex !important; flex-direction: column !important; padding: 0 !important; width: 100% !important; }
+  html.mobile-layout .dwg-panel { flex: 1 !important; min-height: 0 !important; border-radius: 0 !important; border: none !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; }
+  html.mobile-layout .dwg-panel > div:not(.dwg-header) { position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; padding: 0 !important; margin-top: 44px !important; background: white !important; }
+  html.mobile-layout .dwg-panel svg { max-width: none !important; width: 100% !important; height: 100% !important; margin: 0 !important; }
+  html.mobile-layout .b11-svg-inner { overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  html.mobile-layout .b11-svg-inner svg { width: 100% !important; height: 100% !important; }
+  html.mobile-layout [data-cat=converter],
+  html.mobile-layout [data-cat=spanCalc] { display: none !important; }
+  html.mobile-layout .flange-panel > div:not(.dwg-header) { bottom: 55px !important; }
+  html.mobile-layout .pipe-panel { flex: 1 !important; min-height: 0 !important; border-radius: 0 !important; border: none !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; }
+  html.mobile-layout .pipe-panel > div:not(.dwg-header) { position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important; padding: 0 !important; margin-top: 44px !important; background: white !important; }
 </style>
 </head>
 <body>
@@ -659,8 +654,8 @@
     <div style="display:flex;align-items:center;gap:7px">
       <span id="hdr-units-label" data-i18n="hdr.units" style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Units</span>
       <div class="toggle header-toggle">
-        <button id="b11-unit-us" class="active" onclick="setB11Unit('US')">US</button>
-        <button id="b11-unit-si" onclick="setB11Unit('SI')">SI</button>
+        <button id="b11-unit-us" class="active" onclick="setB11Uni_t('US')">US</button>
+        <button id="b11-unit-si" onclick="setB11Uni_t('SI')">SI</button>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:7px">
@@ -692,52 +687,52 @@
     <div class="sidebar-section">
       <div class="sidebar-label" data-i18n="cat.label">Category</div>
       <div class="cat-grid">
-        <div class="cat-tile" data-cat="facilities" onclick="selectCat('facilities')">
+        <div class="cat-tile" data-cat="facilities" onclick="selectCa_t('facilities')">
           <div class="icon">🏭</div>
           <div class="name" data-i18n="cat.facilities">Pipe Facilities</div>
           <div class="std">B36.10 / B36.19</div>
         </div>
-        <div class="cat-tile" data-cat="pipelines" onclick="selectCat('pipelines')" id="tile-pipelines">
+        <div class="cat-tile" data-cat="pipelines" onclick="selectCa_t('pipelines')" id="tile-pipelines">
           <div class="icon">🛢️</div>
           <div class="name" data-i18n="cat.pipelines">Pipe Pipelines</div>
           <div class="std">B36.10</div>
         </div>
-        <div class="cat-tile" data-cat="flanges" onclick="selectCat('flanges')">
+        <div class="cat-tile" data-cat="flanges" onclick="selectCa_t('flanges')">
           <div class="icon">⚙️</div>
           <div class="name" data-i18n="cat.flanges">Flanges</div>
           <div class="std">B16.5</div>
         </div>
-        <div class="cat-tile" data-cat="b1647" onclick="selectCat('b1647')" id="tile-b1647">
+        <div class="cat-tile" data-cat="b1647" onclick="selectCa_t('b1647')" id="tile-b1647">
           <div class="icon">🔵</div>
           <div class="name" data-i18n="cat.b1647">Large Flanges</div>
           <div class="std">B16.47</div>
         </div>
-        <div class="cat-tile" data-cat="b1648" onclick="selectCat('b1648')">
+        <div class="cat-tile" data-cat="b1648" onclick="selectCa_t('b1648')">
           <div class="icon"><svg width="36" height="20" viewBox="0 0 36 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="4" fill="currentColor" opacity="0.25"/><circle cx="27" cy="10" r="8" fill="currentColor" opacity="0.85"/><circle cx="27" cy="10" r="4" fill="none" stroke="white" stroke-width="1.5"/></svg></div>
           <div class="name" data-i18n="cat.b1648">Line Blanks</div>
           <div class="std">B16.48</div>
         </div>
-        <div class="cat-tile" data-cat="fittings" onclick="selectCat('fittings')">
+        <div class="cat-tile" data-cat="fittings" onclick="selectCa_t('fittings')">
           <div class="icon">🔧</div>
           <div class="name" data-i18n="cat.fittings">BW Fittings</div>
           <div class="std">B16.9</div>
         </div>
-        <div class="cat-tile" data-cat="sw11" onclick="selectCat('sw11')">
+        <div class="cat-tile" data-cat="sw11" onclick="selectCa_t('sw11')">
           <div class="icon">🔩</div>
           <div class="name" data-i18n="cat.sw11">SW Fittings</div>
           <div class="std">B16.11</div>
         </div>
-        <div class="cat-tile" data-cat="th11" onclick="selectCat('th11')">
+        <div class="cat-tile" data-cat="th11" onclick="selectCa_t('th11')">
           <div class="icon">🪛</div>
           <div class="name" data-i18n="cat.th11">TH Fittings</div>
           <div class="std">B16.11</div>
         </div>
-        <div class="cat-tile" data-cat="converter" onclick="selectCat('converter')" style="grid-column:1/-1">
+        <div class="cat-tile" data-cat="converter" onclick="selectCa_t('converter')" style="grid-column:1/-1">
           <div class="icon">⇄</div>
           <div class="name" data-i18n="cat.converter">Unit Converter</div>
           <div class="std">SI ↔ Imperial</div>
         </div>
-        <div class="cat-tile" data-cat="spanCalc" onclick="selectCat('spanCalc')" style="grid-column:1/-1" id="tile-spanCalc">
+        <div class="cat-tile" data-cat="spanCalc" onclick="selectCa_t('spanCalc')" style="grid-column:1/-1" id="tile-spanCalc">
           <div class="icon">📐</div>
           <div class="name" data-i18n="cat.spanCalc">Pipe Span Calculator</div>
           <div class="std">MSS SP-58</div>
@@ -773,8 +768,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setPipeUnit DOM updates -->
-      <button id="pipe-unit-us" class="active" style="display:none" onclick="setPipeUnit('US')"></button>
-      <button id="pipe-unit-si" style="display:none" onclick="setPipeUnit('SI')"></button>
+      <button id="pipe-unit-us" class="active" style="display:none" onclick="setPipeUni_t('US')"></button>
+      <button id="pipe-unit-si" style="display:none" onclick="setPipeUni_t('SI')"></button>
     </div>
 
     <!-- FLANGES B16.5 -->
@@ -804,8 +799,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setFlangeUnit DOM updates -->
-      <button id="fl-unit-us" class="active" style="display:none" onclick="setFlangeUnit('US')"></button>
-      <button id="fl-unit-si" style="display:none" onclick="setFlangeUnit('SI')"></button>
+      <button id="fl-unit-us" class="active" style="display:none" onclick="setFlangeUni_t('US')"></button>
+      <button id="fl-unit-si" style="display:none" onclick="setFlangeUni_t('SI')"></button>
     </div>
 
     <!-- FITTINGS B16.9 -->
@@ -852,8 +847,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setFitUnit DOM updates -->
-      <button id="fit-unit-us" class="active" style="display:none" onclick="setFitUnit('US')"></button>
-      <button id="fit-unit-si" style="display:none" onclick="setFitUnit('SI')"></button>
+      <button id="fit-unit-us" class="active" style="display:none" onclick="setFitUni_t('US')"></button>
+      <button id="fit-unit-si" style="display:none" onclick="setFitUni_t('SI')"></button>
     </div>
 
     <!-- B16.47 LARGE FLANGES -->
@@ -886,8 +881,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setB47Unit DOM updates -->
-      <button id="b47-unit-us" class="active" style="display:none" onclick="setB47Unit('US')"></button>
-      <button id="b47-unit-si" style="display:none" onclick="setB47Unit('SI')"></button>
+      <button id="b47-unit-us" class="active" style="display:none" onclick="setB47Uni_t('US')"></button>
+      <button id="b47-unit-si" style="display:none" onclick="setB47Uni_t('SI')"></button>
     </div>
 
     <!-- B16.48 LINE BLANKS -->
@@ -919,8 +914,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setB48Unit DOM updates -->
-      <button id="b48-unit-us" class="active" style="display:none" onclick="setB48Unit('US')"></button>
-      <button id="b48-unit-si" style="display:none" onclick="setB48Unit('SI')"></button>
+      <button id="b48-unit-us" class="active" style="display:none" onclick="setB48Uni_t('US')"></button>
+      <button id="b48-unit-si" style="display:none" onclick="setB48Uni_t('SI')"></button>
     </div>
 
     <!-- B16.11 SW / TH -->
@@ -1171,7 +1166,7 @@
   PipeCore Lite &nbsp;·&nbsp;
   <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--text2);text-decoration:underline">Privacy Policy</a>
   &nbsp;·&nbsp;
-  <span style="cursor:pointer;text-decoration:underline" onclick="openWishlist('contact')" id="footer-contact-lbl">Contact</span>
+  <span style="cursor:pointer;text-decoration:underline" onclick="openWishlis_t('contact')" id="footer-contact-lbl">Contact</span>
 </footer>
 
 <script src="b3610_2022_data.js?v=1"></script>
@@ -1418,24 +1413,24 @@ const LANG = {
   }
 };
 
-function t(key){ return LANG[state.lang]?.[key] ?? LANG.EN[key] ?? key; }
+function _t(key){ return LANG[state.lang]?.[key] ?? LANG.EN[key] ?? key; }
 
 function _betaCard(){
   if(!IS_LITE) return '';
   return `<div class="welcome-divider" style="margin-top:8px"></div>
     <div class="welcome-beta">
-      <p>${t('prompt.beta')}</p>
-      <button class="btn-wishlist" onclick="openWishlist()">🔔 ${t('prompt.beta.btn')}</button>
+      <p>${_t('prompt.beta')}</p>
+      <button class="btn-wishlist" onclick="openWishlist()">🔔 ${_t('prompt.beta.btn')}</button>
     </div>`;
 }
 function promptHtml(msgKey){
-  return `<div class="welcome"><p style="margin-top:2rem">${t(msgKey)}</p>${_betaCard()}</div>`;
+  return `<div class="welcome"><p style="margin-top:2rem">${_t(msgKey)}</p>${_betaCard()}</div>`;
 }
 function moduleWelcomeHtml(icon, title, msgKey){
   const iconHtml = icon.startsWith('<div')
     ? icon
     : `<div class="big-icon">${icon}</div>`;
-  return `<div class="welcome">${iconHtml}<h2>${title}</h2><p>${t(msgKey)}</p>${_betaCard()}</div>`;
+  return `<div class="welcome">${iconHtml}<h2>${title}</h2><p>${_t(msgKey)}</p>${_betaCard()}</div>`;
 }
 
 const WL_TIER1 = new Set(['Australia','Canada','Kuwait','Norway','Qatar','Saudi Arabia','United Arab Emirates','United Kingdom','United States']);
@@ -1514,78 +1509,78 @@ function applyLang(){
   // Static data-i18n elements
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    el.textContent = t(key);
+    el.textContent = _t(key);
   });
   // Header labels
   const ul = document.getElementById('hdr-units-label');
-  if(ul) ul.textContent = t('hdr.units');
+  if(ul) ul.textContent = _t('hdr.units');
   const ll = document.getElementById('hdr-lang-label');
-  if(ll) ll.textContent = t('hdr.lang');
+  if(ll) ll.textContent = _t('hdr.lang');
   // Filter-bar labels (by selector — no data-i18n needed on these)
-  _setLbl('pipe-std-group', t('lbl.standard'));
-  _setSelectLbl('pipe-nps', t('lbl.nps'));
-  _setSelectLbl('pipe-sch', t('lbl.schedule'));
-  _setSelectLbl('fl-class', t('lbl.pressureClass'));
-  _setSelectLbl('fl-nps', t('lbl.nps'));
-  _setSelectLbl('fit-type', t('lbl.fittingType'));
-  _setSelectLbl('fit-nps', t('lbl.nps'));
-  _setSelectLbl('fit-sch', t('lbl.schedule'));
-  _setSelectLbl('b11-type', t('lbl.fittingType'));
-  _setSelectLbl('b11-class', t('lbl.classRating'));
-  _setSelectLbl('b11-nps', t('lbl.nps'));
-  _setSelectLbl('b47-series', t('lbl.series'));
-  _setSelectLbl('b47-class', t('lbl.pressureClass'));
-  _setSelectLbl('b47-nps', t('lbl.nps'));
-  _setSelectLbl('b48-class', t('lbl.pressureClass'));
-  _setSelectLbl('b48-nps', t('lbl.nps'));
+  _setLbl('pipe-std-group', _t('lbl.standard'));
+  _setSelectLbl('pipe-nps', _t('lbl.nps'));
+  _setSelectLbl('pipe-sch', _t('lbl.schedule'));
+  _setSelectLbl('fl-class', _t('lbl.pressureClass'));
+  _setSelectLbl('fl-nps', _t('lbl.nps'));
+  _setSelectLbl('fit-type', _t('lbl.fittingType'));
+  _setSelectLbl('fit-nps', _t('lbl.nps'));
+  _setSelectLbl('fit-sch', _t('lbl.schedule'));
+  _setSelectLbl('b11-type', _t('lbl.fittingType'));
+  _setSelectLbl('b11-class', _t('lbl.classRating'));
+  _setSelectLbl('b11-nps', _t('lbl.nps'));
+  _setSelectLbl('b47-series', _t('lbl.series'));
+  _setSelectLbl('b47-class', _t('lbl.pressureClass'));
+  _setSelectLbl('b47-nps', _t('lbl.nps'));
+  _setSelectLbl('b48-class', _t('lbl.pressureClass'));
+  _setSelectLbl('b48-nps', _t('lbl.nps'));
   // Flange select placeholder options (static HTML + dynamic first options)
-  const _ph = (id, key) => { const el = document.getElementById(id); if(el) el.textContent = t(key); };
+  const _ph = (id, key) => { const el = document.getElementById(id); if(el) el.textContent = _t(key); };
   _ph('fl-class-ph', 'opt.selectClass');
   _ph('b47-series-ph', 'opt.selectSeries');
   // Update first placeholder option of all dynamic selects
   ['fl-nps','b47-class','b47-nps','fit-nps','pipe-nps','b11-nps','b48-nps'].forEach(id => {
     const sel = document.getElementById(id);
     if(sel && sel.options[0] && sel.options[0].value === '')
-      sel.options[0].textContent = t('opt.allSizes');
+      sel.options[0].textContent = _t('opt.allSizes');
   });
   // Schedule / class placeholder first options
   ['fit-sch','pipe-sch'].forEach(id => {
     const sel = document.getElementById(id);
     if(sel && sel.options[0] && sel.options[0].value === '')
-      sel.options[0].textContent = t('opt.allSchedules');
+      sel.options[0].textContent = _t('opt.allSchedules');
   });
   // B11 type dropdown: retranslate all options
   const b11typeEl = document.getElementById('b11-type');
   if(b11typeEl){
     b11typeEl.querySelectorAll('option').forEach(o => {
-      if(!o.value) o.textContent = t('opt.selectType');
-      else { const k = t('b11.'+o.value); if(k !== 'b11.'+o.value) o.textContent = k; }
+      if(!o.value) o.textContent = _t('opt.selectType');
+      else { const k = _t('b11.'+o.value); if(k !== 'b11.'+o.value) o.textContent = k; }
     });
   }
   const b11clsEl = document.getElementById('b11-class');
   if(b11clsEl && b11clsEl.options[0] && b11clsEl.options[0].value === '')
-    b11clsEl.options[0].textContent = t('opt.selectClass');
+    b11clsEl.options[0].textContent = _t('opt.selectClass');
   const b47cls = document.getElementById('b47-class');
   if(b47cls && b47cls.options[0] && b47cls.options[0].value === '')
-    b47cls.options[0].textContent = t('opt.selectClass');
+    b47cls.options[0].textContent = _t('opt.selectClass');
   // Translate "Class X" options in B16.5 pressure class selector
   document.querySelectorAll('#fl-class option[value]').forEach(o => {
-    if(o.value) o.textContent = `${t('lbl.class')} ${o.value}`;
+    if(o.value) o.textContent = `${_t('lbl.class')} ${o.value}`;
   });
   // Translate "Class X" options in B16.48 pressure class selector
   document.querySelectorAll('#b48-class option').forEach(o => {
-    if(o.value) o.textContent = `${t('lbl.class')} ${o.value}`;
-    else o.textContent = t('opt.selectClass');
+    if(o.value) o.textContent = `${_t('lbl.class')} ${o.value}`;
+    else o.textContent = _t('opt.selectClass');
   });
   // Home welcome screen (only if visible)
   const hwh = document.getElementById('home-welcome-h2');
   const hwp = document.getElementById('home-welcome-p');
-  if(hwh) hwh.textContent = t('home.title');
-  if(hwp) hwp.textContent = t('home.sub');
+  if(hwh) hwh.textContent = _t('home.title');
+  if(hwp) hwp.textContent = _t('home.sub');
   const hbp = document.getElementById('home-beta-p');
   const hbb = document.getElementById('home-beta-btn');
-  if(hbp) hbp.textContent = t('home.beta');
-  if(hbb) hbb.textContent = t('home.beta.btn');
+  if(hbp) hbp.textContent = _t('home.beta');
+  if(hbb) hbb.textContent = _t('home.beta.btn');
   const wlEls = {
     'wl-tab-notify-lbl':'wl.tab.notify','wl-tab-contact-lbl':'wl.tab.contact',
     'wl-title':'wl.title','wl-sub':'wl.sub','wl-lbl-name':'wl.lbl.name',
@@ -1596,7 +1591,7 @@ function applyLang(){
     'ct-lbl-msg':'ct.lbl.msg','ct-btn-submit':'ct.submit','ct-success-msg':'ct.success',
     'footer-contact-lbl':'footer.contact'
   };
-  Object.entries(wlEls).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) el.textContent=t(key); });
+  Object.entries(wlEls).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) el.textContent=_t(key); });
   // Rebuild BW fitting type dropdown
   _rebuildFitTypeSelect();
   // Update pipe std options
@@ -1614,7 +1609,7 @@ function _setLbl(parentId, text){
 function _setSelectLbl(selectId, text){
   const sel = document.getElementById(selectId);
   if(!sel) return;
-  const grp = sel.closest('.select-group');
+  const grp = sel.closes_t('.select-group');
   if(grp){ const lbl = grp.querySelector('.select-label'); if(lbl) lbl.textContent = text; }
 }
 
@@ -1622,29 +1617,29 @@ function _rebuildFitTypeSelect(){
   const sel = document.getElementById('fit-type');
   if(!sel) return;
   const cur = sel.value;
-  sel.innerHTML = `<option value="">${t('opt.selectType')}</option>
-    <optgroup label="${t('fit.grp.elbows')}">
-      <option value="LR_90">${t('fit.LR_90')}</option>
-      <option value="SR_90">${t('fit.SR_90')}</option>
-      <option value="3D_90">${t('fit.3D_90')}</option>
-      <option value="LR_Reducing">${t('fit.LR_Reducing')}</option>
-      <option value="LR_45">${t('fit.LR_45')}</option>
-      <option value="3D_45">${t('fit.3D_45')}</option>
-      <option value="LR_Returns">${t('fit.LR_Returns')}</option>
-      <option value="SR_Returns">${t('fit.SR_Returns')}</option>
+  sel.innerHTML = `<option value="">${_t('opt.selectType')}</option>
+    <optgroup label="${_t('fit.grp.elbows')}">
+      <option value="LR_90">${_t('fit.LR_90')}</option>
+      <option value="SR_90">${_t('fit.SR_90')}</option>
+      <option value="3D_90">${_t('fit.3D_90')}</option>
+      <option value="LR_Reducing">${_t('fit.LR_Reducing')}</option>
+      <option value="LR_45">${_t('fit.LR_45')}</option>
+      <option value="3D_45">${_t('fit.3D_45')}</option>
+      <option value="LR_Returns">${_t('fit.LR_Returns')}</option>
+      <option value="SR_Returns">${_t('fit.SR_Returns')}</option>
     </optgroup>
-    <optgroup label="${t('fit.grp.tees')}">
-      <option value="Straight_Tees">${t('fit.Straight_Tees')}</option>
-      <option value="Straight_Crosses">${t('fit.Straight_Crosses')}</option>
-      <option value="Reducing_Tees">${t('fit.Reducing_Tees')}</option>
+    <optgroup label="${_t('fit.grp.tees')}">
+      <option value="Straight_Tees">${_t('fit.Straight_Tees')}</option>
+      <option value="Straight_Crosses">${_t('fit.Straight_Crosses')}</option>
+      <option value="Reducing_Tees">${_t('fit.Reducing_Tees')}</option>
     </optgroup>
-    <optgroup label="${t('fit.grp.reducers')}">
-      <option value="Conc_Reducers">${t('fit.Conc_Reducers')}</option>
-      <option value="Ecc_Reducers">${t('fit.Ecc_Reducers')}</option>
+    <optgroup label="${_t('fit.grp.reducers')}">
+      <option value="Conc_Reducers">${_t('fit.Conc_Reducers')}</option>
+      <option value="Ecc_Reducers">${_t('fit.Ecc_Reducers')}</option>
     </optgroup>
-    <optgroup label="${t('fit.grp.other')}">
-      <option value="Caps">${t('fit.Caps')}</option>
-      <option value="Stub_Ends">${t('fit.Stub_Ends')}</option>
+    <optgroup label="${_t('fit.grp.other')}">
+      <option value="Caps">${_t('fit.Caps')}</option>
+      <option value="Stub_Ends">${_t('fit.Stub_Ends')}</option>
     </optgroup>`;
   if(cur) sel.value = cur;
 }
@@ -1653,9 +1648,9 @@ function _updatePipeStdOptions(){
   const sel = document.getElementById('pipe-std');
   if(!sel) return;
   const cur = sel.value;
-  sel.options[0].textContent = t('std.b3610');
+  sel.options[0].textContent = _t('std.b3610');
   if(sel.options[1]){
-    sel.options[1].textContent = IS_LITE ? '🔒 '+t('std.b3619') : t('std.b3619');
+    sel.options[1].textContent = IS_LITE ? '🔒 '+_t('std.b3619') : _t('std.b3619');
     if(IS_LITE) sel.options[1].style.color='var(--text2)';
   }
   sel.value = cur;
@@ -1664,16 +1659,16 @@ function _updatePipeStdOptions(){
 function _updateSpanOptions(){
   const topo = document.getElementById('span-topo');
   if(topo){
-    topo.options[0].textContent = t('topo.straight');
-    topo.options[1].textContent = t('topo.elbow90');
-    topo.options[2].textContent = t('topo.tee');
+    topo.options[0].textContent = _t('topo.straight');
+    topo.options[1].textContent = _t('topo.elbow90');
+    topo.options[2].textContent = _t('topo.tee');
   }
   const fluid = document.getElementById('span-fluid');
   if(fluid){
-    fluid.options[0].textContent = t('fluid.water');
-    fluid.options[1].textContent = t('fluid.oil');
-    fluid.options[2].textContent = t('fluid.vapor');
-    fluid.options[3].textContent = t('fluid.custom');
+    fluid.options[0].textContent = _t('fluid.water');
+    fluid.options[1].textContent = _t('fluid.oil');
+    fluid.options[2].textContent = _t('fluid.vapor');
+    fluid.options[3].textContent = _t('fluid.custom');
   }
 }
 
@@ -1983,7 +1978,7 @@ const _LITE_FREE_VALS = [0.5,0.75,1,1.25,1.5,2,2.5,3,3.5,4,5,6,8,10,12,14,16,18,
 function _liteNpsVal(nps){
   // For compound sizes like "5x3-1/2", use the first dimension.
   // For simple fractions like "1/2", return 0 (small NPS).
-  const primary = nps.includes('x') ? nps.split('x')[0] : nps;
+  const primary = nps.includes('x') ? nps.spli_t('x')[0] : nps;
   return primary.includes('/') ? 0 : parseFloat(primary);
 }
 function _liteNpsLocked(nps, maxFreeIdx){
@@ -2074,7 +2069,7 @@ function buildUnavailablePanel(type, typeBar='', flangeType='', flangeClass=''){
   const svg = (window.innerWidth <= 480 && FLANGE_SVG_V[type]) || FLANGE_SVG[type] || FLANGE_SVG['BL'];
   const range = flangeType && flangeClass ? _flangeAvailableRange(flangeType, flangeClass) : null;
   const rangeHtml = range
-    ? `<div style="margin-top:10px;font-size:12px;color:#bbb;line-height:1.5">${t('notice.availRange')}<br><span style="color:#7ecfff;font-weight:700">${range}</span></div>`
+    ? `<div style="margin-top:10px;font-size:12px;color:#bbb;line-height:1.5">${_t('notice.availRange')}<br><span style="color:#7ecfff;font-weight:700">${range}</span></div>`
     : '';
   return `<div class="dwg-panel">
     ${typeBar}
@@ -2083,7 +2078,7 @@ function buildUnavailablePanel(type, typeBar='', flangeType='', flangeClass=''){
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px">
         <div style="background:rgba(20,20,30,0.82);border:1.5px solid var(--accent);border-radius:10px;padding:22px 28px;text-align:center;max-width:360px;box-shadow:0 4px 24px rgba(0,0,0,0.5)">
           <div style="font-size:32px;margin-bottom:10px">🚫</div>
-          <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em;line-height:1.6">${t('notice.unavailable')}</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em;line-height:1.6">${_t('notice.unavailable')}</div>
           ${rangeHtml}
         </div>
       </div>
@@ -4140,13 +4135,13 @@ function renderCtxBar(){
 
   // Class chip (flanges)
   if(state.cat==='flanges'&&state.flangeClass){
-    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${t('lbl.class')}</span>${state.flangeClass}</span>`);
+    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${_t('lbl.class')}</span>${state.flangeClass}</span>`);
   }
   if(state.cat==='b1647'&&state.b47class){
-    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${t('lbl.class')}</span>${state.b47class}</span>`);
+    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${_t('lbl.class')}</span>${state.b47class}</span>`);
   }
   if((state.cat==='sw11'||state.cat==='th11')&&state.b11class){
-    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${t('lbl.class')}</span>${state.b11class}</span>`);
+    chips.push(`<span class="ctx-dot">·</span><span class="ctx-chip"><span class="ctx-lbl">${_t('lbl.class')}</span>${state.b11class}</span>`);
   }
 
   // "Not available" notice when globalNps set but not found in current module
@@ -4228,7 +4223,7 @@ function buildPipeNpsOptions(){
   const data=getPipeData();
   const sizes=[...new Set(data.map(r=>r.nps))].sort(npsSort);
   const sel=document.getElementById('pipe-nps');
-  sel.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}"${s===state.pipeNps?' selected':''}>${s}"</option>`).join('');
+  sel.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}"${s===state.pipeNps?' selected':''}>${s}"</option>`).join('');
   if(IS_LITE){
     if(state.pipeStd==='b3619'){
       Array.from(sel.options).forEach(opt=>{ if(!opt.value) return; if(!opt.textContent.startsWith('🔒')) opt.textContent='🔒 '+opt.textContent; opt.style.color='var(--text2)'; });
@@ -4250,7 +4245,7 @@ function buildPipeSchOptions(){
   let data=getPipeData();
   if(state.pipeNps) data=data.filter(r=>r.nps===state.pipeNps);
   const sel=document.getElementById('pipe-sch');
-  const lbl=sel.closest('.select-group')?.querySelector('.select-label');
+  const lbl=sel.closes_t('.select-group')?.querySelector('.select-label');
 
   if(state.cat==='pipelines'){
     // Pipelines: every row is selectable, keyed by wt_in, sorted thin→thick
@@ -4270,7 +4265,7 @@ function buildPipeSchOptions(){
     // Facilities: group by schedule designation
     if(lbl) lbl.textContent='Schedule';
     const schSet=[...new Set(data.map(r=>r.sch||r.id||'—'))];
-    sel.innerHTML=`<option value="">${t('opt.allSchedules')}</option>`+schSet.map(s=>{
+    sel.innerHTML=`<option value="">${_t('opt.allSchedules')}</option>`+schSet.map(s=>{
       const row=data.find(r=>(r.sch||r.id||'—')===s);
       const idStr=(row&&row.id&&row.sch)?` · ${row.id}`:'';
       return `<option value="${s}"${s===state.pipeSch?' selected':''}>${s}${idStr}</option>`;
@@ -4306,7 +4301,7 @@ function renderPipe(){
     const isFac = state.cat==='facilities';
     const tileIcon = `<div style="font-size:52px">${isFac?'🏭':'🛢️'}</div>`;
     content.innerHTML = moduleWelcomeHtml(tileIcon,
-      (isFac ? t('cat.facilities') : t('cat.pipelines')) + (isFac ? ' — ASME B36.10 / B36.19' : ' — ASME B36.10'),
+      (isFac ? _t('cat.facilities') : _t('cat.pipelines')) + (isFac ? ' — ASME B36.10 / B36.19' : ' — ASME B36.10'),
       isFac ? 'welcome.facilities' : 'welcome.pipelines');
     return;
   }
@@ -4323,7 +4318,7 @@ function renderPipe(){
   const std=state.pipeStd==='b3619'
     ? (_steelES?'ASME B36.19 (Acero Inoxidable)':'ASME B36.19 (Stainless Steel)')
     : (_steelES?'ASME B36.10 (Acero al Carbono)':'ASME B36.10 (Carbon Steel)');
-  const catLabel=state.cat==='pipelines'?t('cat.pipelines'):t('cat.facilities');
+  const catLabel=state.cat==='pipelines'?_t('cat.pipelines'):_t('cat.facilities');
   const isUS=state.pipeUnit==='US';
 
   if(!data.length){ content.innerHTML=`<div class="empty">No data found.</div>`; return; }
@@ -4387,11 +4382,11 @@ function onFlangeClassChange(){
   state.flangeClass=document.getElementById('fl-class').value;
   state.flangeNps='';
   const npsEl=document.getElementById('fl-nps');
-  npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+  npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
   npsEl.disabled=!state.flangeClass;
   if(state.flangeClass){
     const sizes=B165_NPS;
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
     _applyNpsLocks(npsEl, _LITE_FREE_4);
     if(state.globalNps && sizes.includes(state.globalNps)){
       npsEl.value=state.globalNps; state.flangeNps=state.globalNps;
@@ -4438,11 +4433,11 @@ async function renderFlanges(){
     const dispVal = (rawVal === '(6)') ? '—' : (rawVal ?? '—');
     const dispUnit = (rawVal === '(6)') ? '' : `<span style="color:var(--text2);font-size:10px">${u}</span>`;
     return `<div class="dim-row">
-      <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.split('(')[0].trim().slice(0,28)}</span></span>
+      <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.spli_t('(')[0].trim().slice(0,28)}</span></span>
       <span class="d-value${isHighlight?' accent':''}">${dispVal} ${dispUnit}</span>
     </div>`;
   }).join('');
-  const cards = dimCard(`${t('flange.'+state.flangeType+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
+  const cards = dimCard(`${_t('flange.'+state.flangeType+'.full')} · ${_t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`, dimRowsHtml);
 
   const typeBar = '';
 
@@ -4455,10 +4450,10 @@ async function renderFlanges(){
       const wJson = await wRes.json();
       const wVal = wJson.weight;
       if(wVal != null){
-        const typeLabel = t('flange.'+state.flangeType) || state.flangeType;
+        const typeLabel = _t('flange.'+state.flangeType) || state.flangeType;
         const wtFmt = fmtWeight(wVal, state.flangeUnit);
         const row = `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`;
-        weightCard = dimCard(t('card.weight'), row);
+        weightCard = dimCard(_t('card.weight'), row);
         const lbl = state.lang === 'ES' ? 'Peso' : 'Weight';
         const _wtSimple = fmtWeightSimple(wVal, state.flangeUnit);
         _b165WeightBadge = `<div style="flex-shrink:0;background:var(--accent);color:#fff;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;line-height:1.6;white-space:nowrap">${lbl}: ${_wtSimple}</div>`;
@@ -4466,7 +4461,7 @@ async function renderFlanges(){
     }
   } catch(e) {}
 
-  const _ftTitle = `${t('flange.'+ftObj.key+'.full')} · ${t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`;
+  const _ftTitle = `${_t('flange.'+ftObj.key+'.full')} · ${_t('lbl.class')} ${state.flangeClass} · NPS ${r.NPS}"`;
   const _available = isFlangeAvailable(state.flangeType, state.flangeClass, r.NPS);
   const leftPanel = !_available
     ? buildUnavailablePanel(ftObj.svg || 'BL', typeBar, state.flangeType, state.flangeClass)
@@ -4586,28 +4581,28 @@ function buildB11TypeOptions(preserve=false){
   const prevClass = preserve ? state.b11class : '';
   const prevNps   = preserve ? state.b11nps   : '';
   const entries = Object.entries(B11_TYPES).filter(([k,v])=>v.cat===cat);
-  typeEl.innerHTML = `<option value="">${t('opt.selectType')}</option>` +
-    entries.map(([k])=>`<option value="${k}"${k===prevType?' selected':''}>${t('b11.'+k)}</option>`).join('');
+  typeEl.innerHTML = `<option value="">${_t('opt.selectType')}</option>` +
+    entries.map(([k])=>`<option value="${k}"${k===prevType?' selected':''}>${_t('b11.'+k)}</option>`).join('');
   if(prevType){
     // restore dependent dropdowns without resetting state
     const dataKey = B11_TYPES[prevType]?.data;
     const classes = B1611_META[dataKey]?.classes||[];
     const classEl = document.getElementById('b11-class');
-    classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}"${c===prevClass?' selected':''}>${c} lb</option>`).join('');
+    classEl.innerHTML=`<option value="">${_t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}"${c===prevClass?' selected':''}>${c} lb</option>`).join('');
     if(IS_LITE){ _applyClassLocks(classEl, ['3000']); }
     classEl.disabled=false;
     if(prevClass){
       const npsEl = document.getElementById('b11-nps');
       const npsList = B1611_META[dataKey]?.nps||[];
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+npsList.map(n=>`<option value="${n}"${n===prevNps?' selected':''}>${n}"</option>`).join('');
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+npsList.map(n=>`<option value="${n}"${n===prevNps?' selected':''}>${n}"</option>`).join('');
       _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
       npsEl.disabled=false;
     }
   } else {
     state.b11type=''; state.b11class=''; state.b11nps='';
-    document.getElementById('b11-class').innerHTML=`<option value="">${t('opt.selectClass')}</option>`;
+    document.getElementById('b11-class').innerHTML=`<option value="">${_t('opt.selectClass')}</option>`;
     document.getElementById('b11-class').disabled=true;
-    document.getElementById('b11-nps').innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+    document.getElementById('b11-nps').innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
     document.getElementById('b11-nps').disabled=true;
   }
 }
@@ -4622,7 +4617,7 @@ function onB11TypeChange(){
   if(state.b11type){
     const dataKey = B11_TYPES[state.b11type]?.data;
     const classes = B1611_META[dataKey]?.classes||[];
-    classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
+    classEl.innerHTML=`<option value="">${_t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
     if(IS_LITE){ _applyClassLocks(classEl, ['3000']); }
     classEl.disabled=false;
 
@@ -4635,7 +4630,7 @@ function onB11TypeChange(){
       classEl.value = resolvedClass;
       state.b11class = resolvedClass;
       const sizes = B1611_META[dataKey]?.nps||[];
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
       npsEl.disabled=false;
       if(prevNps && sizes.includes(prevNps)){
@@ -4643,7 +4638,7 @@ function onB11TypeChange(){
         state.b11nps = prevNps;
       } else if(prevNps){
         // NPS not in this type's table — show as unavailable option
-        const opt = document.createElement('option');
+        const opt = document.createElemen_t('option');
         opt.value = prevNps; opt.textContent = `${prevNps}" (not available)`; opt.selected = true;
         npsEl.appendChild(opt);
         state.b11nps = prevNps;
@@ -4652,13 +4647,13 @@ function onB11TypeChange(){
       }
     } else {
       state.b11class=''; state.b11nps='';
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
       npsEl.disabled=true;
     }
   } else {
-    classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`;
+    classEl.innerHTML=`<option value="">${_t('opt.selectClass')}</option>`;
     classEl.disabled=true;
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+    npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
     npsEl.disabled=true;
     state.b11class=''; state.b11nps='';
   }
@@ -4676,7 +4671,7 @@ function onB11ClassChange(){
     const dataKey = B11_TYPES[state.b11type]?.data;
     const rawSizes = B1611_META[dataKey]?.nps||[];
     const sizes = _NPS_ORD.filter(n=>rawSizes.includes(n));
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
     _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
     npsEl.disabled=false;
     // Restore NPS if still valid
@@ -4687,7 +4682,7 @@ function onB11ClassChange(){
       state.b11nps='';
     }
   } else {
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+    npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
     npsEl.disabled=true;
     state.b11nps='';
   }
@@ -4730,7 +4725,7 @@ function setB11Unit(u){
       const rawSizes2 = B1611_META[dataKey]?.nps||[];
       const sizes = _NPS_ORD.filter(n=>rawSizes2.includes(n));
       const npsEl = document.getElementById('b11-nps');
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       if(state.b11nps && sizes.includes(state.b11nps)) npsEl.value=state.b11nps;
     }
     renderB1611();
@@ -4813,7 +4808,7 @@ function _b11InjectValues(svgText, typeKey, r, cls, unit){
 
   // Update SVG title
   const nps = state.b11nps;
-  const titleText = `${t('b11.'+typeKey)} · ${t('lbl.class')} ${cls} · NPS ${nps}" — ASME B16.11`;
+  const titleText = `${_t('b11.'+typeKey)} · ${_t('lbl.class')} ${cls} · NPS ${nps}" — ASME B16.11`;
   svgText = window._mobileApp
     ? svgText.replace(/<text[^>]*font-size="17" font-weight="bold">[^<]*<\/text>/, '')
     : svgText.replace(/(font-size="17" font-weight="bold">)[^<]*(<\/text>)/, `$1${titleText}$2`);
@@ -4885,8 +4880,8 @@ async function renderB1611(){
 
   if(!state.b11type){
     content.innerHTML = cat==='sw11'
-      ? moduleWelcomeHtml('🔩', t('cat.sw11')+' — ASME B16.11', 'welcome.sw11')
-      : moduleWelcomeHtml('🪛', t('cat.th11')+' — ASME B16.11', 'welcome.th11');
+      ? moduleWelcomeHtml('🔩', _t('cat.sw11')+' — ASME B16.11', 'welcome.sw11')
+      : moduleWelcomeHtml('🪛', _t('cat.th11')+' — ASME B16.11', 'welcome.th11');
     return;
   }
   if(!state.b11class || !state.b11nps){ content.innerHTML=promptHtml('prompt.complete'); return; }
@@ -4912,14 +4907,14 @@ async function renderB1611(){
     let leftPanel;
     if(_imgSrc11){
       leftPanel = `<div class="dwg-panel">
-        <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
+        <div class="dwg-header"><div class="dwg-title">${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
         <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1;position:relative">
           <img src="${_imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain;opacity:0.2">
           <div style="position:absolute;text-align:center;color:#c0392b;font-weight:700;font-size:15px;background:rgba(255,255,255,0.92);padding:12px 24px;border-radius:8px;border:2px solid #c0392b">Fitting not available under ${std}</div>
         </div>
       </div>`;
     } else {
-      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
+      leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>⚠️</span><p>Fitting not available under ${std}</p></div></div>`;
     }
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel"></div></div>`;
     return;
@@ -4928,13 +4923,13 @@ async function renderB1611(){
   const classFilter = B11_CLASS_COLS[state.b11class] || (()=>true);
   const visKeys = Object.keys(r).filter(classFilter);
   const dimRows = visKeys.map(k=>`<div class="dim-row"><span class="d-label">${B11_COL_LABELS[k]||k}</span><span class="d-value accent">${r[k]??'—'} <span style="font-size:10px;color:var(--text2)">${uLabel}</span></span></div>`).join('');
-  const card = dimCard(`${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"`, dimRows);
+  const card = dimCard(`${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"`, dimRows);
 
   let leftPanel;
   if(typeInfo.svgFile){
     const panelId = 'b11svg_' + Date.now();
     leftPanel = `<div class="dwg-panel" id="${panelId}">
-      <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
+      <div class="dwg-header"><div class="dwg-title">${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
       <div id="${panelId}_inner" class="b11-svg-inner" style="background:#fff;overflow:auto"></div>
     </div>`;
     content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
@@ -4980,7 +4975,7 @@ async function renderB1611(){
                 let xMin=Infinity, yMin=Infinity, xMax=-Infinity, yMax=-Infinity;
                 // getBoundingClientRect works in screen space — correctly handles all SVG transforms
                 svgEl.querySelectorAll('path,line,polyline,circle,ellipse,text,use').forEach(el => {
-                  if(el.closest('defs,marker,pattern,symbol')) return;
+                  if(el.closes_t('defs,marker,pattern,symbol')) return;
                   try {
                     const r = el.getBoundingClientRect();
                     if(r.width + r.height > 0){
@@ -5005,21 +5000,21 @@ async function renderB1611(){
             }, 0);
           }
         }
-        updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${t('b11.'+_typeKey)}`);
+        updateMiniStrip('Fittings SVG/' + svgFile, `NPS ${_nps}" ${_t('b11.'+_typeKey)}`);
       } catch(e){ console.error('SVG load error', e); }
     })();
     return;
   } else if(typeInfo.img){
     const imgSrc11 = `${IMG_BASE}${typeInfo.img}`;
     leftPanel = `<div class="dwg-panel">
-      <div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
+      <div class="dwg-header"><div class="dwg-title">${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div>
       <div style="display:flex;align-items:center;justify-content:center;padding:16px;background:#fff;flex:1">
-        <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${t('b11.'+state.b11type)}">
+        <img src="${imgSrc11}" style="max-width:100%;max-height:420px;object-fit:contain" alt="${_t('b11.'+state.b11type)}">
       </div>
     </div>`;
-    updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${t('b11.'+state.b11type)}`);
+    updateMiniStrip(imgSrc11, `NPS ${state.b11nps}" ${_t('b11.'+state.b11type)}`);
   } else {
-    leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${t('b11.'+state.b11type)} · ${t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
+    leftPanel = `<div class="dwg-panel"><div class="dwg-header"><div class="dwg-title">${_t('b11.'+state.b11type)} · ${_t('lbl.class')} ${state.b11class} · NPS ${state.b11nps}"</div><div class="dwg-sub">${std}</div></div><div class="no-img"><span>🔩</span><p>Image not yet available</p></div></div>`;
   }
   content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}</div></div>`;
 }
@@ -5042,13 +5037,13 @@ function onB47SeriesChange(){
   const npsSel = document.getElementById('b47-nps');
   if(state.b47series && B1647_META[state.b47series]){
     const classes = B1647_META[state.b47series].classes;
-    clsSel.innerHTML = `<option value="">${t('opt.selectClass')}</option>` + classes.map(c=>`<option value="${c}">${c}</option>`).join('');
+    clsSel.innerHTML = `<option value="">${_t('opt.selectClass')}</option>` + classes.map(c=>`<option value="${c}">${c}</option>`).join('');
     clsSel.disabled = false;
   } else {
-    clsSel.innerHTML = `<option value="">${t('opt.selectClass')}</option>`;
+    clsSel.innerHTML = `<option value="">${_t('opt.selectClass')}</option>`;
     clsSel.disabled = true;
   }
-  npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>`;
+  npsSel.innerHTML = `<option value="">${_t('opt.allSizes')}</option>`;
   npsSel.disabled = true;
   renderB1647();
 }
@@ -5058,11 +5053,11 @@ function onB47ClassChange(){
   state.b47nps = '';
   const npsSel = document.getElementById('b47-nps');
   if(state.b47series && state.b47class){
-    npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>` + B1647_NPS.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    npsSel.innerHTML = `<option value="">${_t('opt.allSizes')}</option>` + B1647_NPS.map(s=>`<option value="${s}">${s}"</option>`).join('');
     if(IS_LITE) Array.from(npsSel.options).forEach(opt=>{ if(!opt.value) return; if(parseFloat(opt.value)<54){if(!opt.textContent.startsWith('🔒'))opt.textContent='🔒 '+opt.textContent;opt.style.color='var(--text2)';} });
     npsSel.disabled = false;
   } else {
-    npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>`;
+    npsSel.innerHTML = `<option value="">${_t('opt.allSizes')}</option>`;
     npsSel.disabled = true;
   }
   renderB1647();
@@ -5141,11 +5136,11 @@ async function renderB1647(){
   const content = document.getElementById('content');
 
   if(!state.b47series){
-    content.innerHTML = moduleWelcomeHtml('🔵', t('cat.b1647')+' — ASME B16.47', 'welcome.b1647');
+    content.innerHTML = moduleWelcomeHtml('🔵', _t('cat.b1647')+' — ASME B16.47', 'welcome.b1647');
     return;
   }
   if(!state.b47class){
-    content.innerHTML = moduleWelcomeHtml('🔵', t('cat.b1647')+' — Series '+state.b47series, 'welcome.b1647');
+    content.innerHTML = moduleWelcomeHtml('🔵', _t('cat.b1647')+' — Series '+state.b47series, 'welcome.b1647');
     return;
   }
   if(!state.b47nps){
@@ -5155,7 +5150,7 @@ async function renderB1647(){
 
   const unit = state.b47unit === 'SI' ? 'si' : 'usc';
   const uLabel = state.b47unit === 'SI' ? 'mm' : 'in';
-  const typeLabel = t('flange.' + state.b47type);
+  const typeLabel = _t('flange.' + state.b47type);
   const imgFile = state.b47type === 'WN' ? 'FL Welding Neck.png' : 'FL Flange.png';
   const imgSrc = `${IMG_BASE}${imgFile}`;
   const seriesLabel = state.b47series === 'A' ? 'Series A (MSS SP-44)' : 'Series B (API 605)';
@@ -5192,12 +5187,12 @@ async function renderB1647(){
     const val = r[k] ?? '—';
     return `<div class="dim-row"><span class="d-label">${lbl}</span><span class="d-value accent">${val} <span style="font-size:10px;color:var(--text2)">${typeof val==='number'&&k!=='holes'?uLabel:''}</span></span></div>`;
   }).join('');
-  const card = dimCard(`${t('flange.'+state.b47type+'.full')} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
+  const card = dimCard(`${_t('flange.'+state.b47type+'.full')} · ${_t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`, dimRows);
   const wtFmt = fmtWeight(wt, state.b47unit);
-  const weightCard = wtFmt ? dimCard(t('card.weight'), `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`) : '';
+  const weightCard = wtFmt ? dimCard(_t('card.weight'), `<div class="dim-row"><span class="d-label">${typeLabel}</span><span class="d-value accent">${wtFmt}</span></div>`) : '';
   const _b47wtSimple = fmtWeightSimple(wt, state.b47unit);
   const _b47WeightBadge = _b47wtSimple ? `<div style="flex-shrink:0;background:var(--accent);color:#fff;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;line-height:1.6;white-space:nowrap">${state.lang==='ES'?'Peso':'Weight'}: ${_b47wtSimple}</div>` : '';
-  const _b47Title = `${t('flange.'+state.b47type+'.full')} · ${t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`;
+  const _b47Title = `${_t('flange.'+state.b47type+'.full')} · ${_t('lbl.class')} ${state.b47class} · NPS ${state.b47nps}"`;
   const leftPanel = buildB47SvgPanel(state.b47type, r, state.b47unit, _b47Title, _b47TypeBar(), _b47WeightBadge);
   const noteHtml = fromSeriesA ? NOTE_BANNER : '';
   content.innerHTML = `<div class="drawing-view">${leftPanel}<div class="dim-panel">${card}${weightCard}${noteHtml}</div></div>`;
@@ -5245,7 +5240,7 @@ const WEIGHTS_SCHEDS = {"90LR":{"1":["STD","XS","XXS","SCH10"],"2":["STD","XS","
 function _rebuildFitSch(nps, prevSch){
   const schEl=document.getElementById('fit-sch');
   const schGroup=document.getElementById('fit-sch-group');
-  schEl.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`;
+  schEl.innerHTML=`<option value="">${_t('opt.selectSchedule')}</option>`;
   schEl.disabled=true; schGroup.style.display='none'; state.fitSch='';
   if(nps && state.fitType){
     const wkeys=FIT_WEIGHT_KEYS[state.fitType]||[];
@@ -5258,7 +5253,7 @@ function _rebuildFitSch(nps, prevSch){
     }
     if(schedSet.size>0){
       const sorted=SCH_ORDER.filter(s=>schedSet.has(s));
-      schEl.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`+sorted.map(s=>`<option value="${s}">${s}</option>`).join('');
+      schEl.innerHTML=`<option value="">${_t('opt.selectSchedule')}</option>`+sorted.map(s=>`<option value="${s}">${s}</option>`).join('');
       schEl.disabled=false; schGroup.style.display='';
       if(prevSch && sorted.includes(prevSch)){ schEl.value=prevSch; state.fitSch=prevSch; }
     }
@@ -5287,7 +5282,7 @@ function onFitTypeChange(){
     const dataKey=FIT_DATA_KEY[state.fitType]||state.fitType;
     const sizes=B169_NPS[dataKey]||[];
     if(sizes.length){
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
       _applyNpsLocks(npsEl, _LITE_FREE_4);
       npsEl.disabled=false;
       const targetNps = prevNps || state.globalNps;
@@ -5295,7 +5290,7 @@ function onFitTypeChange(){
         npsEl.value=targetNps; state.fitNps=targetNps;
         _rebuildFitSch(targetNps, prevNps===targetNps ? prevSch : null);
       } else if(targetNps){
-        const opt=document.createElement('option');
+        const opt=document.createElemen_t('option');
         opt.value=targetNps; opt.textContent=`${targetNps}" (not available)`; opt.selected=true;
         npsEl.appendChild(opt); state.fitNps=targetNps;
         _rebuildFitSch(null, null);
@@ -5303,11 +5298,11 @@ function onFitTypeChange(){
         state.fitNps=''; _rebuildFitSch(null, null);
       }
     } else {
-      npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+      npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
       npsEl.disabled=true; state.fitNps=''; _rebuildFitSch(null, null);
     }
   } else {
-    npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`;
+    npsEl.innerHTML=`<option value="">${_t('opt.allSizes')}</option>`;
     npsEl.disabled=true; state.fitNps=''; _rebuildFitSch(null, null);
   }
   renderFittings();
@@ -5334,7 +5329,7 @@ const FIT_LABELS_KEYS={
   Conc_Reducers:'fit.Conc_Reducers_lbl', Ecc_Reducers:'fit.Ecc_Reducers_lbl',
   Stub_Ends:'fit.Stub_Ends_lbl', Caps:'fit.Caps_lbl',
 };
-const FIT_LABELS = new Proxy(FIT_LABELS_KEYS, { get(o,k){ return o[k] ? t(o[k]) : undefined; } });
+const FIT_LABELS = new Proxy(FIT_LABELS_KEYS, { get(o,k){ return o[k] ? _t(o[k]) : undefined; } });
 
 function normNps(nps){ return nps.replace(/-/g,' '); }
 
@@ -5348,14 +5343,14 @@ function buildWeightCard(fitType, nps, sch, prefetchedWeights){
     rows+=`<div class="dim-row"><span class="d-label">${label}</span><span class="d-value accent">${val!=null?val+' kg':'—'}</span></div>`;
   }
   if(!rows) return '';
-  return dimCard(`${t('fit.weight')} — ${sch}`, rows);
+  return dimCard(`${_t('fit.weight')} — ${sch}`, rows);
 }
 
 async function renderFittings(){
   state.fitNps=document.getElementById('fit-nps').value;
   state.fitSch=document.getElementById('fit-sch').value;
   const content=document.getElementById('content');
-  if(!state.fitType){ content.innerHTML=moduleWelcomeHtml('🔧', t('cat.fittings')+' — ASME B16.9', 'welcome.fittings'); return; }
+  if(!state.fitType){ content.innerHTML=moduleWelcomeHtml('🔧', _t('cat.fittings')+' — ASME B16.9', 'welcome.fittings'); return; }
   if(!state.fitNps){ content.innerHTML=promptHtml('prompt.selectNps'); renderCtxBar(); return; }
 
   content.innerHTML=`<div class="welcome"><p style="margin-top:2rem">Loading…</p></div>`;
@@ -6110,11 +6105,11 @@ const B1648_META = {
 function onB48ClassChange(){
   state.b48class = document.getElementById('b48-class').value;
   const sel = document.getElementById('b48-nps');
-  sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
+  sel.innerHTML = '<option value="">' + _t('opt.allSizes') + '</option>';
   if(state.b48class){
     const npsList = (B1648_META[state.b48class] || {}).nps || [];
     npsList.forEach(n => {
-      const opt = document.createElement('option');
+      const opt = document.createElemen_t('option');
       opt.value = n; opt.textContent = 'NPS ' + n + '"';
       if(n === state.b48nps) opt.selected = true;
       sel.appendChild(opt);
@@ -6134,9 +6129,9 @@ function setB48Face(face){
   if(faceSel && faceSel.value !== face) faceSel.value = face;
   const sel = document.getElementById('b48-nps');
   const npsList = state.b48class ? ((B1648_META[state.b48class] || {}).nps || []) : [];
-  sel.innerHTML = '<option value="">' + t('opt.allSizes') + '</option>';
+  sel.innerHTML = '<option value="">' + _t('opt.allSizes') + '</option>';
   npsList.forEach(n => {
-    const opt = document.createElement('option');
+    const opt = document.createElemen_t('option');
     opt.value = n; opt.textContent = 'NPS ' + n + '"';
     if(n === state.b48nps) opt.selected = true;
     sel.appendChild(opt);
@@ -6162,14 +6157,14 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   const th = isUS ? r.t_in : r.t_mm;
   const W = isUS ? r.W_in : r.W_mm;
 
-  const faceLabel = face === 'RF' ? t('b48.raisedFace') : face === 'FRJ' ? t('b48.female') : t('b48.male');
+  const faceLabel = face === 'RF' ? _t('b48.raisedFace') : face === 'FRJ' ? _t('b48.female') : _t('b48.male');
   const tableRef  = face === 'RF'
-    ? 'Table 4.3.1 — ' + t('lbl.class') + ' ' + cls + ' RF'
+    ? 'Table 4.3.1 — ' + _t('lbl.class') + ' ' + cls + ' RF'
     : face === 'FRJ'
-    ? 'Table 5.1 — ' + t('lbl.class') + ' ' + cls + ' ' + t('b48.female')
-    : 'Table 5.1 — ' + t('lbl.class') + ' ' + cls + ' ' + t('b48.male');
+    ? 'Table 5.1 — ' + _t('lbl.class') + ' ' + cls + ' ' + _t('b48.female')
+    : 'Table 5.1 — ' + _t('lbl.class') + ' ' + cls + ' ' + _t('b48.male');
 
-  const title    = t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + r.nps + '”';
+  const title    = _t('b48.figure8') + ' · ' + _t('lbl.class') + ' ' + cls + ' · NPS ' + r.nps + '”';
   const subtitle = window._mobileApp ? 'ASME B16.48-2025' : 'ASME B16.48-2025, ' + tableRef;
 
   const isMobile = window.innerWidth <= 480;
@@ -6185,39 +6180,39 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
   svg = svg.split(
     'y="406" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">TOP VIEW'
   ).join(
-    'y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">' + t('b48.topView')
+    'y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">' + _t('b48.topView')
   );
   // Translate section/top view labels
-  svg = svg.split('>TOP VIEW<').join('>' + t('b48.topView') + '<');
-  svg = svg.split('>SECTION VIEW<').join('>' + t('b48.sectionView') + '<');
+  svg = svg.spli_t('>TOP VIEW<').join('>' + _t('b48.topView') + '<');
+  svg = svg.spli_t('>SECTION VIEW<').join('>' + _t('b48.sectionView') + '<');
 
   // Fix A dimension annotation: keep it near the circles (upper part of the gap),
   // move text ABOVE the arrow so it doesn't sit on the line,
   // and widen the background rect to fit "A = nn.nn in".
   // A witness lines: y2="384" → y2="378" (just below the arrow)
-  svg = svg.split('y2="384"').join('y2="378"');
+  svg = svg.spli_t('y2="384"').join('y2="378"');
   // A arrow line: y1="376" y2="376" → y1="371" y2="371" (slightly raised)
   svg = svg.replace(/(y1=)"376"([^>]*y2=)"376"/, '$1"371"$2"371"');
   // A label background rect: widen, shift left, raise above arrow
-  svg = svg.split('x="357" y="365" width="20"').join('x="307" y="351" width="120"');
+  svg = svg.spli_t('x="357" y="365" width="20"').join('x="307" y="351" width="120"');
   // A text: baseline above the arrow line
-  svg = svg.split('y="377" text-anchor="middle" font-size="15" font-style="italic"').join(
+  svg = svg.spli_t('y="377" text-anchor="middle" font-size="15" font-style="italic"').join(
         'y="365" text-anchor="middle" font-size="15" font-style="italic"');
 
   // For RF and FRJ: O and B dimension lines are too close — push O up 24px
   // and widen the white label rectangles to fit the full "X = nn.nn in" text.
   if(!isMobile && face !== 'MRJ'){
     // O witness lines (y2="414" → y2="390")
-    svg = svg.split('y2="414"').join('y2="390"');
+    svg = svg.spli_t('y2="414"').join('y2="390"');
     // O arrow line (y1="420"…y2="420" → y1="396"…y2="396")
     svg = svg.replace(/(y1=)"420"([^>]*y2=)"420"/, '$1"396"$2"396"');
     // O label background rect
-    svg = svg.split('x="195" y="409" width="20"').join('x="145" y="383" width="120"');
+    svg = svg.spli_t('x="195" y="409" width="20"').join('x="145" y="383" width="120"');
     // O text y position
-    svg = svg.split('y="421" text-anchor="middle" font-size="15" font-style="italic"').join(
+    svg = svg.spli_t('y="421" text-anchor="middle" font-size="15" font-style="italic"').join(
           'y="395" text-anchor="middle" font-size="15" font-style="italic"');
     // B label background rect (widen only, keep vertical pos)
-    svg = svg.split('x="195" y="426" width="20"').join('x="145" y="426" width="120"');
+    svg = svg.spli_t('x="195" y="426" width="20"').join('x="145" y="426" width="120"');
   }
 
   if(!isMobile && face === 'MRJ'){
@@ -6226,8 +6221,8 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
     svg = svg.replace(/<line x1="747"[^/]*\/>/g, '');
     svg = svg.replace(/<text x="758"[^<]*<tspan[^<]*<\/tspan><\/text>/, '');
     // Fix B label: raise text above arrow (arrow at y=432), widen rect
-    svg = svg.split('x="195" y="421" width="20"').join('x="145" y="415" width="120"');
-    svg = svg.split('y="433" text-anchor="middle" font-size="15" font-style="italic"').join(
+    svg = svg.spli_t('x="195" y="421" width="20"').join('x="145" y="415" width="120"');
+    svg = svg.spli_t('y="433" text-anchor="middle" font-size="15" font-style="italic"').join(
           'y="427" text-anchor="middle" font-size="15" font-style="italic"');
   }
 
@@ -6279,7 +6274,7 @@ async function renderB1648(){
 
   if(!cls){
     const _b48icon = '<svg width="72" height="40" viewBox="0 0 36 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="4" fill="currentColor" opacity="0.25"/><circle cx="27" cy="10" r="8" fill="currentColor" opacity="0.85"/><circle cx="27" cy="10" r="4" fill="none" stroke="white" stroke-width="1.5"/></svg>';
-    content.innerHTML = `<div class="welcome"><div class="big-icon">${_b48icon}</div><h2>${t('cat.b1648')} — ASME B16.48</h2><p>${t('welcome.b1648')}<br>${t('b48.faces')}</p>${_betaCard()}</div>`;
+    content.innerHTML = `<div class="welcome"><div class="big-icon">${_b48icon}</div><h2>${_t('cat.b1648')} — ASME B16.48</h2><p>${_t('welcome.b1648')}<br>${_t('b48.faces')}</p>${_betaCard()}</div>`;
     return;
   }
 
@@ -6299,8 +6294,8 @@ async function renderB1648(){
 
   if(rows.length === 0){
     content.innerHTML = '<div class="welcome"><div class="big-icon">🚫</div>' +
-      '<h2>' + t('b48.notAvail') + '</h2>' +
-      '<p>No data for NPS ' + (nps||'—') + '" ' + t('lbl.class') + ' ' + cls + ' ' + face + ' under ASME B16.48.</p></div>';
+      '<h2>' + _t('b48.notAvail') + '</h2>' +
+      '<p>No data for NPS ' + (nps||'—') + '" ' + _t('lbl.class') + ' ' + cls + ' ' + face + ' under ASME B16.48.</p></div>';
     return;
   }
 
@@ -6313,7 +6308,7 @@ async function renderB1648(){
   const W = isUS ? r.W_in : r.W_mm;
   const hasO = face !== 'MRJ';
 
-  const faceLabel = face === 'RF' ? t('b48.raisedFaceShort') : face === 'FRJ' ? t('b48.female') : t('b48.male');
+  const faceLabel = face === 'RF' ? _t('b48.raisedFaceShort') : face === 'FRJ' ? _t('b48.female') : _t('b48.male');
   const dimRows =
     '<div class="dim-row"><span class="d-label">Inside Diam. B</span><span class="d-value">' + B + ' ' + u + '</span></div>' +
     (hasO ? '<div class="dim-row"><span class="d-label">Outside Diam. O</span><span class="d-value">' + O + ' ' + u + '</span></div>' : '') +
@@ -6321,7 +6316,7 @@ async function renderB1648(){
     '<div class="dim-row"><span class="d-label">Thickness t</span><span class="d-value">' + th + ' ' + u + '</span></div>' +
     '<div class="dim-row"><span class="d-label">Web Width W</span><span class="d-value">' + W + ' ' + u + '</span></div>';
   const cards = '<div class="dim-card">' +
-    '<div class="dim-card-title">' + t('b48.figure8') + ' · ' + t('lbl.class') + ' ' + cls + ' · NPS ' + nps + '" · ' + faceLabel + '</div>' +
+    '<div class="dim-card-title">' + _t('b48.figure8') + ' · ' + _t('lbl.class') + ' ' + cls + ' · NPS ' + nps + '" · ' + faceLabel + '</div>' +
     dimRows + '</div>';
 
   content.innerHTML = '<div class="drawing-view">' + svgPanel + '<div class="dim-panel">' + cards + '</div></div>';
@@ -6569,9 +6564,9 @@ function initSpanCalc(){
 function onSpanNpsChange(){
   const nps = document.getElementById('span-nps').value;
   const schSel = document.getElementById('span-sch');
-  if(!nps){ schSel.innerHTML=`<option value="">${t('opt.selectSchedule')}</option>`; renderSpanCalc(); return; }
+  if(!nps){ schSel.innerHTML=`<option value="">${_t('opt.selectSchedule')}</option>`; renderSpanCalc(); return; }
   const rows = B3610.filter(r=>r.nps===nps);
-  schSel.innerHTML = `<option value="">${t('opt.selectSchedule')}</option>` +
+  schSel.innerHTML = `<option value="">${_t('opt.selectSchedule')}</option>` +
     rows.map(r=>`<option value="${r.wt_mm}">${[r.sch,r.id].filter(Boolean).join(' / ')||r.wt_mm+' mm WT'}</option>`).join('');
   const stdOpt = [...schSel.options].find(o=>o.text.includes('STD')||o.text.includes('40'));
   if(stdOpt) stdOpt.selected=true;
@@ -7198,7 +7193,7 @@ function renderMultiSlots(){
 }
 
 function buildMobileAddCard(idx){
-  const div = document.createElement('div');
+  const div = document.createElemen_t('div');
   div.className = 'multi-drop';
   div.dataset.slot = idx;
   const hint = idx === 0
@@ -7219,10 +7214,10 @@ function openMobilePickerNext(){
 function openMobileModulePicker(idx){
   const existing = document.getElementById('mobile-module-picker');
   if(existing) existing.remove();
-  const overlay = document.createElement('div');
+  const overlay = document.createElemen_t('div');
   overlay.id = 'mobile-module-picker';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:flex;align-items:flex-end';
-  const sheet = document.createElement('div');
+  const sheet = document.createElemen_t('div');
   sheet.className = 'picker-sheet';
   const title = state.lang==='ES' ? 'Agregar módulo' : 'Add module';
   const cancel = state.lang==='ES' ? 'Cancelar' : 'Cancel';
@@ -7254,7 +7249,7 @@ function pickMobileModule(idx, mod){
 }
 
 function buildDropZone(idx){
-  const div = document.createElement('div');
+  const div = document.createElemen_t('div');
   div.className = 'multi-drop';
   div.dataset.slot = idx;
   div.innerHTML = `<div class="drop-hint"><span>＋</span>Drag a module here</div>`;
@@ -7282,7 +7277,7 @@ function buildDropZone(idx){
 function buildFilledCard(card, idx){
   const meta = MULTI_META[card.module] || {};
   const types = MULTI_TYPES[card.module] || [];
-  const div = document.createElement('div');
+  const div = document.createElemen_t('div');
   div.className = 'multi-card';
   div.draggable = true;
   div.dataset.slot = idx;
