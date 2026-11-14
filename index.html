@@ -654,8 +654,8 @@
     <div style="display:flex;align-items:center;gap:7px">
       <span id="hdr-units-label" data-i18n="hdr.units" style="font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text2)">Units</span>
       <div class="toggle header-toggle">
-        <button id="b11-unit-us" class="active" onclick="setB11Uni_t('US')">US</button>
-        <button id="b11-unit-si" onclick="setB11Uni_t('SI')">SI</button>
+        <button id="b11-unit-us" class="active" onclick="setB11Unit('US')">US</button>
+        <button id="b11-unit-si" onclick="setB11Unit('SI')">SI</button>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:7px">
@@ -687,52 +687,52 @@
     <div class="sidebar-section">
       <div class="sidebar-label" data-i18n="cat.label">Category</div>
       <div class="cat-grid">
-        <div class="cat-tile" data-cat="facilities" onclick="selectCa_t('facilities')">
+        <div class="cat-tile" data-cat="facilities" onclick="selectCat('facilities')">
           <div class="icon">🏭</div>
           <div class="name" data-i18n="cat.facilities">Pipe Facilities</div>
           <div class="std">B36.10 / B36.19</div>
         </div>
-        <div class="cat-tile" data-cat="pipelines" onclick="selectCa_t('pipelines')" id="tile-pipelines">
+        <div class="cat-tile" data-cat="pipelines" onclick="selectCat('pipelines')" id="tile-pipelines">
           <div class="icon">🛢️</div>
           <div class="name" data-i18n="cat.pipelines">Pipe Pipelines</div>
           <div class="std">B36.10</div>
         </div>
-        <div class="cat-tile" data-cat="flanges" onclick="selectCa_t('flanges')">
+        <div class="cat-tile" data-cat="flanges" onclick="selectCat('flanges')">
           <div class="icon">⚙️</div>
           <div class="name" data-i18n="cat.flanges">Flanges</div>
           <div class="std">B16.5</div>
         </div>
-        <div class="cat-tile" data-cat="b1647" onclick="selectCa_t('b1647')" id="tile-b1647">
+        <div class="cat-tile" data-cat="b1647" onclick="selectCat('b1647')" id="tile-b1647">
           <div class="icon">🔵</div>
           <div class="name" data-i18n="cat.b1647">Large Flanges</div>
           <div class="std">B16.47</div>
         </div>
-        <div class="cat-tile" data-cat="b1648" onclick="selectCa_t('b1648')">
+        <div class="cat-tile" data-cat="b1648" onclick="selectCat('b1648')">
           <div class="icon"><svg width="36" height="20" viewBox="0 0 36 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="10" r="4" fill="currentColor" opacity="0.25"/><circle cx="27" cy="10" r="8" fill="currentColor" opacity="0.85"/><circle cx="27" cy="10" r="4" fill="none" stroke="white" stroke-width="1.5"/></svg></div>
           <div class="name" data-i18n="cat.b1648">Line Blanks</div>
           <div class="std">B16.48</div>
         </div>
-        <div class="cat-tile" data-cat="fittings" onclick="selectCa_t('fittings')">
+        <div class="cat-tile" data-cat="fittings" onclick="selectCat('fittings')">
           <div class="icon">🔧</div>
           <div class="name" data-i18n="cat.fittings">BW Fittings</div>
           <div class="std">B16.9</div>
         </div>
-        <div class="cat-tile" data-cat="sw11" onclick="selectCa_t('sw11')">
+        <div class="cat-tile" data-cat="sw11" onclick="selectCat('sw11')">
           <div class="icon">🔩</div>
           <div class="name" data-i18n="cat.sw11">SW Fittings</div>
           <div class="std">B16.11</div>
         </div>
-        <div class="cat-tile" data-cat="th11" onclick="selectCa_t('th11')">
+        <div class="cat-tile" data-cat="th11" onclick="selectCat('th11')">
           <div class="icon">🪛</div>
           <div class="name" data-i18n="cat.th11">TH Fittings</div>
           <div class="std">B16.11</div>
         </div>
-        <div class="cat-tile" data-cat="converter" onclick="selectCa_t('converter')" style="grid-column:1/-1">
+        <div class="cat-tile" data-cat="converter" onclick="selectCat('converter')" style="grid-column:1/-1">
           <div class="icon">⇄</div>
           <div class="name" data-i18n="cat.converter">Unit Converter</div>
           <div class="std">SI ↔ Imperial</div>
         </div>
-        <div class="cat-tile" data-cat="spanCalc" onclick="selectCa_t('spanCalc')" style="grid-column:1/-1" id="tile-spanCalc">
+        <div class="cat-tile" data-cat="spanCalc" onclick="selectCat('spanCalc')" style="grid-column:1/-1" id="tile-spanCalc">
           <div class="icon">📐</div>
           <div class="name" data-i18n="cat.spanCalc">Pipe Span Calculator</div>
           <div class="std">MSS SP-58</div>
@@ -768,8 +768,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setPipeUnit DOM updates -->
-      <button id="pipe-unit-us" class="active" style="display:none" onclick="setPipeUni_t('US')"></button>
-      <button id="pipe-unit-si" style="display:none" onclick="setPipeUni_t('SI')"></button>
+      <button id="pipe-unit-us" class="active" style="display:none" onclick="setPipeUnit('US')"></button>
+      <button id="pipe-unit-si" style="display:none" onclick="setPipeUnit('SI')"></button>
     </div>
 
     <!-- FLANGES B16.5 -->
@@ -799,8 +799,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setFlangeUnit DOM updates -->
-      <button id="fl-unit-us" class="active" style="display:none" onclick="setFlangeUni_t('US')"></button>
-      <button id="fl-unit-si" style="display:none" onclick="setFlangeUni_t('SI')"></button>
+      <button id="fl-unit-us" class="active" style="display:none" onclick="setFlangeUnit('US')"></button>
+      <button id="fl-unit-si" style="display:none" onclick="setFlangeUnit('SI')"></button>
     </div>
 
     <!-- FITTINGS B16.9 -->
@@ -847,8 +847,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setFitUnit DOM updates -->
-      <button id="fit-unit-us" class="active" style="display:none" onclick="setFitUni_t('US')"></button>
-      <button id="fit-unit-si" style="display:none" onclick="setFitUni_t('SI')"></button>
+      <button id="fit-unit-us" class="active" style="display:none" onclick="setFitUnit('US')"></button>
+      <button id="fit-unit-si" style="display:none" onclick="setFitUnit('SI')"></button>
     </div>
 
     <!-- B16.47 LARGE FLANGES -->
@@ -881,8 +881,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setB47Unit DOM updates -->
-      <button id="b47-unit-us" class="active" style="display:none" onclick="setB47Uni_t('US')"></button>
-      <button id="b47-unit-si" style="display:none" onclick="setB47Uni_t('SI')"></button>
+      <button id="b47-unit-us" class="active" style="display:none" onclick="setB47Unit('US')"></button>
+      <button id="b47-unit-si" style="display:none" onclick="setB47Unit('SI')"></button>
     </div>
 
     <!-- B16.48 LINE BLANKS -->
@@ -914,8 +914,8 @@
         </select>
       </div>
       <!-- hidden sync buttons kept for setB48Unit DOM updates -->
-      <button id="b48-unit-us" class="active" style="display:none" onclick="setB48Uni_t('US')"></button>
-      <button id="b48-unit-si" style="display:none" onclick="setB48Uni_t('SI')"></button>
+      <button id="b48-unit-us" class="active" style="display:none" onclick="setB48Unit('US')"></button>
+      <button id="b48-unit-si" style="display:none" onclick="setB48Unit('SI')"></button>
     </div>
 
     <!-- B16.11 SW / TH -->
@@ -1166,7 +1166,7 @@
   PipeCore Lite &nbsp;·&nbsp;
   <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--text2);text-decoration:underline">Privacy Policy</a>
   &nbsp;·&nbsp;
-  <span style="cursor:pointer;text-decoration:underline" onclick="openWishlis_t('contact')" id="footer-contact-lbl">Contact</span>
+  <span style="cursor:pointer;text-decoration:underline" onclick="openWishlist('contact')" id="footer-contact-lbl">Contact</span>
 </footer>
 
 <script src="b3610_2022_data.js?v=1"></script>
@@ -1609,7 +1609,7 @@ function _setLbl(parentId, text){
 function _setSelectLbl(selectId, text){
   const sel = document.getElementById(selectId);
   if(!sel) return;
-  const grp = sel.closes_t('.select-group');
+  const grp = sel.closest('.select-group');
   if(grp){ const lbl = grp.querySelector('.select-label'); if(lbl) lbl.textContent = text; }
 }
 
@@ -1978,7 +1978,7 @@ const _LITE_FREE_VALS = [0.5,0.75,1,1.25,1.5,2,2.5,3,3.5,4,5,6,8,10,12,14,16,18,
 function _liteNpsVal(nps){
   // For compound sizes like "5x3-1/2", use the first dimension.
   // For simple fractions like "1/2", return 0 (small NPS).
-  const primary = nps.includes('x') ? nps.spli_t('x')[0] : nps;
+  const primary = nps.includes('x') ? nps.split('x')[0] : nps;
   return primary.includes('/') ? 0 : parseFloat(primary);
 }
 function _liteNpsLocked(nps, maxFreeIdx){
@@ -4245,7 +4245,7 @@ function buildPipeSchOptions(){
   let data=getPipeData();
   if(state.pipeNps) data=data.filter(r=>r.nps===state.pipeNps);
   const sel=document.getElementById('pipe-sch');
-  const lbl=sel.closes_t('.select-group')?.querySelector('.select-label');
+  const lbl=sel.closest('.select-group')?.querySelector('.select-label');
 
   if(state.cat==='pipelines'){
     // Pipelines: every row is selectable, keyed by wt_in, sorted thin→thick
@@ -4433,7 +4433,7 @@ async function renderFlanges(){
     const dispVal = (rawVal === '(6)') ? '—' : (rawVal ?? '—');
     const dispUnit = (rawVal === '(6)') ? '' : `<span style="color:var(--text2);font-size:10px">${u}</span>`;
     return `<div class="dim-row">
-      <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.spli_t('(')[0].trim().slice(0,28)}</span></span>
+      <span class="d-label">${h.key} <span style="font-size:9px;color:var(--text2)">${h.desc.split('(')[0].trim().slice(0,28)}</span></span>
       <span class="d-value${isHighlight?' accent':''}">${dispVal} ${dispUnit}</span>
     </div>`;
   }).join('');
@@ -4638,7 +4638,7 @@ function onB11TypeChange(){
         state.b11nps = prevNps;
       } else if(prevNps){
         // NPS not in this type's table — show as unavailable option
-        const opt = document.createElemen_t('option');
+        const opt = document.createElement('option');
         opt.value = prevNps; opt.textContent = `${prevNps}" (not available)`; opt.selected = true;
         npsEl.appendChild(opt);
         state.b11nps = prevNps;
@@ -4975,7 +4975,7 @@ async function renderB1611(){
                 let xMin=Infinity, yMin=Infinity, xMax=-Infinity, yMax=-Infinity;
                 // getBoundingClientRect works in screen space — correctly handles all SVG transforms
                 svgEl.querySelectorAll('path,line,polyline,circle,ellipse,text,use').forEach(el => {
-                  if(el.closes_t('defs,marker,pattern,symbol')) return;
+                  if(el.closest('defs,marker,pattern,symbol')) return;
                   try {
                     const r = el.getBoundingClientRect();
                     if(r.width + r.height > 0){
@@ -5290,7 +5290,7 @@ function onFitTypeChange(){
         npsEl.value=targetNps; state.fitNps=targetNps;
         _rebuildFitSch(targetNps, prevNps===targetNps ? prevSch : null);
       } else if(targetNps){
-        const opt=document.createElemen_t('option');
+        const opt=document.createElement('option');
         opt.value=targetNps; opt.textContent=`${targetNps}" (not available)`; opt.selected=true;
         npsEl.appendChild(opt); state.fitNps=targetNps;
         _rebuildFitSch(null, null);
@@ -6109,7 +6109,7 @@ function onB48ClassChange(){
   if(state.b48class){
     const npsList = (B1648_META[state.b48class] || {}).nps || [];
     npsList.forEach(n => {
-      const opt = document.createElemen_t('option');
+      const opt = document.createElement('option');
       opt.value = n; opt.textContent = 'NPS ' + n + '"';
       if(n === state.b48nps) opt.selected = true;
       sel.appendChild(opt);
@@ -6131,7 +6131,7 @@ function setB48Face(face){
   const npsList = state.b48class ? ((B1648_META[state.b48class] || {}).nps || []) : [];
   sel.innerHTML = '<option value="">' + _t('opt.allSizes') + '</option>';
   npsList.forEach(n => {
-    const opt = document.createElemen_t('option');
+    const opt = document.createElement('option');
     opt.value = n; opt.textContent = 'NPS ' + n + '"';
     if(n === state.b48nps) opt.selected = true;
     sel.appendChild(opt);
@@ -6183,36 +6183,36 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
     'y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151">' + _t('b48.topView')
   );
   // Translate section/top view labels
-  svg = svg.spli_t('>TOP VIEW<').join('>' + _t('b48.topView') + '<');
-  svg = svg.spli_t('>SECTION VIEW<').join('>' + _t('b48.sectionView') + '<');
+  svg = svg.split('>TOP VIEW<').join('>' + _t('b48.topView') + '<');
+  svg = svg.split('>SECTION VIEW<').join('>' + _t('b48.sectionView') + '<');
 
   // Fix A dimension annotation: keep it near the circles (upper part of the gap),
   // move text ABOVE the arrow so it doesn't sit on the line,
   // and widen the background rect to fit "A = nn.nn in".
   // A witness lines: y2="384" → y2="378" (just below the arrow)
-  svg = svg.spli_t('y2="384"').join('y2="378"');
+  svg = svg.split('y2="384"').join('y2="378"');
   // A arrow line: y1="376" y2="376" → y1="371" y2="371" (slightly raised)
   svg = svg.replace(/(y1=)"376"([^>]*y2=)"376"/, '$1"371"$2"371"');
   // A label background rect: widen, shift left, raise above arrow
-  svg = svg.spli_t('x="357" y="365" width="20"').join('x="307" y="351" width="120"');
+  svg = svg.split('x="357" y="365" width="20"').join('x="307" y="351" width="120"');
   // A text: baseline above the arrow line
-  svg = svg.spli_t('y="377" text-anchor="middle" font-size="15" font-style="italic"').join(
+  svg = svg.split('y="377" text-anchor="middle" font-size="15" font-style="italic"').join(
         'y="365" text-anchor="middle" font-size="15" font-style="italic"');
 
   // For RF and FRJ: O and B dimension lines are too close — push O up 24px
   // and widen the white label rectangles to fit the full "X = nn.nn in" text.
   if(!isMobile && face !== 'MRJ'){
     // O witness lines (y2="414" → y2="390")
-    svg = svg.spli_t('y2="414"').join('y2="390"');
+    svg = svg.split('y2="414"').join('y2="390"');
     // O arrow line (y1="420"…y2="420" → y1="396"…y2="396")
     svg = svg.replace(/(y1=)"420"([^>]*y2=)"420"/, '$1"396"$2"396"');
     // O label background rect
-    svg = svg.spli_t('x="195" y="409" width="20"').join('x="145" y="383" width="120"');
+    svg = svg.split('x="195" y="409" width="20"').join('x="145" y="383" width="120"');
     // O text y position
-    svg = svg.spli_t('y="421" text-anchor="middle" font-size="15" font-style="italic"').join(
+    svg = svg.split('y="421" text-anchor="middle" font-size="15" font-style="italic"').join(
           'y="395" text-anchor="middle" font-size="15" font-style="italic"');
     // B label background rect (widen only, keep vertical pos)
-    svg = svg.spli_t('x="195" y="426" width="20"').join('x="145" y="426" width="120"');
+    svg = svg.split('x="195" y="426" width="20"').join('x="145" y="426" width="120"');
   }
 
   if(!isMobile && face === 'MRJ'){
@@ -6221,8 +6221,8 @@ function buildB48SvgPanel(r, face, cls, unit, faceBar=''){
     svg = svg.replace(/<line x1="747"[^/]*\/>/g, '');
     svg = svg.replace(/<text x="758"[^<]*<tspan[^<]*<\/tspan><\/text>/, '');
     // Fix B label: raise text above arrow (arrow at y=432), widen rect
-    svg = svg.spli_t('x="195" y="421" width="20"').join('x="145" y="415" width="120"');
-    svg = svg.spli_t('y="433" text-anchor="middle" font-size="15" font-style="italic"').join(
+    svg = svg.split('x="195" y="421" width="20"').join('x="145" y="415" width="120"');
+    svg = svg.split('y="433" text-anchor="middle" font-size="15" font-style="italic"').join(
           'y="427" text-anchor="middle" font-size="15" font-style="italic"');
   }
 
@@ -7193,7 +7193,7 @@ function renderMultiSlots(){
 }
 
 function buildMobileAddCard(idx){
-  const div = document.createElemen_t('div');
+  const div = document.createElement('div');
   div.className = 'multi-drop';
   div.dataset.slot = idx;
   const hint = idx === 0
@@ -7214,10 +7214,10 @@ function openMobilePickerNext(){
 function openMobileModulePicker(idx){
   const existing = document.getElementById('mobile-module-picker');
   if(existing) existing.remove();
-  const overlay = document.createElemen_t('div');
+  const overlay = document.createElement('div');
   overlay.id = 'mobile-module-picker';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:flex;align-items:flex-end';
-  const sheet = document.createElemen_t('div');
+  const sheet = document.createElement('div');
   sheet.className = 'picker-sheet';
   const title = state.lang==='ES' ? 'Agregar módulo' : 'Add module';
   const cancel = state.lang==='ES' ? 'Cancelar' : 'Cancel';
@@ -7249,7 +7249,7 @@ function pickMobileModule(idx, mod){
 }
 
 function buildDropZone(idx){
-  const div = document.createElemen_t('div');
+  const div = document.createElement('div');
   div.className = 'multi-drop';
   div.dataset.slot = idx;
   div.innerHTML = `<div class="drop-hint"><span>＋</span>Drag a module here</div>`;
@@ -7277,7 +7277,7 @@ function buildDropZone(idx){
 function buildFilledCard(card, idx){
   const meta = MULTI_META[card.module] || {};
   const types = MULTI_TYPES[card.module] || [];
-  const div = document.createElemen_t('div');
+  const div = document.createElement('div');
   div.className = 'multi-card';
   div.draggable = true;
   div.dataset.slot = idx;
