@@ -14,6 +14,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PipeCore</title>
 <script>
   // Auto-detect mobile: set by Android WebView injection OR by browser UA/screen width
@@ -24,13 +27,23 @@
     if (_isMobileUA || _isNarrow) window._mobileApp = true;
   }
   if (window._mobileApp) {
+    // Keep --app-height in sync with actual visible viewport so layout
+    // doesn't shift when the browser's address bar or bottom nav appears/disappears.
+    function _setAppHeight() {
+      document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+    }
+    _setAppHeight();
+    window.addEventListener('resize', _setAppHeight);
+    window.addEventListener('orientationchange', function(){ setTimeout(_setAppHeight, 200); });
+
     document.addEventListener('DOMContentLoaded', function() {
+      _setAppHeight(); // re-run after DOM is ready (fonts/status-bar may shift it)
       var css = [
         'header { padding-top: 44px !important; height: auto !important; min-height: 68px !important; padding-bottom: 4px !important; position: relative !important; z-index: 100 !important; }',
         '.logo-icon { display: none !important; } .logo-text { font-size: 15px !important; }',
         '.logo-sub { display: none !important; }',
-        'html, body { height: 100% !important; overflow: hidden !important; }',
-        'body { display: flex !important; flex-direction: column !important; }',
+        'html { height: var(--app-height, 100dvh) !important; overflow: hidden !important; }',
+        'body { height: var(--app-height, 100dvh) !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; }',
         'header { flex-shrink: 0 !important; }',
         '.app { display: flex !important; flex-direction: column !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }',
         '.sidebar { border-right: none !important; border-top: 1px solid #2a2d3a !important; padding: 6px 8px 10px !important; order: 4 !important; flex-shrink: 0 !important; }',
@@ -47,7 +60,7 @@
         '.right-col { order: 1 !important; flex: 1 !important; min-height: 0 !important; overflow: hidden !important; }',
         '.mode-toggle-bar { display: none !important; }',
         '#filter-bar { order: 3 !important; flex-shrink: 0 !important; border-bottom: none !important; border-top: 1px solid #2a2d3a !important; padding: 8px 10px !important; background: #131620 !important; }',
-        '#content { background: white !important; }',
+        '#content { background: #0f1117 !important; }',
         '#filter-bar > div { gap: 6px 8px !important; }',
         '#filter-bar .select-group { flex: 1 1 0 !important; max-width: none !important; min-width: 0 !important; margin-bottom: 0 !important; }',
         '#filter-bar .select-label { font-size: 9px !important; margin-bottom: 3px !important; }',
@@ -1408,7 +1421,7 @@ const LANG = {
 function t(key){ return LANG[state.lang]?.[key] ?? LANG.EN[key] ?? key; }
 
 function _betaCard(){
-  if(window._mobileApp) return '';
+  if(!IS_LITE) return '';
   return `<div class="welcome-divider" style="margin-top:8px"></div>
     <div class="welcome-beta">
       <p>${t('prompt.beta')}</p>
@@ -1758,7 +1771,7 @@ FLANGE_SVG['WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353
 <path d="M 202.95,240.05 L 164.85,240.05 L 164.85,238.52 L 95.00,238.52 L 95.00,189.25 L 168.02,189.25 L 193.42,110.00 L 202.95,110.00 L 202.95,240.05 Z" fill="url(#svgHatchWN)" stroke="black" stroke-width="1.5"/>
 <rect x="564.90" y="189.25" width="31.75" height="49.28" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="114.05" y="189.25" width="31.75" height="49.28" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="55.00" x2="355.35" y2="305.05" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="98" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="193.42" y1="110.00" x2="517.27" y2="110.00" stroke="black" stroke-width="1.75"/>
 <line x1="164.85" y1="238.52" x2="545.85" y2="238.52" stroke="black" stroke-width="1.75"/>
 <line x1="95.00" y1="238.52" x2="95.00" y2="298.05" stroke="black" stroke-width="0.75"/>
@@ -1809,7 +1822,7 @@ FLANGE_SVG['LJ'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353
 <path d="M 191.25,136.52 L 174.13,136.52 L 167.85,187.72 L 94.85,187.72 L 94.85,238.52 L 178.25,238.52 A 13,13 0 0 0 191.25,225.52 L 191.25,136.52 Z" fill="url(#svgHatchLJ)" stroke="black" stroke-width="1.5"/>
 <rect x="114.10" y="187.72" width="31.75" height="50.80" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="564.85" y="187.72" width="31.75" height="50.80" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="42" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="124.5" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="191.25" y1="136.52" x2="519.45" y2="136.52" stroke="black" stroke-width="1.75"/>
 <line x1="178.25" y1="238.52" x2="532.45" y2="238.52" stroke="black" stroke-width="1.5"/>
 <line x1="94.85" y1="238.52" x2="94.85" y2="306" stroke="black" stroke-width="0.75"/>
@@ -1860,7 +1873,7 @@ FLANGE_SVG['B47WN'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 
 <rect x="581.84" y="195.25" width="22.72" height="43.27" fill="white" stroke="black" stroke-width="1.5"/>
 <line x1="182.64" y1="139.28" x2="528.06" y2="139.28" stroke="black" stroke-width="1.75"/>
 <line x1="182.64" y1="239.24" x2="528.06" y2="239.24" stroke="black" stroke-width="1.75"/>
-<line x1="355.35" y1="42" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="127.3" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="158.07" y1="195.25" x2="158.07" y2="60" stroke="black" stroke-width="0.75"/>
 <line x1="552.63" y1="195.25" x2="552.63" y2="60" stroke="black" stroke-width="0.75"/>
 <line x1="158.07" y1="60" x2="552.63" y2="60" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
@@ -1898,7 +1911,7 @@ FLANGE_SVG['B47BL'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 
 <path d="M 100.85,193.82 Q 94.85,193.82 94.85,199.82 L 94.85,238.52 L 150.91,238.52 L 150.91,239.24 L 559.79,239.24 L 559.79,238.52 L 615.85,238.52 L 615.85,199.82 Q 615.85,193.82 609.85,193.82 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
 <rect x="106.15" y="193.82" width="22.72" height="44.70" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="581.83" y="193.82" width="22.72" height="44.70" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="50" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="181.8" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="94.85" y1="199.82" x2="94.85" y2="112" stroke="black" stroke-width="0.75"/>
 <line x1="615.85" y1="199.82" x2="615.85" y2="112" stroke="black" stroke-width="0.75"/>
 <line x1="94.85" y1="120" x2="615.85" y2="120" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
@@ -2167,7 +2180,7 @@ FLANGE_SVG['SO'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353
 <path d="M 191.75,240.05 L 164.85,240.05 L 164.85,238.52 L 94.85,238.52 L 94.85,189.22 L 167.85,189.22 L 170.64,166.52 L 191.75,166.52 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
 <rect x="114.10" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="564.85" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="45" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="154.5" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="191.75" y1="166.52" x2="518.95" y2="166.52" stroke="black" stroke-width="1.75"/>
 <line x1="164.85" y1="238.52" x2="545.85" y2="238.52" stroke="black" stroke-width="1.75"/>
 <line x1="94.85" y1="238.52" x2="94.85" y2="306" stroke="black" stroke-width="0.75"/>
@@ -2210,7 +2223,7 @@ FLANGE_SVG['SW'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353
 <path d="M 242.84,136.80 L 214.52,136.80 L 214.52,147.00 C 214.52,162.00 210.21,171.78 210.21,171.78 L 94.85,171.78 L 94.85,238.52 L 197.81,238.52 L 197.81,242.24 L 258.59,242.24 L 258.59,188.90 L 242.84,188.90 L 242.84,136.80 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
 <rect x="119.26" y="171.78" width="55.14" height="66.74" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="536.30" y="171.78" width="55.14" height="66.74" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="42" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="124.8" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="242.84" y1="136.80" x2="467.86" y2="136.80" stroke="black" stroke-width="1.75"/>
 <line x1="258.59" y1="242.24" x2="452.11" y2="242.24" stroke="black" stroke-width="1.5"/>
 <line x1="210.21" y1="171.78" x2="210.21" y2="68" stroke="black" stroke-width="0.75"/>
@@ -2263,7 +2276,7 @@ FLANGE_SVG['TH'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 353
 <rect x="536.30" y="171.78" width="55.14" height="66.74" fill="white" stroke="black" stroke-width="1.5"/>
 <polyline points="240.98,162.85 247.18,166.82 240.98,170.79 247.18,174.76 240.98,178.73 247.18,182.70 240.98,186.67 247.18,190.64 240.98,194.61 247.18,198.58 240.98,202.55 247.18,206.52 240.98,210.49 247.18,214.46 240.98,218.43 247.18,222.40 240.98,226.37 247.18,230.34 240.98,234.31 247.18,238.28 240.98,242.24" fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="miter"/>
 <polyline points="469.72,162.85 463.52,166.82 469.72,170.79 463.52,174.76 469.72,178.73 463.52,182.70 469.72,186.67 463.52,190.64 469.72,194.61 463.52,198.58 469.72,202.55 463.52,206.52 469.72,210.49 463.52,214.46 469.72,218.43 463.52,222.40 469.72,226.37 463.52,230.34 469.72,234.31 463.52,238.28 469.72,242.24" fill="none" stroke="black" stroke-width="1.5" stroke-linejoin="miter"/>
-<line x1="355.35" y1="42" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="124.8" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="240.98" y1="136.80" x2="469.72" y2="136.80" stroke="black" stroke-width="1.75"/>
 <line x1="240.98" y1="162.85" x2="469.72" y2="162.85" stroke="black" stroke-width="1.25"/>
 <line x1="240.98" y1="242.24" x2="469.72" y2="242.24" stroke="black" stroke-width="1.5"/>
@@ -2310,7 +2323,7 @@ FLANGE_SVG['BL'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353
 <path d="M 100.85,189.22 Q 94.85,189.22 94.85,195.22 L 94.85,238.52 L 164.85,238.52 L 164.85,240.02 L 545.85,240.02 L 545.85,238.52 L 615.85,238.52 L 615.85,195.22 Q 615.85,189.22 609.85,189.22 Z" fill="url(#hatch)" stroke="black" stroke-width="1.5"/>
 <rect x="114.10" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
 <rect x="564.85" y="189.22" width="31.75" height="49.30" fill="white" stroke="black" stroke-width="1.5"/>
-<line x1="355.35" y1="50" x2="355.35" y2="315" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+<line x1="355.35" y1="177.2" x2="355.35" y2="248" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
 <line x1="94.85" y1="195.22" x2="94.85" y2="112" stroke="black" stroke-width="0.75"/>
 <line x1="615.85" y1="195.22" x2="615.85" y2="112" stroke="black" stroke-width="0.75"/>
 <line x1="94.85" y1="120" x2="615.85" y2="120" stroke="black" stroke-width="1" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
@@ -3252,7 +3265,11 @@ function drawLRReducingElbow(r, unit, nps_key){
   ${dVL(ol, acy, cly, A_v+' '+u, 22)}
   ${dVL(ol-5, top_y, top_y+2*tL, od_lg_v+' '+u, 34)}
   ${dVR(right_x+4, ib, ob, od_sm_v+' '+u, 24)}`;
-  return svgWrap(body, W, H);
+  // Zoomed viewBox: crop unused canvas margins so drawing appears larger on screen
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="80 5 490 380" style="width:100%;height:auto;display:block">
+<rect width="${W}" height="${H}" fill="${BG}"/>
+${body}
+</svg>`;
 }
 
 // ─── DRAWING: PIPE CROSS-SECTION ─────────────────────────
@@ -3562,7 +3579,7 @@ FITTING_SVG['LR_90'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="135 0 4
   <text x="494" y="241.39" text-anchor="start" font-size="15" font-weight="bold">A</text>
 </svg>`;
 
-FITTING_SVG['LR_45'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="153 0 475 290" style="width:100%;max-width:450px;height:auto" font-family="Arial, sans-serif">
+FITTING_SVG['LR_45'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="165 5 435 268" style="width:100%;max-width:450px;height:auto" font-family="Arial, sans-serif">
   <rect x="0" y="0" width="760" height="353" fill="white"/>
   <defs>
     <radialGradient id="ftBodyFill_LR45" gradientUnits="userSpaceOnUse" cx="305" cy="350" r="240" fx="305" fy="350">
@@ -3616,7 +3633,7 @@ FITTING_SVG['3D_90'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="135 0 4
   <text x="494" y="228" text-anchor="start" font-size="15" font-weight="bold">A</text>
 </svg>`;
 
-FITTING_SVG['3D_45'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="158.5 0 475 290" style="width:100%;max-width:450px;height:auto" font-family="Arial, sans-serif">
+FITTING_SVG['3D_45'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="225 8 305 248" style="width:100%;max-width:450px;height:auto" font-family="Arial, sans-serif">
   <rect x="0" y="0" width="760" height="353" fill="white"/>
   <defs>
     <radialGradient id="ftBodyFill_3D45" gradientUnits="userSpaceOnUse" cx="305" cy="350" r="240" fx="305" fy="350">
@@ -3643,7 +3660,7 @@ FITTING_SVG['3D_45'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="158.5 0
   <text x="473" y="121" text-anchor="middle" font-size="15" font-weight="bold" transform="rotate(45 473 121)">B</text>
 </svg>`;
 
-FITTING_SVG['LR_Reducing'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
+FITTING_SVG['LR_Reducing'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 5 420 345" style="width:100%;height:auto" font-family="Arial, sans-serif">
   <rect x="0" y="0" width="760" height="353" fill="white"/>
   <defs>
     <clipPath id="ftBodyClip_LRR">
@@ -3667,10 +3684,10 @@ FITTING_SVG['LR_Reducing'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0
   <line x1="367.22" y1="147.78" x2="367.22" y2="65" stroke="black" stroke-width="0.75"/>
   <line x1="190" y1="65" x2="367.22" y2="65" stroke="black" stroke-width="1" marker-start="url(#ftAS_LRR)" marker-end="url(#ftAE_LRR)"/>
   <text x="278.61" y="60" text-anchor="middle" font-size="15" font-weight="bold">A</text>
-  <line x1="367.22" y1="147.78" x2="472" y2="147.78" stroke="black" stroke-width="0.75"/>
-  <line x1="405.40" y1="325" x2="472" y2="325" stroke="black" stroke-width="0.75"/>
-  <line x1="472" y1="147.78" x2="472" y2="325" stroke="black" stroke-width="1" marker-start="url(#ftAS_LRR)" marker-end="url(#ftAE_LRR)"/>
-  <text x="484" y="241.39" text-anchor="start" font-size="15" font-weight="bold">A</text>
+  <line x1="367.22" y1="147.78" x2="450" y2="147.78" stroke="black" stroke-width="0.75"/>
+  <line x1="405.40" y1="325" x2="450" y2="325" stroke="black" stroke-width="0.75"/>
+  <line x1="450" y1="147.78" x2="450" y2="325" stroke="black" stroke-width="1" marker-start="url(#ftAS_LRR)" marker-end="url(#ftAE_LRR)"/>
+  <text x="458" y="241.39" text-anchor="start" font-size="15" font-weight="bold">A</text>
 </svg>`;
 
 FITTING_SVG['LR_Returns'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 353" style="width:100%;height:auto" font-family="Arial, sans-serif">
@@ -3910,15 +3927,21 @@ FITTING_SVG['Reducers'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 
   </defs>
   <text x="370" y="22" text-anchor="middle" font-size="17" font-weight="bold">Concentric Reducer &#8212; ASME B16.9</text>
   <path d="M 310.34,70.00 C 350.00,70.00 395.00,147.60 434.74,147.60 L 445.46,155.83 L 445.46,301.77 L 434.74,310.00 L 310.34,310.00 L 295.00,298.23 L 295.00,81.77 Z" fill="url(#ftBodyFill_RC)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
-  <path d="M 295,190 L 475,190" fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <!-- Reference line through the large-end center (blue) and true centerline end-to-end (red). -->
+  <path d="M 295,190 L 480,190" fill="none" stroke="#2563eb" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <path d="M 280,186.13 L 462,233.07" fill="none" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
+  <!-- Eccentricity e = (D1 - D2) / 2 -->
+  <line x1="449" y1="228.8" x2="480" y2="228.8" stroke="black" stroke-width="0.75"/>
+  <line x1="474" y1="190" x2="474" y2="228.8" stroke="black" stroke-width="1" marker-start="url(#ftAS_RC)" marker-end="url(#ftAE_RC)"/>
+  <text x="482" y="214" text-anchor="start" font-size="15" font-weight="bold">e</text>
   <line x1="310.34" y1="70" x2="245" y2="70" stroke="black" stroke-width="0.75"/>
   <line x1="310.34" y1="310" x2="245" y2="310" stroke="black" stroke-width="0.75"/>
   <line x1="250" y1="70" x2="250" y2="310" stroke="black" stroke-width="1" marker-start="url(#ftAS_RC)" marker-end="url(#ftAE_RC)"/>
   <text x="238" y="195" text-anchor="end" font-size="15" font-weight="bold">D1</text>
-  <line x1="434.74" y1="147.60" x2="495" y2="147.60" stroke="black" stroke-width="0.75"/>
-  <line x1="434.74" y1="310.00" x2="495" y2="310.00" stroke="black" stroke-width="0.75"/>
-  <line x1="490" y1="147.60" x2="490" y2="310.00" stroke="black" stroke-width="1" marker-start="url(#ftAS_RC)" marker-end="url(#ftAE_RC)"/>
-  <text x="502" y="233.8" text-anchor="start" font-size="15" font-weight="bold">D2</text>
+  <line x1="434.74" y1="147.60" x2="585" y2="147.60" stroke="black" stroke-width="0.75"/>
+  <line x1="434.74" y1="310.00" x2="585" y2="310.00" stroke="black" stroke-width="0.75"/>
+  <line x1="580" y1="147.60" x2="580" y2="310.00" stroke="black" stroke-width="1" marker-start="url(#ftAS_RC)" marker-end="url(#ftAE_RC)"/>
+  <text x="572" y="272" text-anchor="end" font-size="15" font-weight="bold">D2</text>
   <line x1="295" y1="298.23" x2="295" y2="340" stroke="black" stroke-width="0.75"/>
   <line x1="445.46" y1="301.77" x2="445.46" y2="340" stroke="black" stroke-width="0.75"/>
   <line x1="295" y1="335" x2="445.46" y2="335" stroke="black" stroke-width="1" marker-start="url(#ftAS_RC)" marker-end="url(#ftAE_RC)"/>
@@ -4040,6 +4063,13 @@ function buildFittingSvgPanel(type, r, unit, nps_key, typeLabel, weightBadgeHtml
     inj('D1', unit==='SI' ? r['OD Large mm'] : r['OD Large in.']);
     inj('D2', unit==='SI' ? r['OD Small mm'] : r['OD Small in.']);
     inj('H',  unit==='SI' ? r['H mm'] : r['H in.']);
+    // Eccentricity: offset between the two end centerlines = (D1 - D2) / 2
+    const _d1 = Number(unit==='SI' ? r['OD Large mm'] : r['OD Large in.']);
+    const _d2 = Number(unit==='SI' ? r['OD Small mm'] : r['OD Small in.']);
+    if(isFinite(_d1) && isFinite(_d2) && _d1 > 0 && _d2 > 0){
+      const _dec = unit==='SI' ? 10 : 1000;
+      inj('e', Math.round((_d1 - _d2) / 2 * _dec) / _dec);
+    }
   } else if(type==='Caps'){
     inj('D',  unit==='SI' ? r['OD mm'] : r['OD in.']);
     inj('E1', unit==='SI' ? r['E Long mm'] : r['E Long in.']);
