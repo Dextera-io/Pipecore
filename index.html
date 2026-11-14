@@ -2044,8 +2044,9 @@ function _liteInterceptClass(selectEl, lockedClasses, resetState){
 }
 
 function _liteTrackLocked(module, value){
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: 'lite_locked_click', module: module, value: String(value) });
+  if(typeof gtag === 'function'){
+    gtag('event', 'lite_locked_click', { module: module, value: String(value) });
+  }
 }
 
 function isFlangeAvailable(type, cls, nps){
