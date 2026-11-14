@@ -3989,7 +3989,7 @@ FITTING_SVG['Conc_Reducers'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
   </defs>
   <text x="370" y="22" text-anchor="middle" font-size="17" font-weight="bold">Concentric Reducer &#8212; ASME B16.9</text>
   <!-- Body: symmetric taper, both ends centered at y=190 -->
-  <path d="M 310.34,70.00 C 350.00,70.00 395.00,147.60 434.74,147.60 L 445.46,155.83 L 445.46,224.17 L 434.74,232.40 C 395.00,232.40 350.00,310.00 310.34,310.00 L 295.00,298.23 L 295.00,81.77 Z" fill="url(#ftBodyFill_CC)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
+  <path d="M 310.34,70.00 C 350.00,70.00 395.00,108.80 434.74,108.80 L 445.46,117.03 L 445.46,262.97 L 434.74,271.20 C 395.00,271.20 350.00,310.00 310.34,310.00 L 295.00,298.23 L 295.00,81.77 Z" fill="url(#ftBodyFill_CC)" stroke="black" stroke-width="1.75" stroke-linejoin="round"/>
   <!-- Centerline -->
   <line x1="265" y1="190" x2="475" y2="190" stroke="#c0392b" stroke-width="1" stroke-dasharray="14,4,2,4"/>
   <!-- D1: large-end outside diameter -->
@@ -3997,14 +3997,14 @@ FITTING_SVG['Conc_Reducers'] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
   <line x1="310.34" y1="310" x2="245" y2="310" stroke="black" stroke-width="0.75"/>
   <line x1="250" y1="70" x2="250" y2="310" stroke="black" stroke-width="1" marker-start="url(#ftAS_CC)" marker-end="url(#ftAE_CC)"/>
   <text x="238" y="195" text-anchor="end" font-size="15" font-weight="bold">D1</text>
-  <!-- D2: small-end outside diameter (centered at y=190) -->
-  <line x1="434.74" y1="147.60" x2="495" y2="147.60" stroke="black" stroke-width="0.75"/>
-  <line x1="434.74" y1="232.40" x2="495" y2="232.40" stroke="black" stroke-width="0.75"/>
-  <line x1="490" y1="147.60" x2="490" y2="232.40" stroke="black" stroke-width="1" marker-start="url(#ftAS_CC)" marker-end="url(#ftAE_CC)"/>
+  <!-- D2: small-end outside diameter (centered at y=190), same D2/D1 proportion as the eccentric reducer -->
+  <line x1="434.74" y1="108.80" x2="495" y2="108.80" stroke="black" stroke-width="0.75"/>
+  <line x1="434.74" y1="271.20" x2="495" y2="271.20" stroke="black" stroke-width="0.75"/>
+  <line x1="490" y1="108.80" x2="490" y2="271.20" stroke="black" stroke-width="1" marker-start="url(#ftAS_CC)" marker-end="url(#ftAE_CC)"/>
   <text x="502" y="195" text-anchor="start" font-size="15" font-weight="bold">D2</text>
   <!-- H: face-to-face length -->
   <line x1="295" y1="298.23" x2="295" y2="340" stroke="black" stroke-width="0.75"/>
-  <line x1="445.46" y1="224.17" x2="445.46" y2="340" stroke="black" stroke-width="0.75"/>
+  <line x1="445.46" y1="262.97" x2="445.46" y2="340" stroke="black" stroke-width="0.75"/>
   <line x1="295" y1="335" x2="445.46" y2="335" stroke="black" stroke-width="1" marker-start="url(#ftAS_CC)" marker-end="url(#ftAE_CC)"/>
   <text x="370.23" y="330" text-anchor="middle" font-size="15" font-weight="bold">H</text>
 </svg>`;
@@ -4793,6 +4793,11 @@ function _b11InjectValues(svgText, typeKey, r, cls, unit){
       inj('D', r['D_coupling_'+sfx]); inj('B', r.B); inj('P', r.P_cap_e2e); inj('G', r['G_'+sfx]); inj('L₂', r.L2);
     } else if(typeKey === 'th_couplet'){
       inj('E', r.E_couplet); inj('B', r.B); inj('M', r.M_couplet_e2e); inj('Q', r.Q_weldring); inj('N', r.N_weldring); inj('L₂', r.L2);
+    } else if(typeKey === 'th_street_elbow'){
+      inj('A', r['A90_'+sfx]); inj('J', r['J_'+sfx]);
+      inj('G₁', r['G1_'+sfx]); inj('G₂', r['G2_'+sfx]);
+      inj('L₂', r['D_coupling_'+sfx]); inj('L', r.B);
+      inj('H', r['H_'+sfx]);
     } else if(typeKey === 'th_hex_plug'){
       inj('F', r.hex_F); inj('H', r.hex_H_plug); inj('A', r.sq_A);
     } else if(typeKey === 'th_round_plug'){
@@ -4852,6 +4857,8 @@ function _b11CaptionLine(typeKey, r, u, sfx){
       return `D = ${f(r['D_coupling_'+sfx])} min; B = ${f(r.B)} min; P = ${f(r.P_cap_e2e)} min; G = ${f(r['G_'+sfx])} min. All ${u}.`;
     case 'th_couplet':
       return `E = ${f(r.E_couplet)}; B = ${f(r.B)} min; M = ${f(r.M_couplet_e2e)}; Q = ${f(r.Q_weldring)}; N = ${f(r.N_weldring)}. All ${u}.`;
+    case 'th_street_elbow':
+      return `A = ${f(r['A90_'+sfx])} min; J = ${f(r['J_'+sfx])} min; H = ${f(r['H_'+sfx])} min; G₁ = ${f(r['G1_'+sfx])} min; G₂ = ${f(r['G2_'+sfx])} min. All ${u}.`;
     // TH plugs & bushings (th_plugs data)
     case 'th_hex_plug':
       return `F = ${f(r.hex_F)}; H = ${f(r.hex_H_plug)}; A = ${f(r.sq_A)}. All ${u}.`;
@@ -4946,7 +4953,7 @@ async function renderB1611(){
           try {
             const resp2 = await fetch(`/.netlify/functions/b1611?type=th_elbows_tees&unit=${_unit==='SI'?'mm':'in'}&nps=${encodeURIComponent(_nps)}`);
             const { row: r3 } = await resp2.json();
-            r2 = { ...r2, L2: r3?.L2 };
+            r2 = { ...r2, L2: r3?.L2, H_2k: r3?.H_2k, H_3k: r3?.H_3k, H_6k: r3?.H_6k };
           } catch(e2){}
         }
         let injected = _b11InjectValues(_b11SvgCache[svgFile], _typeKey, r2, _cls, _unit);
@@ -4956,9 +4963,11 @@ async function renderB1611(){
           const svgEl = inner.querySelector('svg');
           if(svgEl){
             svgEl.querySelectorAll('g[fill="#555"]').forEach(g => g.remove());
-            // Remove title entirely (header already shows it) so it doesn't take space
-            const titleEl = svgEl.querySelector('text[font-weight="bold"][text-anchor="middle"]');
-            if(titleEl) titleEl.remove();
+            // Remove title only if _mobileApp didn't already strip it in svgText processing
+            if(!window._mobileApp){
+              const titleEl = svgEl.querySelector('text[font-weight="bold"][text-anchor="middle"]');
+              if(titleEl) titleEl.remove();
+            }
             // Use setTimeout(0) to let browser compute layout before measuring
             setTimeout(() => {
               try {
