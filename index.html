@@ -8,6 +8,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'AW-18503813394');
+  gtag('config', 'G-E2QTC1H4K7');
 </script>
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -2040,6 +2041,11 @@ function _liteInterceptClass(selectEl, lockedClasses, resetState){
   if(resetState) resetState();
   openWishlist();
   return true;
+}
+
+function _liteTrackLocked(module, value){
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'lite_locked_click', module: module, value: String(value) });
 }
 
 function isFlangeAvailable(type, cls, nps){
@@ -4276,7 +4282,7 @@ function buildPipeSchOptions(){
 function onPipeStdChange(){
   state.pipeStd=document.getElementById('pipe-std').value;
   if(IS_LITE && state.pipeStd==='b3619'){
-    document.getElementById('pipe-std').value='b3610'; state.pipeStd='b3610'; openWishlist(); return;
+    document.getElementById('pipe-std').value='b3610'; state.pipeStd='b3610'; _liteTrackLocked('pipe_std','b3619'); openWishlist(); return;
   }
   state.pipeNps=''; state.pipeSch=''; buildPipeNpsOptions(); renderPipe();
 }
@@ -4287,7 +4293,7 @@ function onPipeNpsChange(){
     const v = state.pipeNps.includes('/') ? 0 : parseFloat(state.pipeNps);
     const locked = state.pipeStd==='b3619'
       || (isPipelines ? (v < 4 || v > 10) : _liteNpsLocked(state.pipeNps, _LITE_FREE_4));
-    if(locked){ const sel=document.getElementById('pipe-nps'); sel.value=''; state.pipeNps=''; openWishlist(); return; }
+    if(locked){ const sel=document.getElementById('pipe-nps'); sel.value=''; _liteTrackLocked(state.cat==='pipelines'?'pipe_pipelines':'pipe_facilities', state.pipeNps); state.pipeNps=''; openWishlist(); return; }
   }
   state.pipeSch=''; buildPipeSchOptions(); renderPipe(); renderCtxBar();
 }
@@ -4400,7 +4406,7 @@ function setFlangeUnit(u){ state.flangeUnit=u; document.getElementById('fl-unit-
 async function renderFlanges(){
   state.flangeNps=document.getElementById('fl-nps').value;
   if(IS_LITE && state.flangeNps && _liteNpsLocked(state.flangeNps, _LITE_FREE_4)){
-    const sel=document.getElementById('fl-nps'); sel.value=''; state.flangeNps=''; openWishlist(); return;
+    const sel=document.getElementById('fl-nps'); sel.value=''; _liteTrackLocked('flanges_b165', state.flangeNps); state.flangeNps=''; openWishlist(); return;
   }
   const content=document.getElementById('content');
   if(!state.flangeClass){ content.innerHTML=moduleWelcomeHtml('⚙️','Flanges — ASME B16.5','welcome.flanges'); return; }
@@ -4663,7 +4669,7 @@ function onB11TypeChange(){
 function onB11ClassChange(){
   state.b11class = document.getElementById('b11-class').value;
   if(IS_LITE && state.b11class === '3000'){
-    const classEl=document.getElementById('b11-class'); classEl.value=''; state.b11class=''; openWishlist(); return;
+    const classEl=document.getElementById('b11-class'); classEl.value=''; _liteTrackLocked('sw_fittings_b1611','class_3000'); state.b11class=''; openWishlist(); return;
   }
   const npsEl = document.getElementById('b11-nps');
   const prevNps = state.b11nps; // keep current NPS if possible
@@ -4872,7 +4878,7 @@ function _b11CaptionLine(typeKey, r, u, sfx){
 async function renderB1611(){
   state.b11nps = document.getElementById('b11-nps').value;
   if(IS_LITE && state.b11nps && _liteNpsLockedRange(state.b11nps, _LITE_FREE_2, _LITE_FREE_4)){
-    const sel=document.getElementById('b11-nps'); sel.value=''; state.b11nps=''; openWishlist(); return;
+    const sel=document.getElementById('b11-nps'); sel.value=''; _liteTrackLocked('sw_fittings_b1611', state.b11nps); state.b11nps=''; openWishlist(); return;
   }
   const content = document.getElementById('content');
   const cat = state.b11cat;
@@ -5131,7 +5137,7 @@ function _b47TypeBar(){ return ''; }
 async function renderB1647(){
   state.b47nps = document.getElementById('b47-nps').value;
   if(IS_LITE && state.b47nps && parseFloat(state.b47nps) > 34){
-    const sel=document.getElementById('b47-nps'); sel.value=''; state.b47nps=''; openWishlist(); return;
+    const sel=document.getElementById('b47-nps'); sel.value=''; _liteTrackLocked('flanges_b1647', state.b47nps); state.b47nps=''; openWishlist(); return;
   }
   const content = document.getElementById('content');
 
@@ -5312,7 +5318,7 @@ function onFitNpsChange(){
   const prevSch=state.fitSch;
   state.fitNps=document.getElementById('fit-nps').value;
   if(IS_LITE && state.fitNps && _liteNpsLocked(state.fitNps, _LITE_FREE_4)){
-    const sel=document.getElementById('fit-nps'); sel.value=''; state.fitNps=''; openWishlist(); return;
+    const sel=document.getElementById('fit-nps'); sel.value=''; _liteTrackLocked('fittings_b1611', state.fitNps); state.fitNps=''; openWishlist(); return;
   }
   _rebuildFitSch(state.fitNps, prevSch);
   renderFittings();
@@ -6262,7 +6268,7 @@ async function renderB1648(){
   state.b48class = document.getElementById('b48-class').value;
   state.b48nps   = document.getElementById('b48-nps').value;
   if(IS_LITE && state.b48nps && _liteNpsLocked(state.b48nps, _LITE_FREE_4)){
-    const sel=document.getElementById('b48-nps'); sel.value=''; state.b48nps=''; openWishlist(); return;
+    const sel=document.getElementById('b48-nps'); sel.value=''; _liteTrackLocked('flanges_b1648', state.b48nps); state.b48nps=''; openWishlist(); return;
   }
   const face  = state.b48face  || 'RF';
   const cls   = state.b48class || '';
