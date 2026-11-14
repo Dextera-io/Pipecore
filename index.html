@@ -657,7 +657,7 @@
         <button id="lang-es" onclick="setLang('ES')" title="Español" style="font-size:15px;font-weight:700;font-family:'Segoe UI',system-ui,sans-serif;letter-spacing:-0.3px;padding:4px 11px">ñ</button>
       </div>
     </div>
-    <button id="hdr-wishlist-btn" onclick="openWishlist()" title="Get notified at launch" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">🔔</button>
+    <button id="hdr-wishlist-btn" onclick="openWishlist()" title="Get notified at launch" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">🔔 Notify me when Pro is available</button>
   </div>
 </header>
 <div id="ctx-bar" class="ctx-bar">
@@ -1169,7 +1169,7 @@
 <!-- flange_weights.js served via /.netlify/functions/b165weights -->
 <!-- b1647_2025_data.js served via /.netlify/functions/b1647 -->
 <script>
-const IS_LITE = location.hostname === 'lite.usepipecore.app';
+const IS_LITE = location.hostname === 'lite.usepipecore.app' || new URLSearchParams(location.search).get('lite') === '1';
 
 // ─── STATE ───────────────────────────────────────────────
 const state = {
@@ -1633,11 +1633,6 @@ function _rebuildFitTypeSelect(){
       <option value="Caps">${t('fit.Caps')}</option>
       <option value="Stub_Ends">${t('fit.Stub_Ends')}</option>
     </optgroup>`;
-  if(IS_LITE){
-    sel.querySelectorAll('option[value]').forEach(o => {
-      if(!BW_LITE.has(o.value)) o.style.display = 'none';
-    });
-  }
   if(cur) sel.value = cur;
 }
 
@@ -1646,7 +1641,10 @@ function _updatePipeStdOptions(){
   if(!sel) return;
   const cur = sel.value;
   sel.options[0].textContent = t('std.b3610');
-  if(sel.options[1]) sel.options[1].textContent = t('std.b3619');
+  if(sel.options[1]){
+    sel.options[1].textContent = IS_LITE ? '🔒 '+t('std.b3619') : t('std.b3619');
+    if(IS_LITE) sel.options[1].style.color='var(--text2)';
+  }
   sel.value = cur;
 }
 
@@ -1964,6 +1962,77 @@ function buildB47SvgPanel(type, r, unit, title, typeBar='', weightBadgeHtml=''){
 // ── Flange availability rules (ASME B16.5) ──────────────────────────────
 const _NPS_ORD = ['1/2','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','22','24'];
 function _npsIdx(nps){ return _NPS_ORD.indexOf(String(nps)); }
+
+// ─── LITE PRO LOCK HELPERS ───────────────────────────────
+const _LITE_FREE_4 = _NPS_ORD.indexOf('4');   // index 9
+const _LITE_FREE_2 = _NPS_ORD.indexOf('2');   // index 5
+const _LITE_FREE_VALS = [0.5,0.75,1,1.25,1.5,2,2.5,3,3.5,4,5,6,8,10,12,14,16,18,20,22,24];
+function _liteNpsVal(nps){
+  // For compound sizes like "5x3-1/2", use the first dimension.
+  // For simple fractions like "1/2", return 0 (small NPS).
+  const primary = nps.includes('x') ? nps.split('x')[0] : nps;
+  return primary.includes('/') ? 0 : parseFloat(primary);
+}
+function _liteNpsLocked(nps, maxFreeIdx){
+  if(!IS_LITE) return false;
+  const idx = _npsIdx(nps);
+  if(idx === -1){
+    return _liteNpsVal(nps) > (_LITE_FREE_VALS[maxFreeIdx] || 4);
+  }
+  return idx > maxFreeIdx;
+}
+function _liteNpsLockedRange(nps, minFreeIdx, maxFreeIdx){
+  // Locks both below minFree and above maxFree
+  if(!IS_LITE) return false;
+  const idx = _npsIdx(nps);
+  if(idx === -1){
+    const v = _liteNpsVal(nps);
+    return v < (_LITE_FREE_VALS[minFreeIdx] || 2) || v > (_LITE_FREE_VALS[maxFreeIdx] || 4);
+  }
+  return idx < minFreeIdx || idx > maxFreeIdx;
+}
+function _applyNpsLocks(selectEl, maxFreeIdx, minFreeIdx){
+  if(!IS_LITE) return;
+  Array.from(selectEl.options).forEach(opt => {
+    if(!opt.value) return;
+    const locked = (minFreeIdx !== undefined)
+      ? _liteNpsLockedRange(opt.value, minFreeIdx, maxFreeIdx)
+      : _liteNpsLocked(opt.value, maxFreeIdx);
+    if(locked){
+      if(!opt.textContent.startsWith('🔒')) opt.textContent = '🔒 ' + opt.textContent;
+      opt.style.color = 'var(--text2)';
+    }
+  });
+}
+function _liteInterceptNps(selectEl, maxFreeIdx, resetState){
+  if(!IS_LITE) return false;
+  const val = selectEl.value;
+  if(!val || !_liteNpsLocked(val, maxFreeIdx)) return false;
+  selectEl.value = '';
+  if(resetState) resetState();
+  openWishlist();
+  return true;
+}
+function _applyClassLocks(selectEl, lockedClasses){
+  // lockedClasses: array of class strings to lock e.g. ['3000']
+  if(!IS_LITE) return;
+  const locked = new Set(lockedClasses.map(String));
+  Array.from(selectEl.options).forEach(opt => {
+    if(!opt.value || !locked.has(opt.value)) return;
+    if(!opt.textContent.startsWith('🔒')) opt.textContent = '🔒 ' + opt.textContent;
+    opt.style.color = 'var(--text2)';
+  });
+}
+function _liteInterceptClass(selectEl, lockedClasses, resetState){
+  if(!IS_LITE) return false;
+  const locked = new Set(lockedClasses.map(String));
+  const val = selectEl.value;
+  if(!val || !locked.has(val)) return false;
+  selectEl.value = '';
+  if(resetState) resetState();
+  openWishlist();
+  return true;
+}
 
 function isFlangeAvailable(type, cls, nps){
   const i = _npsIdx(nps);
@@ -4130,6 +4199,20 @@ function buildPipeNpsOptions(){
   const sizes=[...new Set(data.map(r=>r.nps))].sort(npsSort);
   const sel=document.getElementById('pipe-nps');
   sel.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}"${s===state.pipeNps?' selected':''}>${s}"</option>`).join('');
+  if(IS_LITE){
+    if(state.pipeStd==='b3619'){
+      Array.from(sel.options).forEach(opt=>{ if(!opt.value) return; if(!opt.textContent.startsWith('🔒')) opt.textContent='🔒 '+opt.textContent; opt.style.color='var(--text2)'; });
+    } else if(state.cat==='pipelines'){
+      // Pipelines: free = NPS ≥ 54", lock everything below
+      Array.from(sel.options).forEach(opt=>{
+        if(!opt.value) return;
+        const v = opt.value.includes('/') ? 0 : parseFloat(opt.value);
+        if(v < 54){ if(!opt.textContent.startsWith('🔒')) opt.textContent='🔒 '+opt.textContent; opt.style.color='var(--text2)'; }
+      });
+    } else {
+      _applyNpsLocks(sel, _LITE_FREE_4);
+    }
+  }
   buildPipeSchOptions();
 }
 
@@ -4165,8 +4248,24 @@ function buildPipeSchOptions(){
   }
 }
 
-function onPipeStdChange(){ state.pipeStd=document.getElementById('pipe-std').value; state.pipeNps=''; state.pipeSch=''; buildPipeNpsOptions(); renderPipe(); }
-function onPipeNpsChange(){ state.pipeNps=document.getElementById('pipe-nps').value; state.pipeSch=''; buildPipeSchOptions(); renderPipe(); renderCtxBar(); }
+function onPipeStdChange(){
+  state.pipeStd=document.getElementById('pipe-std').value;
+  if(IS_LITE && state.pipeStd==='b3619'){
+    document.getElementById('pipe-std').value='b3610'; state.pipeStd='b3610'; openWishlist(); return;
+  }
+  state.pipeNps=''; state.pipeSch=''; buildPipeNpsOptions(); renderPipe();
+}
+function onPipeNpsChange(){
+  state.pipeNps=document.getElementById('pipe-nps').value;
+  if(IS_LITE && state.pipeNps){
+    const isPipelines = state.cat==='pipelines';
+    const v = state.pipeNps.includes('/') ? 0 : parseFloat(state.pipeNps);
+    const locked = state.pipeStd==='b3619'
+      || (isPipelines ? v < 54 : _liteNpsLocked(state.pipeNps, _LITE_FREE_4));
+    if(locked){ const sel=document.getElementById('pipe-nps'); sel.value=''; state.pipeNps=''; openWishlist(); return; }
+  }
+  state.pipeSch=''; buildPipeSchOptions(); renderPipe(); renderCtxBar();
+}
 function setPipeUnit(u){ state.pipeUnit=u; document.getElementById('pipe-unit-us').classList.toggle('active',u==='US'); document.getElementById('pipe-unit-si').classList.toggle('active',u==='SI'); renderPipe(); }
 
 function renderPipe(){
@@ -4252,6 +4351,8 @@ function renderPipe(){
 
 const B165_NPS=['1/2','3/4','1','1-1/4','1-1/2','2','2-1/2','3','3-1/2','4','5','6','8','10','12','14','16','18','20','22','24'];
 
+const _LITE_LOCKED_CLASSES = new Set(['300','900','1500']);
+
 function onFlangeClassChange(){
   state.flangeClass=document.getElementById('fl-class').value;
   state.flangeNps='';
@@ -4261,6 +4362,7 @@ function onFlangeClassChange(){
   if(state.flangeClass){
     const sizes=B165_NPS;
     npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    _applyNpsLocks(npsEl, _LITE_FREE_4);
     if(state.globalNps && sizes.includes(state.globalNps)){
       npsEl.value=state.globalNps; state.flangeNps=state.globalNps;
     }
@@ -4272,6 +4374,9 @@ function setFlangeUnit(u){ state.flangeUnit=u; document.getElementById('fl-unit-
 
 async function renderFlanges(){
   state.flangeNps=document.getElementById('fl-nps').value;
+  if(IS_LITE && state.flangeNps && _liteNpsLocked(state.flangeNps, _LITE_FREE_4)){
+    const sel=document.getElementById('fl-nps'); sel.value=''; state.flangeNps=''; openWishlist(); return;
+  }
   const content=document.getElementById('content');
   if(!state.flangeClass){ content.innerHTML=moduleWelcomeHtml('⚙️','Flanges — ASME B16.5','welcome.flanges'); return; }
   if(!state.flangeNps){ content.innerHTML=promptHtml('prompt.selectNps'); renderCtxBar(); return; }
@@ -4450,7 +4555,7 @@ function buildB11TypeOptions(preserve=false){
   const prevType  = preserve ? state.b11type  : '';
   const prevClass = preserve ? state.b11class : '';
   const prevNps   = preserve ? state.b11nps   : '';
-  const entries = Object.entries(B11_TYPES).filter(([k,v])=>v.cat===cat && (!IS_LITE || B11_LITE.has(k)));
+  const entries = Object.entries(B11_TYPES).filter(([k,v])=>v.cat===cat);
   typeEl.innerHTML = `<option value="">${t('opt.selectType')}</option>` +
     entries.map(([k])=>`<option value="${k}"${k===prevType?' selected':''}>${t('b11.'+k)}</option>`).join('');
   if(prevType){
@@ -4459,11 +4564,13 @@ function buildB11TypeOptions(preserve=false){
     const classes = B1611_META[dataKey]?.classes||[];
     const classEl = document.getElementById('b11-class');
     classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}"${c===prevClass?' selected':''}>${c} lb</option>`).join('');
+    if(IS_LITE){ _applyClassLocks(classEl, ['3000']); }
     classEl.disabled=false;
     if(prevClass){
       const npsEl = document.getElementById('b11-nps');
       const npsList = B1611_META[dataKey]?.nps||[];
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+npsList.map(n=>`<option value="${n}"${n===prevNps?' selected':''}>${n}"</option>`).join('');
+      _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
       npsEl.disabled=false;
     }
   } else {
@@ -4486,6 +4593,7 @@ function onB11TypeChange(){
     const dataKey = B11_TYPES[state.b11type]?.data;
     const classes = B1611_META[dataKey]?.classes||[];
     classEl.innerHTML=`<option value="">${t('opt.selectClass')}</option>`+classes.map(c=>`<option value="${c}">${c} lb</option>`).join('');
+    if(IS_LITE){ _applyClassLocks(classEl, ['3000']); }
     classEl.disabled=false;
 
     const resolvedClass = (prevClass && classes.includes(prevClass))
@@ -4498,6 +4606,7 @@ function onB11TypeChange(){
       state.b11class = resolvedClass;
       const sizes = B1611_META[dataKey]?.nps||[];
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
       npsEl.disabled=false;
       if(prevNps && sizes.includes(prevNps)){
         npsEl.value = prevNps;
@@ -4528,6 +4637,9 @@ function onB11TypeChange(){
 
 function onB11ClassChange(){
   state.b11class = document.getElementById('b11-class').value;
+  if(IS_LITE && state.b11class === '3000'){
+    const classEl=document.getElementById('b11-class'); classEl.value=''; state.b11class=''; openWishlist(); return;
+  }
   const npsEl = document.getElementById('b11-nps');
   const prevNps = state.b11nps; // keep current NPS if possible
   if(state.b11class && state.b11type){
@@ -4535,6 +4647,7 @@ function onB11ClassChange(){
     const rawSizes = B1611_META[dataKey]?.nps||[];
     const sizes = _NPS_ORD.filter(n=>rawSizes.includes(n));
     npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    _applyNpsLocks(npsEl, _LITE_FREE_4, _LITE_FREE_2);
     npsEl.disabled=false;
     // Restore NPS if still valid
     if(prevNps && sizes.includes(prevNps)){
@@ -4726,6 +4839,9 @@ function _b11CaptionLine(typeKey, r, u, sfx){
 
 async function renderB1611(){
   state.b11nps = document.getElementById('b11-nps').value;
+  if(IS_LITE && state.b11nps && _liteNpsLockedRange(state.b11nps, _LITE_FREE_2, _LITE_FREE_4)){
+    const sel=document.getElementById('b11-nps'); sel.value=''; state.b11nps=''; openWishlist(); return;
+  }
   const content = document.getElementById('content');
   const cat = state.b11cat;
   const std = 'ASME B16.11-2021';
@@ -4904,6 +5020,7 @@ function onB47ClassChange(){
   const npsSel = document.getElementById('b47-nps');
   if(state.b47series && state.b47class){
     npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>` + B1647_NPS.map(s=>`<option value="${s}">${s}"</option>`).join('');
+    if(IS_LITE) Array.from(npsSel.options).forEach(opt=>{ if(!opt.value) return; if(parseFloat(opt.value)<54){if(!opt.textContent.startsWith('🔒'))opt.textContent='🔒 '+opt.textContent;opt.style.color='var(--text2)';} });
     npsSel.disabled = false;
   } else {
     npsSel.innerHTML = `<option value="">${t('opt.allSizes')}</option>`;
@@ -4979,6 +5096,9 @@ function _b47TypeBar(){ return ''; }
 
 async function renderB1647(){
   state.b47nps = document.getElementById('b47-nps').value;
+  if(IS_LITE && state.b47nps && parseFloat(state.b47nps) < 54){
+    const sel=document.getElementById('b47-nps'); sel.value=''; state.b47nps=''; openWishlist(); return;
+  }
   const content = document.getElementById('content');
 
   if(!state.b47series){
@@ -5129,6 +5249,7 @@ function onFitTypeChange(){
     const sizes=B169_NPS[dataKey]||[];
     if(sizes.length){
       npsEl.innerHTML=`<option value="">${t('opt.allSizes')}</option>`+sizes.map(s=>`<option value="${s}">${s}"</option>`).join('');
+      _applyNpsLocks(npsEl, _LITE_FREE_4);
       npsEl.disabled=false;
       const targetNps = prevNps || state.globalNps;
       if(targetNps && sizes.includes(targetNps)){
@@ -5156,6 +5277,9 @@ function onFitTypeChange(){
 function onFitNpsChange(){
   const prevSch=state.fitSch;
   state.fitNps=document.getElementById('fit-nps').value;
+  if(IS_LITE && state.fitNps && _liteNpsLocked(state.fitNps, _LITE_FREE_4)){
+    const sel=document.getElementById('fit-nps'); sel.value=''; state.fitNps=''; openWishlist(); return;
+  }
   _rebuildFitSch(state.fitNps, prevSch);
   renderFittings();
 }
@@ -5956,6 +6080,7 @@ function onB48ClassChange(){
       if(n === state.b48nps) opt.selected = true;
       sel.appendChild(opt);
     });
+    _applyNpsLocks(sel, _LITE_FREE_4);
     sel.disabled = npsList.length === 0;
   } else {
     sel.disabled = true;
@@ -5977,6 +6102,7 @@ function setB48Face(face){
     if(n === state.b48nps) opt.selected = true;
     sel.appendChild(opt);
   });
+  _applyNpsLocks(sel, _LITE_FREE_4);
   sel.disabled = !state.b48class || npsList.length === 0;
   renderB1648();
 }
@@ -6101,6 +6227,9 @@ function _b48FaceBar(face){ return ''; }
 async function renderB1648(){
   state.b48class = document.getElementById('b48-class').value;
   state.b48nps   = document.getElementById('b48-nps').value;
+  if(IS_LITE && state.b48nps && _liteNpsLocked(state.b48nps, _LITE_FREE_4)){
+    const sel=document.getElementById('b48-nps'); sel.value=''; state.b48nps=''; openWishlist(); return;
+  }
   const face  = state.b48face  || 'RF';
   const cls   = state.b48class || '';
   const nps   = state.b48nps   || '';
@@ -7352,14 +7481,12 @@ document.addEventListener('DOMContentLoaded', () => {
 if (IS_LITE) {
   document.addEventListener('DOMContentLoaded', () => {
     // Hide tiles
-    ['tile-pipelines','tile-b1647','tile-spanCalc'].forEach(id => {
+    ['tile-spanCalc'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = 'none';
     });
-    // Filter BW fitting types
-    document.querySelectorAll('#fit-type option[value]').forEach(o => {
-      if (!BW_LITE.has(o.value)) o.style.display = 'none';
-    });
+    // Apply lock icon to B36.19 standard option on initial load
+    _updatePipeStdOptions();
   });
 }
 </script>
