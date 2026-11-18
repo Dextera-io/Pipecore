@@ -1449,7 +1449,7 @@ function updateWlPrice(){
   priceMsg.innerHTML = isES
     ? `Precio estimado para tu región. Si estás dispuest@ a pagar <strong>${price}/mes</strong> por la versión completa, déjanos tu correo:`
     : `Estimated price for your region. If you're willing to pay <strong>${price}/month</strong> for the full version, leave us your email:`;
-  priceVal.textContent = price + ' USD/mo';
+  priceVal.textContent = '';
   priceBox.style.display='';
   emailSec.style.display='';
 }
